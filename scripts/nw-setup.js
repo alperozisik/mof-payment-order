@@ -14,4 +14,4 @@ nw.onActivityStart = function() {};
 
 nw.onActivityEnd = function() {};
 
-nw.action = "mock";
+nw.action = "mock"; //Replace between "run" and "mock"
