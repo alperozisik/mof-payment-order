@@ -103,19 +103,20 @@ function setLoginButton(uiComponents) {
         //     });
         //     alertView.show();
         // }
-        
-        nw.factory("login").query({
-            userName: this.emailTextBox.text,
-            password: this.passwordTextBox.text
-        }).result(function(err, data) {
-            var response = (err && err.body) || (data && data.body) || {};
-            if(response.checkLogin === "1") { //user logged in
-                //TODO: go to list page
-                alert("2nd page");
-            } else {
-                alert("login failed");
-            }
-        })[nw.action]();
+
+        nw.factory("login")
+            .query("userName", this.emailTextBox.text)
+            .query("password", this.passwordTextBox.text)
+            .result(function(err, data) {
+                var response = (err && err.body) || (data && data.body) || {};
+                if (response.checkLogin === "1") { //user logged in
+                    //TODO: go to list page
+                    alert("2nd page");
+                }
+                else {
+                    alert("login failed");
+                }
+            })[nw.action]();
     }.bind(this);
 }
 
