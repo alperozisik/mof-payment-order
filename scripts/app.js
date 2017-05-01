@@ -13,6 +13,8 @@ Application.onUnhandledError = function (e) {
 };
 const Page = require('sf-core/ui/page');
 global.Orientation = Page.Orientation;
+require("timers-smf"); //setTimeout fix
+require("./nw-setup");
 
 // Define routes and go to initial page of application
 Router.add("page1", require("./pages/page1"));

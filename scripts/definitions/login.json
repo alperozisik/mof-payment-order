@@ -1,0 +1,40 @@
+{
+    "name": "login",
+    "method": "POST",
+    "path": "",
+    "mock": {
+        "body": {
+            "type": "loginBean",
+            "id": 0,
+            "userId": 263,
+            "checkLogin": "1",
+            "departmentBean": {
+                "id": 44444,
+                "valuesList": [],
+                "code": "001",
+                "nameAr": "الديوان العام"
+            },
+            "entityBean": {
+                "id": 43758,
+                "valuesList": [],
+                "code": "022",
+                "nameAr": "وزارة الصحة"
+            },
+            "fullNameAR": "oweidi",
+            "fullNameEN": "oweidi",
+            "groupRoleID": "1",
+            "password": "oweidi",
+            "permition": "PO-F2,PO-F3,PO-F4,PO-F5,PO-F6,PO-F7,PO-F8,PO-F11,PO-F10,PO-F13,PO-F12,PO-F14,PO-F15,PO-F16,PO-F1,PO-F16,PO-F17,PO-F18,PO-F19,PO-F20,PO-F21,PO-F22,",
+            "sectionBean": {
+                "id": 52997,
+                "valuesList": [],
+                "code": "000",
+                "nameAr": "وزارة الصحة - الديوان العام"
+            },
+            "status": "100002",
+            "userType": "1",
+            "userID": "263",
+            "userName": "oweidi"
+        }
+    }
+}
