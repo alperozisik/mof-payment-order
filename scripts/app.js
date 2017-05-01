@@ -11,6 +11,8 @@ Application.onUnhandledError = function (e) {
         message: e.message + "\n\n*" + e.sourceURL + "\n*" + e.line + "\n*" + e.stack
     });
 };
+const Page = require('sf-core/ui/page');
+global.Orientation = Page.Orientation;
 
 // Define routes and go to initial page of application
 Router.add("page1", require("./pages/page1"));

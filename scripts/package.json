@@ -1,6 +1,9 @@
 {
-    "dependencies": {
-        "sf-core": "^1.0.0",
-        "js-base": "^1.0.0"
-    }
+  "dependencies": {
+    "js-base": "^1.0.0",
+    "sf-core": "^1.0.0",
+    "sf-extension-spriteview": "git+https://github.com/smartface/sf-extension-spriteview.git",
+    "smf-nw": "git+ssh://git@github.com/alperozisik/nw-smf.git",
+    "timers-smf": "git+ssh://git@github.com/alperozisik/timers-smf.git"
+  }
 }
