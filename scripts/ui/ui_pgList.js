@@ -51,7 +51,7 @@ const PgList_ = extend(Page)(
 		
 		
 		var flLoading = new FlexLayout({
-			left: 0,
+			left: -2,
 			top: 0,
 			alignContent: FlexLayout.AlignContent.STRETCH,
 			alignItems: FlexLayout.AlignItems.CENTER,
@@ -60,7 +60,7 @@ const PgList_ = extend(Page)(
 			flexGrow: 0,
 			flexDirection: FlexLayout.FlexDirection.COLUMN,
 			positionType: FlexLayout.PositionType.ABSOLUTE,
-			right: 0,
+			right: -2,
 			bottom: 0,
 			backgroundColor: Color.create(204, 67, 49, 10),
 			alpha: 1,
@@ -70,10 +70,16 @@ const PgList_ = extend(Page)(
 		});
 		
 		
-		var activityindicator = new ActivityIndicator({
-			width: 42,
-			height: 42,
-			positionType: FlexLayout.PositionType.RELATIVE,
+		var flIndicatorContainer = new FlexLayout({
+			width: 200,
+			height: 200,
+			alignContent: FlexLayout.AlignContent.STRETCH,
+			alignItems: FlexLayout.AlignItems.CENTER,
+			justifyContent: FlexLayout.JustifyContent.CENTER,
+			flexWrap: FlexLayout.FlexWrap.NOWRAP,
+			flexDirection: FlexLayout.FlexDirection.COLUMN,
+			positionType: FlexLayout.PositionType.ABSOLUTE,
+			alignSelf: FlexLayout.AlignSelf.CENTER,
 			backgroundColor: Color.create("#FFFFFF"),
 			alpha: 1,
 			borderColor: Color.create(255, 0, 0, 0),
@@ -91,7 +97,7 @@ const PgList_ = extend(Page)(
 		
 		//assign the children of flLoading
 		flLoading.children =  Object.assign({}, {
-			activityindicator: activityindicator
+			flIndicatorContainer: flIndicatorContainer
 		});
 
 });

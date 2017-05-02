@@ -9,6 +9,7 @@ const FlexLayout = require('sf-core/ui/flexlayout');
 const View = require('sf-core/ui/view');
 const System = require("sf-core/device/system");
 const HeaderBarItem = require('sf-core/ui/headerbaritem');
+const ActivityIndicator = require('sf-core/ui/activityindicator');
 const nw = require("smf-nw");
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#167e43");
 var PgListDesign = require("../ui/ui_pgList");
@@ -65,6 +66,29 @@ const PgList = extend(PgListDesign)(
         var originalLoad = this.onLoad;
         this.onLoad = function onLoad(e) {
             originalLoad && originalLoad(e);
+
+            var activity = new ActivityIndicator({
+                width: 42,
+                height: 42,
+                positionType: FlexLayout.PositionType.RELATIVE,
+                //backgroundColor: Color.create("#FFFFFF"),
+                alpha: 1,
+                //borderColor: Color.create(255, 0, 0, 0),
+                color: Color.create("#167e43"),
+                borderWidth: 0,
+                visible: true,
+                ios: {
+                    type: ActivityIndicator.iOS.Type.WHITELARGE
+                }
+            });
+            
+            if(System.OS === "iOS")
+                page.children.flLoading.children.flIndicatorContainer.borderRadius = 15;
+            
+            page.children.flLoading.children.flIndicatorContainer.children = page.children.flLoading.children.flIndicatorContainer.children || {};
+            page.children.flLoading.children.flIndicatorContainer.children.activity = activity;
+            page.children.flLoading.children.flIndicatorContainer.addChild(activity);
+
             editItem = new HeaderBarItem({
                 title: "Edit",
                 onPress: function() {
