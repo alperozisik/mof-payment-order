@@ -17,8 +17,7 @@ require("timers-smf"); //setTimeout fix
 require("./nw-setup");
 
 // Define routes and go to initial page of application
-Router.add("page1", require("./pages/page1"));
-Router.add("page2", require("./pages/page2"));
 Router.add("login", require("./pages/pgLogin"));
+Router.add("list", require("./pages/pgList"));
 
 Router.go("login");

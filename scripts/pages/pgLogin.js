@@ -2,25 +2,19 @@
 const extend = require("js-base/core/extend");
 const SpriteView = require("sf-extension-spriteview");
 const Timer = require("sf-core/global/timer");
-
+const Router = require("sf-core/ui/router");
 const Color = require('sf-core/ui/color');
 const FlexLayout = require('sf-core/ui/flexlayout');
 const Font = require('sf-core/ui/font');
 const Image = require('sf-core/ui/image');
 const ImageView = require('sf-core/ui/imageview');
 const PageConstants = {}; //require('pages/PageConstants');
-const Router = require("sf-core/ui/router");
 const AlertView = require('sf-core/ui/alertview');
 
 // Get generetad UI code
 var PageLoginDesign = require("../ui/ui_pgLogin");
 const Animator = require('sf-core/ui/animator');
 const nw = require("smf-nw");
-
-const LoginCredentials = {
-    email: "Oweidi",
-    password: "Oweidi"
-};
 
 const PageLogin = extend(PageLoginDesign)(
     function(_super) {
@@ -88,35 +82,24 @@ function setBackgroundSprite(spriteLayout) {
 
 function setLoginButton(uiComponents) {
     uiComponents.loginButton.onPress = function() {
-        // if (this.passwordTextBox.text.toLowerCase() === LoginCredentials.password.toLowerCase() &&
-        //     this.emailTextBox.text.toLowerCase() === LoginCredentials.email.toLowerCase()) {
-        //     loading(this, uiComponents);
-        // }
-        // else {
-        //     var alertView = new AlertView({
-        //         title: "Invalid Credentials",
-        //         message: "Username and password not accepted"
-        //     });
-        //     alertView.addButton({
-        //         index: AlertView.ButtonType.POSITIVE,
-        //         text: "OK"
-        //     });
-        //     alertView.show();
-        // }
+        var errors = [];
+        this.emailTextBox.text.trim().length === 0 && errors.push("• " + "Username should not be empty");
+        this.passwordTextBox.text.trim().length === 0 && errors.push("• " + "Password should not be empty");
+        if (errors.length > 0) {
+            var alertView = new AlertView({
+                title: "Missing fields",
+                message: errors.join("\n")
+            });
+            alertView.addButton({
+                index: AlertView.ButtonType.POSITIVE,
+                text: "OK"
+            });
+            alertView.show();
+            return;
+        }
 
-        nw.factory("login")
-            .query("userName", this.emailTextBox.text)
-            .query("password", this.passwordTextBox.text)
-            .result(function(err, data) {
-                var response = (err && err.body) || (data && data.body) || {};
-                if (response.checkLogin === "1") { //user logged in
-                    //TODO: go to list page
-                    alert("2nd page");
-                }
-                else {
-                    alert("login failed");
-                }
-            })[nw.action]();
+
+        loading(this, uiComponents);
     }.bind(this);
 }
 
@@ -136,15 +119,14 @@ function rotateImage(imageView, page) {
         task: function() {
             counter++;
             imageView.image = image.rotate(counter * 7);
-
-            if (counter == 100) {
-                Timer.clearTimer(myTimer);
-                Router.go(PageConstants.PAGE_CATEGORIES);
-                page.birdSprite.stop();
-            }
         },
         delay: 20
     });
+    
+    function clearTimer() {
+        Timer.clearTimer(myTimer);
+    }
+    return clearTimer;
 }
 
 function loading(page, uiComponents) {
@@ -171,7 +153,7 @@ function loading(page, uiComponents) {
 
     }).complete(function() {
         uiComponents.loginButton.alpha = 0;
-        rotateImage(imageView, page);
+        var stopRotate = rotateImage(imageView, page);
         Animator.animate(page.layout, 300, function() {
             uiComponents.inputLayout.height = 0;
             imageView.alpha = 1;
@@ -183,7 +165,30 @@ function loading(page, uiComponents) {
                 uiComponents.inputLayout.alpha = 0;
             }
         }).complete(function() {
-
+            nw.factory("login")
+                .query("userName", uiComponents.emailTextBox.text)
+                .query("password", uiComponents.passwordTextBox.text)
+                .result(function(err, data) {
+                    //TODO: handle error
+                    var response = (err && err.body) || (data && data.body) || {};
+                    if (response.checkLogin === "1") { //user logged in
+                    }
+                    else {
+                        alert("login failed");
+                    }
+                }).chain("payment-order")
+                .query("userName", uiComponents.emailTextBox.text)
+                .query("password", uiComponents.passwordTextBox.text)
+                .result(function(err, data) {
+                    stopRotate();
+                    //TODO: handle error
+                    var response = (err && err.body) || (data && data.body) || {};
+                    //TODO: pass propper data
+                    Router.go("list", {
+                        data: response
+                    });
+                    page.birdSprite.stop();
+                })[nw.action]();
         });
     });
 }

@@ -3,8 +3,8 @@
 		{
 			"type": "Page",
 			"props": {
-				"width": 375,
-				"height": 667,
+				"width": 187.5,
+				"height": 333.5,
 				"children": [
 					"statusBar",
 					"headerBar",
@@ -35,8 +35,7 @@
 					"flexDirection": 0,
 					"flexWrap": 0,
 					"justifyContent": 0
-				},
-				"orientation": "PORTRAIT"
+				}
 			}
 		},
 		{
@@ -51,7 +50,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 20
+					"height": 10
 				},
 				"flex": {},
 				"visibility": false
@@ -61,7 +60,7 @@
 			"type": "HeaderBar",
 			"props": {
 				"height": 44,
-				"title": "newPage001",
+				"title": "Login",
 				"titleColor": "#000000",
 				"name": "headerBar",
 				"parent": "pgLogin",
@@ -72,7 +71,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 44
+					"height": 22
 				},
 				"flex": {},
 				"visibility": false
@@ -210,9 +209,9 @@
 					"font": {}
 				},
 				"layout": {
-					"left": 114.5,
-					"top": 99.5,
-					"height": 200
+					"left": 57.25,
+					"top": 49.75,
+					"height": 100
 				},
 				"flex": {
 					"alignContent": 4,
@@ -291,15 +290,14 @@
 					"font": {}
 				},
 				"layout": {
-					"width": 200,
-					"height": 123
+					"width": 100,
+					"height": 61.5
 				},
 				"flex": {
 					"positionType": 0
 				},
 				"visibility": true,
-				"image": "sparrow_logo.png",
-				"imageFillType": "ASPECTFIT"
+				"image": "sparrow_logo.png"
 			}
 		},
 		{
@@ -332,7 +330,7 @@
 					"font": {}
 				},
 				"layout": {
-					"height": 150
+					"height": 75
 				},
 				"flex": {
 					"alignContent": 4,
@@ -383,10 +381,10 @@
 					"font": {}
 				},
 				"layout": {
-					"right": 10,
-					"bottom": 10,
-					"left": 10,
-					"top": 10
+					"right": 5,
+					"bottom": 5,
+					"left": 5,
+					"top": 5
 				},
 				"flex": {
 					"alignContent": 4,
@@ -590,7 +588,7 @@
 					"font": {}
 				},
 				"layout": {
-					"height": 1
+					"height": 0.5
 				},
 				"flex": {
 					"alignContent": 4,
@@ -633,7 +631,7 @@
 					"font": {}
 				},
 				"layout": {
-					"height": 1
+					"height": 0.5
 				},
 				"flex": {
 					"alignContent": 4,
@@ -680,8 +678,8 @@
 					"font": {}
 				},
 				"layout": {
-					"left": 29.5,
-					"top": 231
+					"left": 14.75,
+					"top": 115.5
 				},
 				"flex": {
 					"alignContent": 4,
@@ -729,10 +727,10 @@
 					"borderRadius": 25
 				},
 				"layout": {
-					"left": 68,
-					"top": 12,
-					"width": 180,
-					"height": 50
+					"left": 34,
+					"top": 6,
+					"width": 90,
+					"height": 25
 				},
 				"flex": {
 					"positionType": 0,
