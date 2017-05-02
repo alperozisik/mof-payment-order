@@ -50,15 +50,31 @@ const PgList = extend(PgListDesign)(
                     element.selected = false;
                 });
                 editItem.text = "Edit";
-                approveItem.enabled = page.headerBar.leftItemEnabled = false;
+                approveItem.setEnabled(false);
+                setMultiselectModeForHeaderBar(false);
 
             }
             else {
                 editItem.text = "Cancel";
-                page.headerBar.leftItemEnabled = true;
-                approveItem.enabled = false;
+                //page.headerBar.leftItemEnabled = true;
+                setMultiselectModeForHeaderBar(true);
+                approveItem.setEnabled(false);
             }
             updateListView();
+        }
+
+        function setMultiselectModeForHeaderBar(value) {
+            if (System.OS === "iOS") {
+                page.headerBar.leftItemEnabled = value;
+            }
+            else { // android
+                if (value) {
+                    page.headerBar.setItems([editItem, approveItem]);
+                }
+                else {
+                    page.headerBar.setItems([editItem]);
+                }
+            }
         }
 
 
@@ -82,10 +98,10 @@ const PgList = extend(PgListDesign)(
                     type: ActivityIndicator.iOS.Type.WHITELARGE
                 }
             });
-            
-            if(System.OS === "iOS")
+
+            if (System.OS === "iOS")
                 page.children.flLoading.children.flIndicatorContainer.borderRadius = 15;
-            
+
             page.children.flLoading.children.flIndicatorContainer.children = page.children.flLoading.children.flIndicatorContainer.children || {};
             page.children.flLoading.children.flIndicatorContainer.children.activity = activity;
             page.children.flLoading.children.flIndicatorContainer.addChild(activity);
@@ -117,11 +133,25 @@ const PgList = extend(PgListDesign)(
                 },
                 enabled: false
             });
+            approveItem.setEnabled = function setEnabled(value) {
+                approveItem.enabled = value;
+                var color;
+                if (System.OS === "Android") {
+                    color = value ? Color.create("#167e43") : Color.LIGHTGRAY;
+                    approveItem.color = color;
+                    var timeOut = 10;
+                    editItem.text = multiSelect ? "Cancel" : "Edit";
+                    var itemArray = multiSelect ? [editItem, approveItem] : [editItem];
+                    setTimeout(function() {
+                        page.headerBar.setItems(itemArray);
+                    }, timeOut);
+                }
+            };
             if (System.OS === "Android") {
                 editItem.color = approveItem.color = Color.create("#167e43");
             }
             page.headerBar.setItems([editItem]);
-            page.headerBar.setLeftItem(approveItem);
+            System.OS === "iOS" && page.headerBar.setLeftItem(approveItem);
             page.headerBar.leftItemEnabled = false;
         };
 
@@ -244,10 +274,11 @@ const PgList = extend(PgListDesign)(
                 var selected = dataSet[index].selected = !dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
                 if (getSelectedItemCount() > 0) {
-                    approveItem.enabled = true;
+                    approveItem.setEnabled(true);
+
                 }
                 else {
-                    approveItem.enabled = false;
+                    approveItem.setEnabled(false);
                 }
             }
         };
@@ -266,7 +297,7 @@ const PgList = extend(PgListDesign)(
                 return count;
             }
 
-            dataSet.forEach(function logArrayElements(element, index, array) {
+            dataSet.forEach(function(element, index, array) {
                 if (element.selected)
                     count++;
             });
@@ -275,7 +306,7 @@ const PgList = extend(PgListDesign)(
 
         function getSelectedItemIds() {
             var items = [];
-            dataSet.forEach(function logArrayElements(element, index, array) {
+            dataSet.forEach(function(element, index, array) {
                 if (element.selected)
                     items.push(element.id);
             });
@@ -300,8 +331,6 @@ const PgList = extend(PgListDesign)(
                     callback && callback();
                 })[nw.action]();
         }
-
-
     });
 
 
