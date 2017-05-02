@@ -15,15 +15,14 @@ var PgListDesign = require("../ui/ui_pgList");
 const PgList = extend(PgListDesign)(
     function(_super) {
         _super(this);
-        var page = this;
-        var multiSelect = true;
+        var multiSelect = false;
         var dataSet = [];
         var lblNoData = this.children.lblNoData;
         this.onShow = function onShow(e) {
             var data = e && e.data;
             updateListView(data);
         };
-        
+
         var originalLoad = this.onLoad;
         this.onLoad = function onLoad(e) {
             originalLoad && originalLoad(e);
@@ -31,6 +30,11 @@ const PgList = extend(PgListDesign)(
                 title: "Edit",
                 onPress: function() {
                     multiSelect = !multiSelect;
+                    if (!multiSelect) {
+                        dataSet.forEach(function logArrayElements(element, index, array) {
+                            element.selected = false;
+                        });
+                    }
                     updateListView();
                 }
             });
@@ -58,7 +62,6 @@ const PgList = extend(PgListDesign)(
         }
 
         this.layout.addChild(myListView);
-
 
         myListView.onRowCreate = function() {
             var lvItem = new ListViewItem();
@@ -135,19 +138,27 @@ const PgList = extend(PgListDesign)(
             var lblTitle = flRowData.findChildById(102);
             var lblSubTitle = flRowData.findChildById(103);
             var vLineSeparator = listViewItem.findChildById(121);
+            var vCheck = flCheck.findChildById(112);
             vLineSeparator.visible = dataSet.length !== (index + 1);
             flCheck.visible = multiSelect;
             flRowData.left = multiSelect ? 60 : 15;
             var rowData = dataSet[index];
             lblTitle.text = dataSet[index].beneficaryName;
             lblSubTitle.text = rowData.paymentOrderNumber;
+            if (multiSelect) {
+                var selected = dataSet[index].selected = !!dataSet[index].selected;
+                vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
+                console.log("selected index = " + index);
+            }
         };
         myListView.onRowSelected = function(listViewItem, index) {
             var flCheck = listViewItem.findChildById(111);
             var vCheck = flCheck.findChildById(112);
-            var selected = dataSet[index].selected = !dataSet[index].selected;
-            vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
-            console.log("selected index = " + index);
+            if (multiSelect) {
+                var selected = dataSet[index].selected = !dataSet[index].selected;
+                vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
+                console.log("selected index = " + index);
+            }
         };
 
         // myListView.onPullRefresh = function() {
