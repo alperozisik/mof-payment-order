@@ -110,7 +110,7 @@ const PgLogin_ = extend(Page)(
 			borderColor: Color.create(25500, 0, 0, 0),
 			borderWidth: 0,
 			visible: true,
-			image: Image.createFromFile("images://sparrow_logo.png")
+			image: Image.createFromFile("images://logo_mof.png")
 		});
 		
 		this.imageview1 = imageview1;
