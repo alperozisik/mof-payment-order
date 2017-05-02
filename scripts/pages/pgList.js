@@ -11,6 +11,7 @@ const System = require("sf-core/device/system");
 const HeaderBarItem = require('sf-core/ui/headerbaritem');
 const ActivityIndicator = require('sf-core/ui/activityindicator');
 const nw = require("smf-nw");
+const Font = require('sf-core/ui/font');
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#167e43");
 var PgListDesign = require("../ui/ui_pgList");
 
@@ -163,8 +164,10 @@ const PgList = extend(PgListDesign)(
                 height: 40,
                 right: 0,
                 left: 0,
-                top: 0,
-                alignSelf: FlexLayout.AlignSelf.FLEX_START
+                top: 5,
+                positionType: FlexLayout.PositionType.ABSOLUTE,
+                alignSelf: FlexLayout.AlignSelf.FLEX_START,
+                font: Font.create(Font.DEFAULT, 16, Font.BOLD)
             });
             flRowData.addChild(lblTitle);
 
@@ -173,7 +176,8 @@ const PgList = extend(PgListDesign)(
                 height: 40,
                 right: 0,
                 left: 0,
-                bottom: 0,
+                bottom: 5,
+                positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START
             });
             flRowData.addChild(lblSubTitle);
