@@ -53,8 +53,9 @@ const PageLogin = extend(PageLoginDesign)(
         setLoginButton.call(this, uiComponents);
 
         this.onShow = function() {
-            uiComponents.emailTextBox.hint = "Username";
-            uiComponents.passwordTextBox.hint = "Password";
+            uiComponents.emailTextBox.hint =  lang['userName'];
+           
+            uiComponents.passwordTextBox.hint = lang['password'];;
             uiComponents.emailTextBox.ios.clearButtonEnabled = true; //TODO: use the extension
             uiComponents.passwordTextBox.ios.clearButtonEnabled = true;
             uiComponents.emailTextBox.text = ""; // TODO: remove after AND-2785
@@ -68,7 +69,7 @@ const PageLogin = extend(PageLoginDesign)(
     });
 
 function setBackgroundSprite(spriteLayout) {
-    this.birdSprite = new SpriteView({
+     this.birdSprite = new SpriteView({
         top: 0,
         bottom: 0,
         left: 0,
@@ -109,6 +110,48 @@ function setLoginButton(uiComponents) {
             .query("password", this.passwordTextBox.text)
             .result(function(err, data) {
                 var response = (err && err.body) || (data && data.body) || {};
+                alert("check login1 = "+ response.checkLogin );
+                var err1 = (err && err.body);
+                if(typeof err1 === "string")
+                    err1 = JSON.stringify(err1, null, "\t");
+                alert(err1, "Error");
+                console.log(err1);
+    //             console.log(err1.toString());
+    //             var body = response.toString();
+    //             console.log(body);
+    //             console.log(body.toString());
+                
+    //             try {
+    //     var rr = JSON.parse(err1);
+    //      console.log(rr);
+    //       alert(rr, "Error1");
+    //     // return true;
+    // } catch (e) {
+    //     console.log(e);
+    //       alert(e, "Error1");
+    //     return false;
+    // }
+                
+    //             // alert("body = " + body.toString());
+    //               alert("err1 = " + err1);
+                    // alert("data1 = " + data1.toString());
+// 	var parsedResponse = JSON.parse(body);
+// 	//This variable returns the number of the news from the JSON Data
+// 	//news : This is the name of the JSON object
+// 	var responseType = parsedResponse.type;
+// // 	var newsArray = [];
+// // 	for (var i = 0; i < numOfNews; i++) {
+// // 		//Each news object defines a JavaScript Object
+// // 		var newsObject = {};
+// // 		//"newsObject.id" is a newsObject property
+// // 		//"news[].id" is a JSON Data attribute
+// // 		newsObject.id = parsedResponse.news[i].id;
+// // 		newsObject.title = parsedResponse.news[i].title;
+// // 		newsObject.type = parsedResponse.news[i].type;
+// // 		newsObject.image = parsedResponse.news[i].image[0].url;
+// // 		newsArray.push(newsObject);
+// // 	}
+//                 alert(responseType);
                 if (response.checkLogin === "1") { //user logged in
                     //TODO: go to list page
                     alert("2nd page");
@@ -214,7 +257,7 @@ function restartPage(page, uiComponents) {
             uiComponents.loginButton.width = 180;
             uiComponents.loginButton.alpha = 1;
         }).complete(function() {
-            uiComponents.loginButton.text = "LOGIN";
+            uiComponents.loginButton.text = lang['login'];
 
         });
     });
