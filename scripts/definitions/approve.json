@@ -1,0 +1,8 @@
+{
+    "name": "approve",
+    "method": "GET",
+    "path": "PaymentOrderMofConfirmation",
+    "mock": {
+        "body": {}
+    }
+}

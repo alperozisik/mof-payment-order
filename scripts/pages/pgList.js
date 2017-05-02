@@ -9,36 +9,95 @@ const FlexLayout = require('sf-core/ui/flexlayout');
 const View = require('sf-core/ui/view');
 const System = require("sf-core/device/system");
 const HeaderBarItem = require('sf-core/ui/headerbaritem');
+const nw = require("smf-nw");
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#167e43");
 var PgListDesign = require("../ui/ui_pgList");
 
 const PgList = extend(PgListDesign)(
     function(_super) {
         _super(this);
+        var page = this;
         var multiSelect = false;
         var dataSet = [];
         var lblNoData = this.children.lblNoData;
         this.onShow = function onShow(e) {
+            page.statusBar.android.color = Color.create("#167e43");
+            page.children.flLoading.visible = false;
+
             var data = e && e.data;
-            updateListView(data);
+            if (data) {
+                updateListView(data);
+            }
+            else {
+                fetchData();
+            }
+            toggleListView(false);
         };
+
+        function toggleListView(multiselectValue) {
+            if (typeof multiselectValue !== "undefined") {
+                if (multiSelect === multiselectValue)
+                    return;
+                multiSelect = multiselectValue;
+            }
+            else {
+                multiSelect = !multiSelect;
+            }
+            if (!multiSelect) {
+                dataSet.forEach(function logArrayElements(element, index, array) {
+                    element.selected = false;
+                });
+                editItem.text = "Edit";
+                approveItem.enabled = page.headerBar.leftItemEnabled = false;
+
+            }
+            else {
+                editItem.text = "Cancel";
+                page.headerBar.leftItemEnabled = true;
+                approveItem.enabled = false;
+            }
+            updateListView();
+        }
+
+
+        var editItem, approveItem;
 
         var originalLoad = this.onLoad;
         this.onLoad = function onLoad(e) {
             originalLoad && originalLoad(e);
-            var myItem = new HeaderBarItem({
+            editItem = new HeaderBarItem({
                 title: "Edit",
                 onPress: function() {
-                    multiSelect = !multiSelect;
-                    if (!multiSelect) {
-                        dataSet.forEach(function logArrayElements(element, index, array) {
-                            element.selected = false;
-                        });
-                    }
-                    updateListView();
+                    toggleListView();
                 }
             });
-            this.headerBar.setItems([myItem]);
+
+            approveItem = new HeaderBarItem({
+                title: "Approve",
+                onPress: function() {
+                    if (getSelectedItemCount() === 0)
+                        return; //double check
+                    page.children.flLoading.visible = true;
+                    nw.factory("approve")
+                        .query("userName", global.userData.username)
+                        .query("password", global.userData.password)
+                        .query("pold", getSelectedItemIds().join(","))
+                        .query("actionType", "Approve")
+                        .result(function(err, data) {
+                            page.children.flLoading.visible = false;
+                            toggleListView();
+                        })[nw.action]();
+                    //TODO: perform approve then toggle
+
+                },
+                enabled: false
+            });
+            if (System.OS === "Android") {
+                editItem.color = approveItem.color = Color.create("#167e43");
+            }
+            page.headerBar.setItems([editItem]);
+            page.headerBar.setLeftItem(approveItem);
+            page.headerBar.leftItemEnabled = false;
         };
 
         var myListView = new ListView({
@@ -48,15 +107,15 @@ const PgList = extend(PgListDesign)(
             bottom: 0,
             rowHeight: 81,
             backgroundColor: Color.WHITE,
-            itemCount: dataSet.length,
-            refreshEnabled: false,
+            itemCount: getDataCount(),
+            refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE
         });
 
         function updateListView(data) {
             dataSet = data || dataSet || [];
-            lblNoData.visible = dataSet.length === 0;
-            myListView.itemCount = dataSet.length;
+            lblNoData.visible = getDataCount() === 0;
+            myListView.itemCount = getDataCount();
             myListView.refreshData();
             myListView.stopRefresh();
         }
@@ -126,7 +185,7 @@ const PgList = extend(PgListDesign)(
                 height: 1,
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
-                backgroundColor: Color.LIGHTGRAY
+                backgroundColor: Color.create("#C58E1B")
             });
             lvItem.addChild(vLineSeparator);
 
@@ -139,7 +198,7 @@ const PgList = extend(PgListDesign)(
             var lblSubTitle = flRowData.findChildById(103);
             var vLineSeparator = listViewItem.findChildById(121);
             var vCheck = flCheck.findChildById(112);
-            vLineSeparator.visible = dataSet.length !== (index + 1);
+            vLineSeparator.visible = getDataCount() !== (index + 1);
             flCheck.visible = multiSelect;
             flRowData.left = multiSelect ? 60 : 15;
             var rowData = dataSet[index];
@@ -148,7 +207,6 @@ const PgList = extend(PgListDesign)(
             if (multiSelect) {
                 var selected = dataSet[index].selected = !!dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
-                console.log("selected index = " + index);
             }
         };
         myListView.onRowSelected = function(listViewItem, index) {
@@ -157,20 +215,63 @@ const PgList = extend(PgListDesign)(
             if (multiSelect) {
                 var selected = dataSet[index].selected = !dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
-                console.log("selected index = " + index);
+                if (getSelectedItemCount() > 0) {
+                    approveItem.enabled = true;
+                }
+                else {
+                    approveItem.enabled = false;
+                }
             }
         };
 
-        // myListView.onPullRefresh = function() {
-        //     setTimeout(function() {
-        //         dataSet.push({
-        //             title: 'Smartface Title ' + (dataSet.length + 1),
-        //             backgroundColor: Color.RED,
-        //         });
-        //         updateListView();
-        //     }, 1300);
-        // };
+        myListView.onPullRefresh = function() {
+            fetchData(null, true);
+        };
 
+        function getDataCount() {
+            return (dataSet && dataSet.length) || 0;
+        }
+
+        function getSelectedItemCount() {
+            var count = 0;
+            if (!dataSet) {
+                return count;
+            }
+
+            dataSet.forEach(function logArrayElements(element, index, array) {
+                if (element.selected)
+                    count++;
+            });
+            return count;
+        }
+
+        function getSelectedItemIds() {
+            var items = [];
+            dataSet.forEach(function logArrayElements(element, index, array) {
+                if (element.selected)
+                    items.push(element.id);
+            });
+            return items;
+        }
+
+        function fetchData(callback, doNotShowLoading) {
+            var username = global.userData.username;
+            var password = global.userData.password;
+
+            if (!doNotShowLoading) {
+                page.children.flLoading.visible = true;
+            }
+            nw.factory("payment-order")
+                .query("userName", username)
+                .query("password", password)
+                .result(function(err, data) {
+                    //TODO: handle error
+                    var response = (err && err.body) || (data && data.body) || {};
+                    updateListView(response);
+                    page.children.flLoading.visible = false;
+                    callback && callback();
+                })[nw.action]();
+        }
 
 
     });

@@ -122,7 +122,7 @@ function rotateImage(imageView, page) {
         },
         delay: 20
     });
-    
+
     function clearTimer() {
         Timer.clearTimer(myTimer);
     }
@@ -172,6 +172,11 @@ function loading(page, uiComponents) {
                     //TODO: handle error
                     var response = (err && err.body) || (data && data.body) || {};
                     if (response.checkLogin === "1") { //user logged in
+                        global.userData = { //can use a model too
+                            username: uiComponents.emailTextBox.text,
+                            password: uiComponents.passwordTextBox.text,
+                            data: response
+                        };
                     }
                     else {
                         alert("login failed");

@@ -8,7 +8,8 @@
 				"children": [
 					"statusBar",
 					"headerBar",
-					"lblNoData"
+					"lblNoData",
+					"flLoading"
 				],
 				"name": "pgList",
 				"flexProps": {
@@ -58,7 +59,7 @@
 			"props": {
 				"height": 44,
 				"children": [],
-				"title": "List",
+				"title": "Payments Waiting Approval",
 				"titleColor": "#000000",
 				"name": "headerBar",
 				"parent": "pgList",
@@ -111,6 +112,123 @@
 				},
 				"visibility": true,
 				"text": "Nothing to display"
+			}
+		},
+		{
+			"type": "ActivityIndicator",
+			"id": "9be10ddf",
+			"props": {
+				"left": 79,
+				"top": 79,
+				"width": 42,
+				"height": 42,
+				"children": [],
+				"name": "activityindicator1",
+				"parent": "flIndicatorContainer",
+				"flexProps": {
+					"positionType": "RELATIVE"
+				},
+				"style": {
+					"backgroundColor": "#FFFFFF",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"left": 39.5,
+					"top": 39.5,
+					"width": 21,
+					"height": 21
+				},
+				"flex": {
+					"positionType": 0
+				},
+				"visibility": true
+			}
+		},
+		{
+			"type": "FlexLayout",
+			"id": "52d71a6e",
+			"props": {
+				"left": 0,
+				"top": 0,
+				"width": null,
+				"height": null,
+				"children": [
+					"activityindicator"
+				],
+				"name": "flLoading",
+				"parent": "pgList",
+				"flexProps": {
+					"alignContent": "STRETCH",
+					"alignItems": "CENTER",
+					"justifyContent": "CENTER",
+					"flexWrap": "NOWRAP",
+					"flexGrow": 0,
+					"flexDirection": "COLUMN",
+					"positionType": "ABSOLUTE",
+					"right": 0,
+					"bottom": 0
+				},
+				"style": {
+					"backgroundColor": "rgba( 67, 49, 10, 0.8 )",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"right": 0,
+					"bottom": 0,
+					"left": 0,
+					"top": 0
+				},
+				"flex": {
+					"alignContent": 4,
+					"alignItems": 2,
+					"justifyContent": 1,
+					"flexWrap": 0,
+					"flexGrow": 0,
+					"flexDirection": 0,
+					"positionType": 1
+				},
+				"visibility": true
+			}
+		},
+		{
+			"type": "ActivityIndicator",
+			"id": "d39f195f",
+			"props": {
+				"left": 79,
+				"top": 79,
+				"width": 42,
+				"height": 42,
+				"children": [],
+				"name": "activityindicator",
+				"parent": "flLoading",
+				"flexProps": {
+					"positionType": "RELATIVE"
+				},
+				"style": {
+					"backgroundColor": "#FFFFFF",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"left": 39.5,
+					"top": 39.5,
+					"width": 21,
+					"height": 21,
+					"minWidth": 10.5,
+					"minHeight": 10.5
+				},
+				"flex": {
+					"positionType": 0
+				},
+				"visibility": true
 			}
 		}
 	]
