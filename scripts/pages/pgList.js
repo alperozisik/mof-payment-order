@@ -8,6 +8,7 @@ const Label = require('sf-core/ui/label');
 const FlexLayout = require('sf-core/ui/flexlayout');
 const View = require('sf-core/ui/view');
 const System = require("sf-core/device/system");
+const HeaderBarItem = require('sf-core/ui/headerbaritem');
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#167e43");
 var PgListDesign = require("../ui/ui_pgList");
 
@@ -21,6 +22,19 @@ const PgList = extend(PgListDesign)(
         this.onShow = function onShow(e) {
             var data = e && e.data;
             updateListView(data);
+        };
+        
+        var originalLoad = this.onLoad;
+        this.onLoad = function onLoad(e) {
+            originalLoad && originalLoad(e);
+            var myItem = new HeaderBarItem({
+                title: "Edit",
+                onPress: function() {
+                    multiSelect = !multiSelect;
+                    updateListView();
+                }
+            });
+            this.headerBar.setItems([myItem]);
         };
 
         var myListView = new ListView({
