@@ -25,6 +25,8 @@ const PageLogin = extend(PageLoginDesign)(
 
         this.onLoad = function() {
             temp();
+            
+            this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
 
             var imageView = new ImageView();
             imageView.positionType = FlexLayout.PositionType.ABSOLUTE;
