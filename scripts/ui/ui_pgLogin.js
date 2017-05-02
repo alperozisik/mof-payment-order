@@ -10,7 +10,6 @@ const FlexLayout = require('sf-core/ui/flexlayout');
 const Color = require('sf-core/ui/color');
 const ImageView = require('sf-core/ui/imageview');
 const Image = require('sf-core/ui/image');
-const ImageFillType = require('sf-core/ui/imagefilltype');
 const TextBox = require('sf-core/ui/textbox');
 const TextAlignment = require('sf-core/ui/textalignment');
 const Font = require('sf-core/ui/font');
@@ -111,8 +110,7 @@ const PgLogin_ = extend(Page)(
 			borderColor: Color.create(25500, 0, 0, 0),
 			borderWidth: 0,
 			visible: true,
-			image: Image.createFromFile("images://sparrow_logo.png"),
-			imageFillType: ImageFillType.ASPECTFIT
+			image: Image.createFromFile("images://sparrow_logo.png")
 		});
 		
 		this.imageview1 = imageview1;
@@ -351,7 +349,7 @@ const PgLogin_ = extend(Page)(
 
 function onLoad() { 
 
-  this.headerBar.title = "newPage001";
+  this.headerBar.title = "Login";
   this.headerBar.titleColor = Color.create("#000000");
   this.headerBar.backgroundColor = Color.create("#FFFFFF");
   this.headerBar.visible = false;
@@ -364,7 +362,6 @@ function onLoad() {
   this.layout.flexWrap = FlexLayout.FlexWrap.NOWRAP;
   this.layout.justifyContent = FlexLayout.JustifyContent.FLEX_START;
   this.layout.backgroundColor = Color.create("#FFFFFF");
-  this.layout.orientation = Orientation.PORTRAIT;
 
     
   //add components to page.
