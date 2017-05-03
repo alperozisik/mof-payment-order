@@ -1,0 +1,98 @@
+{
+    "name": "payment-order-detail",
+    "path": "/GetPaymentOrderFullData",
+    "method": "GET",
+    "mock": {
+        "body": {
+            "type": "paymentOrderBean",
+            "id": 2847,
+            "valuesList": [],
+            "actionLogBean": {
+                "id": 0,
+                "valuesList": [],
+                "remark": "ddd"
+            },
+            "amount": 300,
+            "amountInWord": "ثلاثمائة  وحدة  ",
+            "bankBean": {
+                "id": 0,
+                "valuesList": []
+            },
+            "beneficaryName": "شركة الاستشاريون المحترفون للتقنية",
+            "beneficiaryBean": {
+                "id": 222738126700,
+                "valuesList": [],
+                "code": "21010336606",
+                "nameAr": "شركة الاستشاريون المحترفون للتقنية",
+                "nameEn": "شركة الاستشاريون المحترفون للتقنية"
+            },
+            "check": false,
+            "currencyBean": {
+                "id": 0,
+                "valuesList": [],
+                "code": "150",
+                "curId": "150",
+                "nameAr": "جنية قبرصي , CYP , متغير",
+                "nameEn": "جنية قبرصي , CYP , متغير"
+            },
+            "departmentBean": {
+                "id": 44444,
+                "valuesList": [],
+                "code": "001",
+                "nameAr": "الديوان العام",
+                "nameEn": "الديوان العام"
+            },
+            "distributionsPoBeanList": [{
+                "id": 2907,
+                "valuesList": [],
+                "amount": 300,
+                "ecomomicClassificationBean": {
+                    "id": 4509917,
+                    "valuesList": [],
+                    "code": "211111",
+                    "nameAr": "رواتب الموظفين المدنيين",
+                    "nameEn": "رواتب الموظفين المدنيين"
+                },
+                "projectBean": {
+                    "id": 0,
+                    "valuesList": []
+                },
+                "refundAmount": 0
+            }],
+            "entityBean": {
+                "id": 43758,
+                "valuesList": [],
+                "code": "022",
+                "nameAr": "وزارة الصحة",
+                "nameEn": "وزارة الصحة"
+            },
+            "exchangeOf": "dd",
+            "expenseBean": {
+                "id": 0,
+                "valuesList": [],
+                "check": false
+            },
+            "nationalityBean": {
+                "id": 1,
+                "valuesList": [],
+                "nationalityCode": "SA",
+                "nationalityNameAr": "المملكة العربية السعودية",
+                "nationalityNameEn": "Saudi Arabia"
+            },
+            "paymentEntryMethod": 100602,
+            "paymentMethod": 100101,
+            "paymentOrderDateG": "2017-04-30 00:00:00.0",
+            "paymentOrderDateH": "03/08/1438",
+            "paymentOrderNumber": "15016727",
+            "paymentOrderStatus": 100402,
+            "paymentOrderYear": "1438-1439",
+            "sectionBean": {
+                "id": 52997,
+                "valuesList": [],
+                "code": "000",
+                "nameAr": "وزارة الصحة - الديوان العام",
+                "nameEn": "وزارة الصحة - الديوان العام"
+            }
+        }
+    }
+}

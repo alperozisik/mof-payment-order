@@ -19,5 +19,6 @@ require("./nw-setup");
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));
 Router.add("list", require("./pages/pgList"));
+Router.add("details", require("./pages/pgDetails"));
 
 Router.go("login");

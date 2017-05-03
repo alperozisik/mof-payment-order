@@ -153,7 +153,7 @@
 			"type": "FlexLayout",
 			"id": "52d71a6e",
 			"props": {
-				"left": -2,
+				"left": 0,
 				"top": 0,
 				"width": null,
 				"height": null,
@@ -170,7 +170,7 @@
 					"flexGrow": 0,
 					"flexDirection": "COLUMN",
 					"positionType": "ABSOLUTE",
-					"right": -2,
+					"right": 0,
 					"bottom": 0
 				},
 				"style": {
@@ -181,9 +181,9 @@
 					"font": {}
 				},
 				"layout": {
-					"right": -1,
+					"right": 0,
 					"bottom": 0,
-					"left": -1,
+					"left": 0,
 					"top": 0
 				},
 				"flex": {
