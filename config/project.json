@@ -1,11 +1,11 @@
 {
 	"info": {
-		"name": "Smartface Empty Workspace",
-		"company": "Smartface User",
+		"name": "MoF Payment Order",
+		"company": "AppsPro",
 		"webSite": "https://www.smartface.io",
 		"version": "1.0.0",
 		"runtimeVersion": "1100",
-		"description": "This is Smartface's default empty project. You can click to Run on Device button to see it on your device."
+		"description": "MoF Payment Order PoC app"
 	},
 	"config": {
 		"cache": {
@@ -87,18 +87,18 @@
 				"playerPath": null
 			},
 			"keys": {
-				"project3DesKey": "",
-				"projectEncryptedKey": ""
+				"project3DesKey": "q92SxT/9OnDf/LrLRSxK/36izF4Vv8x3",
+				"projectEncryptedKey": "GTaXqZAVzwBZ/S0V5I4PSLdAKfRh4XsKtwAwA7B/KGFtHWLvlXyVS2eqsG4gPVsrRQkXD7mFboIV5UpbirATbrMqocA8+jb1TUn4fH8SbNuSpniIH9e0500yrnLkZgttGk19qsOqwArXk4E3fKeRuPh6EtG4KQ07HM1598ld6HI="
 			}
 		},
 		"output": {
 			"ios": {
 				"outputFolder": "output/iOS",
-				"bundleIdentifier": "io.smartface.demo"
+				"bundleIdentifier": "io.smartface.poc"
 			},
 			"android": {
 				"outputFolder": "output/Android",
-				"packageName": "io.smartface.demo"
+				"packageName": "io.smartface.poc"
 			}
 		},
 		"tempFolder": "output/.tmp"
