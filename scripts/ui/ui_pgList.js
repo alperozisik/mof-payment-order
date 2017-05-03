@@ -51,7 +51,7 @@ const PgList_ = extend(Page)(
 		
 		
 		var flLoading = new FlexLayout({
-			left: -2,
+			left: 0,
 			top: 0,
 			alignContent: FlexLayout.AlignContent.STRETCH,
 			alignItems: FlexLayout.AlignItems.CENTER,
@@ -60,7 +60,7 @@ const PgList_ = extend(Page)(
 			flexGrow: 0,
 			flexDirection: FlexLayout.FlexDirection.COLUMN,
 			positionType: FlexLayout.PositionType.ABSOLUTE,
-			right: -2,
+			right: 0,
 			bottom: 0,
 			backgroundColor: Color.create(204, 67, 49, 10),
 			alpha: 1,

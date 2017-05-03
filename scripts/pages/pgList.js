@@ -24,6 +24,7 @@ const PgList = extend(PgListDesign)(
         var lblNoData = this.children.lblNoData;
         this.onShow = function onShow(e) {
             page.statusBar.android.color = Color.create("#167e43");
+            this.headerBar.backgroundColor = Color.WHITE;
             page.children.flLoading.visible = false;
 
             var data = e && e.data;
@@ -125,6 +126,7 @@ const PgList = extend(PgListDesign)(
                         .query("pold", getSelectedItemIds().join(","))
                         .query("actionType", "Approve")
                         .result(function(err, data) {
+                            //TODO handle error
                             page.children.flLoading.visible = false;
                             toggleListView();
                         })[nw.action]();
@@ -280,6 +282,13 @@ const PgList = extend(PgListDesign)(
                 else {
                     approveItem.setEnabled(false);
                 }
+            }
+            else {
+                var data = dataSet[index];
+                Router.go("details", {
+                    title: data.paymentOrderNumber,
+                    id: data.id
+                });
             }
         };
 

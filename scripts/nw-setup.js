@@ -2,6 +2,7 @@ const nw = require("smf-nw");
 //start setup
 nw.registerService(require("./definitions/login"));
 nw.registerService(require("./definitions/payment-order"));
+nw.registerService(require("./definitions/payment-order-detail"));
 nw.registerService(require("./definitions/approve"));
 //nw.registerService(require("./definitions/user"));
 //nw.registerService(require("./definitions/case-detail"));
