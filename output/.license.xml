@@ -1,0 +1,39 @@
+<ApplicationPackageLicenses>
+    <ApplicationPackageLicense>
+        <CompanyName>AppsPro</CompanyName>
+        <LicenseName>MoF Payment Order</LicenseName>
+        <SASVersion>v5.0.0</SASVersion>
+        <CreateDate>03.04.2017 15:27:46</CreateDate>
+        <ExpireDate>01.04.2027 15:27:46</ExpireDate>
+        <LicenseType>Professional</LicenseType>
+        <PackageType>iOS</PackageType>
+        <PackageName>io.smartface.poc</PackageName>
+        <PackageFeatures>
+            <PackageFeature>
+                <FeatureName>Feature</FeatureName>
+                <FeatureValue>Feature</FeatureValue>
+            </PackageFeature>
+        </PackageFeatures>
+        <TripleDESKey>GTaXqZAVzwBZ/S0V5I4PSLdAKfRh4XsKtwAwA7B/KGFtHWLvlXyVS2eqsG4gPVsrRQkXD7mFboIV5UpbirATbrMqocA8+jb1TUn4fH8SbNuSpniIH9e0500yrnLkZgttGk19qsOqwArXk4E3fKeRuPh6EtG4KQ07HM1598ld6HI=</TripleDESKey>
+        <SignData></SignData>
+    </ApplicationPackageLicense>
+    <ApplicationPackageLicense>
+        <CompanyName>AppsPro</CompanyName>
+        <LicenseName>MoF Payment Order</LicenseName>
+        <SASVersion>v5.0.0</SASVersion>
+        <CreateDate>03.04.2017 15:27:46</CreateDate>
+        <ExpireDate>01.04.2027 15:27:46</ExpireDate>
+        <LicenseType>Professional</LicenseType>
+        <PackageType>Android</PackageType>
+        <PackageName>io.smartface.poc</PackageName>
+        <PackageFeatures>
+            <PackageFeature>
+                <FeatureName>Feature</FeatureName>
+                <FeatureValue>Feature</FeatureValue>
+            </PackageFeature>
+        </PackageFeatures>
+        <TripleDESKey>GTaXqZAVzwBZ/S0V5I4PSLdAKfRh4XsKtwAwA7B/KGFtHWLvlXyVS2eqsG4gPVsrRQkXD7mFboIV5UpbirATbrMqocA8+jb1TUn4fH8SbNuSpniIH9e0500yrnLkZgttGk19qsOqwArXk4E3fKeRuPh6EtG4KQ07HM1598ld6HI=</TripleDESKey>
+        <SignData></SignData>
+    </ApplicationPackageLicense>
+    <TripleDESKeyValue>q92SxT/9OnDf/LrLRSxK/36izF4Vv8x3</TripleDESKeyValue>
+</ApplicationPackageLicenses>
