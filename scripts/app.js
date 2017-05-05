@@ -20,5 +20,12 @@ require("./nw-setup");
 Router.add("login", require("./pages/pgLogin"));
 Router.add("list", require("./pages/pgList"));
 Router.add("details", require("./pages/pgDetails"));
+Router.add("secondApproverList", require("./pages/senondApproverList"));
+Router.add("mofUserList", require("./pages/mofUserList"));
+Router.add("secondApproverDetails", require("./pages/senondApproverDetails"));
+Router.add("mofUserDetails", require("./pages/mofUserDetails"));
+Router.add("login2", require("./pages/login"));
+//
+
 
 Router.go("login");

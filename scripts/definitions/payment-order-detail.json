@@ -81,7 +81,7 @@
             },
             "paymentEntryMethod": 100602,
             "paymentMethod": 100101,
-            "paymentOrderDateG": "2017-04-30 00:00:00.0",
+            "paymentOrderDateG": "2017-04-30",
             "paymentOrderDateH": "03/08/1438",
             "paymentOrderNumber": "15016727",
             "paymentOrderStatus": 100402,

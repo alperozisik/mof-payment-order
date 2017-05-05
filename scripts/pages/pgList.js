@@ -24,7 +24,8 @@ const PgList = extend(PgListDesign)(
         var lblNoData = this.children.lblNoData;
         this.onShow = function onShow(e) {
             page.statusBar.android.color = Color.create("#167e43");
-            this.headerBar.backgroundColor = Color.WHITE;
+            this.headerBar.backgroundColor = Color.create("#dbb651");
+            this.headerBar.title = lang['paymentOrders'];
             page.children.flLoading.visible = false;
 
             var data = e && e.data;
@@ -50,13 +51,13 @@ const PgList = extend(PgListDesign)(
                 dataSet.forEach(function logArrayElements(element, index, array) {
                     element.selected = false;
                 });
-                editItem.text = "Edit";
+                editItem.text = lang['edit'];
                 approveItem.setEnabled(false);
                 setMultiselectModeForHeaderBar(false);
 
             }
             else {
-                editItem.text = "Cancel";
+                editItem.text = lang['cancel'];
                 //page.headerBar.leftItemEnabled = true;
                 setMultiselectModeForHeaderBar(true);
                 approveItem.setEnabled(false);
@@ -108,14 +109,14 @@ const PgList = extend(PgListDesign)(
             page.children.flLoading.children.flIndicatorContainer.addChild(activity);
 
             editItem = new HeaderBarItem({
-                title: "Edit",
+                title: lang['edit'],
                 onPress: function() {
                     toggleListView();
                 }
             });
 
             approveItem = new HeaderBarItem({
-                title: "Approve",
+                title: lang['approve'],
                 onPress: function() {
                     if (getSelectedItemCount() === 0)
                         return; //double check
@@ -142,7 +143,7 @@ const PgList = extend(PgListDesign)(
                     color = value ? Color.create("#167e43") : Color.LIGHTGRAY;
                     approveItem.color = color;
                     var timeOut = 10;
-                    editItem.text = multiSelect ? "Cancel" : "Edit";
+                    editItem.text = multiSelect ? lang['cancel'] : lang['edit'];
                     var itemArray = multiSelect ? [editItem, approveItem] : [editItem];
                     setTimeout(function() {
                         page.headerBar.setItems(itemArray);
@@ -156,6 +157,9 @@ const PgList = extend(PgListDesign)(
             System.OS === "iOS" && page.headerBar.setLeftItem(approveItem);
             page.headerBar.leftItemEnabled = false;
         };
+        this.android.onBackButtonPressed = function() {
+            Router.goBack();
+        };
 
         var myListView = new ListView({
             left: 0,
@@ -163,10 +167,11 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.WHITE,
+            backgroundColor: Color.create("#167e43"),
             itemCount: getDataCount(),
             refreshEnabled: true,
-            positionType: FlexLayout.PositionType.ABSOLUTE
+            positionType: FlexLayout.PositionType.ABSOLUTE,
+
         });
 
         function updateListView(data) {
@@ -178,7 +183,6 @@ const PgList = extend(PgListDesign)(
         }
 
         this.layout.addChild(myListView);
-
         myListView.onRowCreate = function() {
             var lvItem = new ListViewItem();
             var flRowData = new FlexLayout({
@@ -199,7 +203,8 @@ const PgList = extend(PgListDesign)(
                 top: 5,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
-                font: Font.create(Font.DEFAULT, 16, Font.BOLD)
+                font: Font.create(Font.DEFAULT, 16, Font.BOLD),
+                textColor:Color.create("#DFDCE3")
             });
             flRowData.addChild(lblTitle);
 
@@ -210,7 +215,8 @@ const PgList = extend(PgListDesign)(
                 left: 0,
                 bottom: 5,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
-                alignSelf: FlexLayout.AlignSelf.FLEX_START
+                alignSelf: FlexLayout.AlignSelf.FLEX_START,
+                textColor: Color.create("#DFDCE3")
             });
             flRowData.addChild(lblSubTitle);
 
@@ -341,7 +347,6 @@ const PgList = extend(PgListDesign)(
                 })[nw.action]();
         }
     });
-
 
 
 

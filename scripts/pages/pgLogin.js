@@ -10,6 +10,7 @@ const Image = require('sf-core/ui/image');
 const ImageView = require('sf-core/ui/imageview');
 const PageConstants = {}; //require('pages/PageConstants');
 const AlertView = require('sf-core/ui/alertview');
+const Application = require("sf-core/application");
 
 // Get generetad UI code
 var PageLoginDesign = require("../ui/ui_pgLogin");
@@ -22,13 +23,19 @@ const PageLogin = extend(PageLoginDesign)(
         _super(self);
         var temp = this.onLoad;
         var uiComponents = this;
+        // this.rootLayout.backgroundColor=Color.create("#5500A1F1"); 
 
+        // this.rootLayout.backgroundColor=Color.
+        // uiComponents.bottomLayout.children.Direction=FlexLayout.Direction.RTL;
         this.onLoad = function() {
             temp();
-            
-            this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
 
-            var imageView = new ImageView();
+            this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
+            var imageView = new ImageView({
+               
+            });
+            
+            // uiComponents.loginButton.backgroundColor= Color.create(255, 8, 2, 238);
             imageView.positionType = FlexLayout.PositionType.ABSOLUTE;
             imageView.height = 50;
             imageView.right = 0;
@@ -45,19 +52,25 @@ const PageLogin = extend(PageLoginDesign)(
             this.layout.applyLayout();
         };
 
+        this.android.onBackButtonPressed = function() {
+            Application.exit();
+        };
+
         setBackgroundSprite.call(this, uiComponents.spriteLayout);
         setLoginButton.call(this, uiComponents);
 
         this.onShow = function() {
-            uiComponents.emailTextBox.hint =  lang['userName'];
-           
-            uiComponents.passwordTextBox.hint = lang['password'];;
+            uiComponents.emailTextBox.hint = lang['userName'];
+
+            uiComponents.passwordTextBox.hint = lang['password'];
+            uiComponents.passwordTextBox.isPassword = true;
+
             uiComponents.emailTextBox.ios.clearButtonEnabled = true; //TODO: use the extension
             uiComponents.passwordTextBox.ios.clearButtonEnabled = true;
             uiComponents.emailTextBox.text = ""; // TODO: remove after AND-2785
             uiComponents.passwordTextBox.text = ""; // TODO: remove after AND-2785
 
-            this.birdSprite.play(3000);
+             this.birdSprite.play(3000);
             restartPage(this, uiComponents);
             this.headerBar.visible = false;
             this.statusBar.visible = false;
@@ -65,37 +78,40 @@ const PageLogin = extend(PageLoginDesign)(
     });
 
 function setBackgroundSprite(spriteLayout) {
-     this.birdSprite = new SpriteView({
+    this.birdSprite = new SpriteView({
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
         positionType: FlexLayout.PositionType.ABSOLUTE,
-        imageFillType: ImageView.FillType.STRETCH
+        imageFillType: ImageView.FillType.STRETCH,
+
+        backgroundColor: Color.create("#167e43")
     });
     spriteLayout.addChild(this.birdSprite);
 
-    this.birdSprite.setSprite({
-        sheet: Image.createFromFile("images://nature3.png"),
-        frameX: 9,
-        frameY: 6,
-        frameCount: 54
-    });
+    // this.birdSprite.setSprite({
+    //     sheet: Image.createFromFile("images://smartfac.png"),
+
+    //     frameX: 7,
+    //     frameY: 4,
+    //     frameCount: 27
+    // });
 }
 
 function setLoginButton(uiComponents) {
     uiComponents.loginButton.onPress = function() {
         var errors = [];
-        this.emailTextBox.text.trim().length === 0 && errors.push("• " + "Username should not be empty");
-        this.passwordTextBox.text.trim().length === 0 && errors.push("• " + "Password should not be empty");
+        this.emailTextBox.text.trim().length === 0 && errors.push("• " + lang['userNameNotEmptyMsg']);
+        this.passwordTextBox.text.trim().length === 0 && errors.push("• " + lang['passwordNotEmptyMsg']);
         if (errors.length > 0) {
             var alertView = new AlertView({
-                title: "Missing fields",
+                title: lang['missingFields'],
                 message: errors.join("\n")
             });
             alertView.addButton({
                 index: AlertView.ButtonType.POSITIVE,
-                text: "OK"
+                text: lang['ok']
             });
             alertView.show();
             return;
@@ -136,7 +152,7 @@ function loading(page, uiComponents) {
     var imageView = uiComponents.bottomLayout.findChildById(100);
 
     uiComponents.loginButton.text = "";
-
+    uiComponents.loginButton.backgroundColor = Color.create("#dbb651");
     var layout;
     if (Device.deviceOS == 'Android') {
         layout = uiComponents.bottomLayout;
@@ -192,9 +208,23 @@ function loading(page, uiComponents) {
                     //TODO: handle error
                     var response = (err && err.body) || (data && data.body) || {};
                     //TODO: pass propper data
-                    Router.go("list", {
-                        data: response
-                    });
+
+                    if (global.userData.username == "amro") {
+                        Router.go("list", {
+                            data: response
+                        });
+                    }
+                    else if (global.userData.username == "oweidi") {
+                        Router.go("secondApproverList", {
+                            data: response
+                        });
+                    }
+                    else if (global.userData.username == "mof") {
+                        Router.go("mofUserList", {
+                            data: response
+                        });
+                    }
+
                     page.birdSprite.stop();
                 })[nw.action]();
         });

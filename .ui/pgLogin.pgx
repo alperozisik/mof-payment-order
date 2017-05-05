@@ -712,7 +712,7 @@
 					"marginTop": 40
 				},
 				"style": {
-					"backgroundColor": "rgba( 0, 161, 241, 0 )",
+					"backgroundColor": "rgba( 219, 182, 81, 1 )",
 					"opacity": 1,
 					"borderColor": "rgba( 255, 255, 255, 0.5333333333333333 )",
 					"borderWidth": 1,

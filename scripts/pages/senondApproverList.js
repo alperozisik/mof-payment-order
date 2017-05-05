@@ -167,7 +167,7 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.create("#dbb651"),
+            backgroundColor: Color.create("#167e43"),
             itemCount: getDataCount(),
             refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE,
@@ -202,6 +202,7 @@ const PgList = extend(PgListDesign)(
                 left: 0,
                 top: 5,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
+                textColor:Color.create("#DFDCE3"),
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 font: Font.create(Font.DEFAULT, 16, Font.BOLD)
             });

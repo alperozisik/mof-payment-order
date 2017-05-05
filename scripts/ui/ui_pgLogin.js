@@ -280,7 +280,7 @@ const PgLogin_ = extend(Page)(
 			height: 50,
 			positionType: FlexLayout.PositionType.RELATIVE,
 			marginTop: 40,
-			backgroundColor: Color.create(0, 0, 161, 241),
+			backgroundColor: Color.create(255, 219, 182, 81),
 			alpha: 1,
 			borderColor: Color.create(136, 255, 255, 255),
 			borderWidth: 1,

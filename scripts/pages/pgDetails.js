@@ -35,6 +35,8 @@ const pgDetails = extend(PageDetailsDesign)(
         page.children = page.children || {};
         this.onLoad = function() {
             originalLoad();
+            page.headerBar.backgroundColor = Color.create("#dbb651");
+            page.headerBar.titleColor = Color.WHITE;
             if (System.OS === "iOS") {
                 page.headerBar.backgroundColor = Color.WHITE;
                 page.headerBar.titleColor = Color.BLACK;
@@ -53,12 +55,12 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollRootFlex.height = 740;
 
             if (System.OS === "Android") {
-                var title = createTitleFlex(60, 15);
-                scrollRootFlex.addChild(title);
+                // var title = createTitleFlex(60, 15);
+                // scrollRootFlex.addChild(title);
             }
 
             // var hintArray = [lang["pgFeedback.name"], lang["pgFeedback.city"], lang["pgFeedback.phoneNumber"], lang["pgFeedback.email"]]
-            var hintArray = ["Date", "Financial year ", "Exchange method", "Beneficiary number", "Beneficiary Name", "Beneficiary Alternative", "Bank account number", "The currency", "The amount"];
+            var hintArray = [lang['date'], lang['financialYear'], lang['exchangeMethod'], lang['beneficaryNumber'], lang['beneficaryName'], lang['beneficaryAlternative'], lang['bankAccountNumber'], lang['currency'], lang['amount']];
             var keys = ["date", "financialYear", "exchangeMethod", "beneficaryNumber", "beneficaryName", "beneficarAlternative", "bankAccountNumber", "currency", "amount"];
             for (var i = 1; i <= hintArray.length; i++) {
                 var fieldFlex = createItemFlex(60, hintArray[i - 1], 15);
@@ -76,12 +78,15 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollView.addChild(scrollRootFlex);
             this.layout.addChild(scrollView);
 
+            // this.layout.backgroundColor = Color.create("#167e43");
+
             var flButtons = new FlexLayout({
                 bottom: 0,
                 left: 0,
                 right: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 flexDirection: FlexLayout.FlexDirection.ROW,
+
                 alignItems: FlexLayout.AlignItems.STRETCH
             });
             this.layout.addChild(flButtons);
@@ -91,30 +96,32 @@ const pgDetails = extend(PageDetailsDesign)(
                 flexGrow: 1,
                 height: 60
             };
-            var btnReject = new Button(Object.assign({}, buttonBase, {
-                text: "Reject",
+
+            var btnApprove = new Button(Object.assign({}, buttonBase, {
+                text: lang['approve'],
                 backgroundColor: {
                     normal: Color.create("#C58E1B"),
-                    pressed: Color.create("#925B00"),
-                    disabled: Color.create("#460F00")
-                },
-                onPress: function onButtonPress(e) {
-                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, "Reject");
-                }
-            }));
-            flButtons.addChild(btnReject);
-            var btnApprove = new Button(Object.assign({}, buttonBase, {
-                text: "Approve",
-                backgroundColor: {
-                    normal: Color.create("#167e43"),
                     pressed: Color.create("#004B10"),
                     disabled: Color.create("#001800")
                 },
                 onPress: function onButtonPress(e) {
-                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnApprove, btnReject, false, "Approve");
+                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnApprove, btnReject, false, lang['approve']);
                 }
             }));
             flButtons.addChild(btnApprove);
+
+            var btnReject = new Button(Object.assign({}, buttonBase, {
+                text: lang['reject'],
+                backgroundColor: {
+                    normal: Color.RED,
+                    pressed: Color.create("#925B00"),
+                    disabled: Color.create("#460F00")
+                },
+                onPress: function onButtonPress(e) {
+                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                }
+            }));
+            flButtons.addChild(btnReject);
 
             var myActivityIndicator = new ActivityIndicator({
                 color: Color.WHITE,
@@ -256,6 +263,7 @@ const pgDetails = extend(PageDetailsDesign)(
             labelTitle.marginLeft = margin;
             labelTitle.marginRight = margin;
             labelTitle.touchEnabled = false;
+            labelTitle.textColor=Color.BLACK;
             flex.addChild(labelTitle);
 
             var line = createLine("bottom", 15);
@@ -276,12 +284,14 @@ const pgDetails = extend(PageDetailsDesign)(
             var labelBase = {
                 textAlignment: TextAlignment.MIDLEFT,
                 marginLeft: margin,
+                textColor: Color.BLACK,
                 marginRight: margin,
                 flexGrow: 1
             };
 
             var lblTitle = new Label(Object.assign({}, labelBase, {
                 text: text,
+                textColor: Color.BLACK,
                 font: Font.create(Font.DEFAULT, 13, Font.BOLD),
             }));
             flex.addChild(lblTitle);
@@ -401,8 +411,8 @@ const pgDetails = extend(PageDetailsDesign)(
                         indicator.alpha = 0;
                         button.text = "Done";
                         setTimeout(function() {
-                          Router.goBack();  
-                        },500);
+                            Router.goBack();
+                        }, 500);
                     })[nw.action]();
             }
 

@@ -168,7 +168,7 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.WHITE,
+            backgroundColor: Color.create("#167e43"),
             itemCount: getDataCount(),
             refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE,
@@ -204,6 +204,8 @@ const PgList = extend(PgListDesign)(
                 top: 5,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
+                
+                textColor:Color.create("#DFDCE3"),
                 font: Font.create(Font.DEFAULT, 16, Font.BOLD)
             });
             flRowData.addChild(lblTitle);
