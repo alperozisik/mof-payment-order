@@ -32,9 +32,9 @@ const PageLogin = extend(PageLoginDesign)(
 
             this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
             var imageView = new ImageView({
-               
+
             });
-            
+
             // uiComponents.loginButton.backgroundColor= Color.create(255, 8, 2, 238);
             imageView.positionType = FlexLayout.PositionType.ABSOLUTE;
             imageView.height = 50;
@@ -70,7 +70,7 @@ const PageLogin = extend(PageLoginDesign)(
             uiComponents.emailTextBox.text = ""; // TODO: remove after AND-2785
             uiComponents.passwordTextBox.text = ""; // TODO: remove after AND-2785
 
-             this.birdSprite.play(3000);
+            this.birdSprite.play(3000);
             restartPage(this, uiComponents);
             this.headerBar.visible = false;
             this.statusBar.visible = false;
@@ -198,7 +198,23 @@ function loading(page, uiComponents) {
                         };
                     }
                     else {
-                        alert("login failed");
+                        
+                        imageView.visible = false;
+                        Animator.animate(page.layout, 300, function() {
+                            uiComponents.inputLayout.height = 150;
+                            imageView.alpha = 0.2;
+                            uiComponents.inputLayout.alpha = 1;
+                        }).complete(function() {
+                            imageView.alpha = 0;
+                            Animator.animate(layout, 100, function() {
+                                uiComponents.loginButton.width = 180;
+                                uiComponents.loginButton.alpha = 1;
+                            }).complete(function() {
+                                uiComponents.loginButton.text = lang['login'];
+
+                            });
+                            alert(lang['wrongUserNameOrPassword']);
+                        });
                     }
                 }).chain("payment-order")
                 .query("userName", uiComponents.emailTextBox.text)
@@ -222,6 +238,29 @@ function loading(page, uiComponents) {
                     else if (global.userData.username == "mof") {
                         Router.go("mofUserList", {
                             data: response
+                        });
+                    }else if (global.userData.username == "rev"){
+                         Router.go("reviewerList", {
+                            data: response
+                        });
+                    }
+                    else {
+                        // stopRotate();
+                        imageView.visible = false;
+                        Animator.animate(page.layout, 300, function() {
+                            uiComponents.inputLayout.height = 150;
+                            imageView.alpha = 0.2;
+                            uiComponents.inputLayout.alpha = 1;
+                        }).complete(function() {
+                            imageView.alpha = 0;
+                            Animator.animate(layout, 100, function() {
+                                uiComponents.loginButton.width = 180;
+                                uiComponents.loginButton.alpha = 1;
+                            }).complete(function() {
+                                uiComponents.loginButton.text = lang['login'];
+
+                            });
+                            alert(lang['wrongUserNameOrPassword']);
                         });
                     }
 

@@ -5,7 +5,7 @@
     "mock": {
         "body": {
             "type": "paymentOrderBean",
-            "id": 2847,
+            "id": "SA2610000013159145000103",
             "valuesList": [],
             "actionLogBean": {
                 "id": 0,
@@ -13,9 +13,9 @@
                 "remark": "ddd"
             },
             "amount": 300,
-            "amountInWord": "ثلاثمائة  وحدة  ",
+            "amountInWord": "ثلاثمائة  ريال",
             "bankBean": {
-                "id": 0,
+                "id": "SA2610000013159145000103",
                 "valuesList": []
             },
             "beneficaryName": "شركة الاستشاريون المحترفون للتقنية",
@@ -32,8 +32,8 @@
                 "valuesList": [],
                 "code": "150",
                 "curId": "150",
-                "nameAr": "جنية قبرصي , CYP , متغير",
-                "nameEn": "جنية قبرصي , CYP , متغير"
+                "nameAr": "ريال سعودي , SAR , ثابت",
+                "nameEn": "ريال سعودي , SAR , ثابت"
             },
             "departmentBean": {
                 "id": 44444,
@@ -80,7 +80,7 @@
                 "nationalityNameEn": "Saudi Arabia"
             },
             "paymentEntryMethod": 100602,
-            "paymentMethod": 100101,
+            "paymentMethod": "تحويل",
             "paymentOrderDateG": "2017-04-30",
             "paymentOrderDateH": "03/08/1438",
             "paymentOrderNumber": "15016727",

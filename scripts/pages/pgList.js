@@ -6,13 +6,14 @@ const ListViewItem = require('sf-core/ui/listviewitem');
 const Color = require('sf-core/ui/color');
 const Label = require('sf-core/ui/label');
 const FlexLayout = require('sf-core/ui/flexlayout');
+const TextAlignment = require('sf-core/ui/textalignment');
 const View = require('sf-core/ui/view');
 const System = require("sf-core/device/system");
 const HeaderBarItem = require('sf-core/ui/headerbaritem');
 const ActivityIndicator = require('sf-core/ui/activityindicator');
 const nw = require("smf-nw");
 const Font = require('sf-core/ui/font');
-var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#167e43");
+var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#dbb651");
 var PgListDesign = require("../ui/ui_pgList");
 
 const PgList = extend(PgListDesign)(
@@ -39,6 +40,9 @@ const PgList = extend(PgListDesign)(
         };
 
         function toggleListView(multiselectValue) {
+            console.log("toggleListView toggleListView.edit.flLoading");
+            
+            console.log("multiselectValue multiselectValue.edit.flLoading");
             if (typeof multiselectValue !== "undefined") {
                 if (multiSelect === multiselectValue)
                     return;
@@ -111,7 +115,9 @@ const PgList = extend(PgListDesign)(
             editItem = new HeaderBarItem({
                 title: lang['edit'],
                 onPress: function() {
+                    console.log("edit edit.edit.flLoading");
                     toggleListView();
+                    
                 }
             });
 
@@ -190,6 +196,7 @@ const PgList = extend(PgListDesign)(
                 left: 15,
                 top: 0,
                 right: 5,
+                backgroundColor: Color.create("#167e43"),
                 bottom: 1,
                 positionType: FlexLayout.PositionType.ABSOLUTE
             });
@@ -201,10 +208,12 @@ const PgList = extend(PgListDesign)(
                 right: 0,
                 left: 0,
                 top: 5,
+                textAlignment: TextAlignment.MIDRIGHT,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 font: Font.create(Font.DEFAULT, 16, Font.BOLD),
-                textColor:Color.create("#DFDCE3")
+                textColor: Color.create("#DFDCE3"),
+                backgroundColor: Color.create("#167e43")
             });
             flRowData.addChild(lblTitle);
 
@@ -212,11 +221,13 @@ const PgList = extend(PgListDesign)(
                 id: 103,
                 height: 40,
                 right: 0,
+                textAlignment: TextAlignment.MIDRIGHT,
                 left: 0,
                 bottom: 5,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
-                textColor: Color.create("#DFDCE3")
+                textColor: Color.create("#DFDCE3"),
+                backgroundColor: Color.create("#167e43")
             });
             flRowData.addChild(lblSubTitle);
 
@@ -228,6 +239,7 @@ const PgList = extend(PgListDesign)(
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 visible: false,
+                color:Color.RED,
                 justifyContent: FlexLayout.JustifyContent.CENTER,
                 alignItems: FlexLayout.AlignItems.CENTER
             });
@@ -239,6 +251,7 @@ const PgList = extend(PgListDesign)(
                 height: 15,
                 borderColor: selectionColor,
                 backgroundColor: Color.WHITE,
+                color:Color.RED,
                 borderWidth: 1,
                 borderRadius: 7.5
             });

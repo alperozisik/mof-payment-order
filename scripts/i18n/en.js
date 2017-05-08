@@ -31,6 +31,12 @@ SMF.i18n.defineLanguage('en', {
 	"bankAccountNumber" : "Bank Account Number",
 	"currency" : "The currency",
 	"amount" : "The amount",
-	"notes":"Notes"
-	
+	"notes":"Notes",
+	"loginFailed" : "Login Failed"	,
+	"wrongUserNameOrPassword" : "Wrong username or password",
+	"return":"Return",
+	"areYouSureYouWantToReturnThisPO" : "Are you sure you want to return this Payment Order ?",
+	"returnPO" : "Return Payment Order",
+	"saveSuccessfully": "Saved successfully",
+	"prioritization": "Prioritization "
 });

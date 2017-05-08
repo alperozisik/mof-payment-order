@@ -25,7 +25,9 @@ Router.add("mofUserList", require("./pages/mofUserList"));
 Router.add("secondApproverDetails", require("./pages/senondApproverDetails"));
 Router.add("mofUserDetails", require("./pages/mofUserDetails"));
 Router.add("login2", require("./pages/login"));
-//
+Router.add("reviewerList", require("./pages/pgReviewerList"));
+Router.add("reviewrDetails", require("./pages/pgReviewerDetails"));
+
 
 
 Router.go("login");

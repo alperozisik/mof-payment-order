@@ -38,7 +38,7 @@ const pgDetails = extend(PageDetailsDesign)(
             page.headerBar.backgroundColor = Color.create("#dbb651");
             page.headerBar.titleColor = Color.WHITE;
             if (System.OS === "iOS") {
-                page.headerBar.backgroundColor = Color.WHITE;
+                page.headerBar.backgroundColor = Color.create("#dbb651");
                 page.headerBar.titleColor = Color.BLACK;
             }
             initializeHeaderBarItems(page.headerBar);
@@ -69,7 +69,7 @@ const pgDetails = extend(PageDetailsDesign)(
                 scrollRootFlex.fieldObjects[keys[i - 1]] = fieldFlex.children.lblValue;
             }
 
-            var notesFlex = createTextBoxFlex(60, "Notes", null, 15);
+            var notesFlex = createTextBoxFlex(60, lang['notes'], null, 15);
             scrollRootFlex.addChild(notesFlex);
             scrollRootFlex.fieldObjects.notes = notesFlex;
             page.notes = notesFlex;
@@ -111,14 +111,38 @@ const pgDetails = extend(PageDetailsDesign)(
             flButtons.addChild(btnApprove);
 
             var btnReject = new Button(Object.assign({}, buttonBase, {
-                text: lang['reject'],
+                text: lang['return'],
                 backgroundColor: {
                     normal: Color.RED,
                     pressed: Color.create("#925B00"),
                     disabled: Color.create("#460F00")
                 },
                 onPress: function onButtonPress(e) {
-                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+
+                    if (page.notes.children.textBox.text.length === 0) {
+                        page.notes.children.warning.visible = true;
+                        //  checksPass = false;
+                    }
+                    else {
+                        var myAlertView = new AlertView({
+                            title: lang['returnPO'],
+                            message: lang['areYouSureYouWantToReturnThisPO']
+                        });
+                        myAlertView.addButton({
+                            index: AlertView.ButtonType.NEGATIVE,
+                            text: lang['cancel']
+                        });
+                        myAlertView.addButton({
+                            index: AlertView.ButtonType.POSITIVE,
+                            text: lang['ok'],
+                            onClick: function() {
+                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                            }
+                        });
+
+                        myAlertView.show();
+                    }
+
                 }
             }));
             flButtons.addChild(btnReject);
@@ -263,7 +287,7 @@ const pgDetails = extend(PageDetailsDesign)(
             labelTitle.marginLeft = margin;
             labelTitle.marginRight = margin;
             labelTitle.touchEnabled = false;
-            labelTitle.textColor=Color.BLACK;
+            labelTitle.textColor = Color.BLACK;
             flex.addChild(labelTitle);
 
             var line = createLine("bottom", 15);
@@ -282,7 +306,7 @@ const pgDetails = extend(PageDetailsDesign)(
             flex.children = flex.children || {};
 
             var labelBase = {
-                textAlignment: TextAlignment.MIDLEFT,
+                textAlignment: TextAlignment.MIDRIGHT,
                 marginLeft: margin,
                 textColor: Color.BLACK,
                 marginRight: margin,
@@ -325,7 +349,7 @@ const pgDetails = extend(PageDetailsDesign)(
             textBox.id = 1;
             textBox.hint = hint;
             textBox.font = Font.create(Font.DEFAULT, 17, Font.NORMAL);
-            textBox.textAlignment = TextAlignment.MIDLEFT;
+            textBox.textAlignment = TextAlignment.MIDRIGHT;
             textBox.keyboardType = keyboardType;
             textBox.flexGrow = 1;
             textBox.marginLeft = margin;
@@ -340,7 +364,7 @@ const pgDetails = extend(PageDetailsDesign)(
             imageView.id = 2;
             imageView.positionType = FlexLayout.PositionType.ABSOLUTE;
             imageView.imageFillType = ImageView.FillType.ASPECTFIT;
-            imageView.right = margin;
+            imageView.left = margin;
             imageView.top = 20;
             imageView.bottom = 20;
             imageView.width = 30;
@@ -357,6 +381,13 @@ const pgDetails = extend(PageDetailsDesign)(
             textBox.onEditBegins = function() {
                 imageView.visible = false;
             };
+            // textBox.onEditEnds = function() {
+            //     this.android.onBackButtonPressed = function() {
+            //         Router.goBack();
+            //     };
+
+            // };
+
 
             var line = createLine("bottom", 15);
             flex.addChild(line);
@@ -409,7 +440,7 @@ const pgDetails = extend(PageDetailsDesign)(
                     .result(function(err, data) {
                         //TODO handle error
                         indicator.alpha = 0;
-                        button.text = "Done";
+                        button.text = lang['saveSuccessfully'];
                         setTimeout(function() {
                             Router.goBack();
                         }, 500);
@@ -425,7 +456,7 @@ const pgDetails = extend(PageDetailsDesign)(
             });
             myAlertView.addButton({
                 index: AlertView.ButtonType.NEGATIVE,
-                text: "Ok",
+                text: lang['ok'],
                 onClick: onClick
             });
 
