@@ -43,6 +43,7 @@ const pgDetails = extend(PageDetailsDesign)(
             }
             initializeHeaderBarItems(page.headerBar);
 
+
             var scrollView = new ScrollView({
                 align: ScrollView.Align.VERTICAL,
                 id: 1
@@ -105,7 +106,61 @@ const pgDetails = extend(PageDetailsDesign)(
                     disabled: Color.create("#001800")
                 },
                 onPress: function onButtonPress(e) {
-                    checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnApprove, btnReject, false, lang['approve']);
+                    page.notes.children.warning.visible = false;
+                    var approveCheckPass = true;
+                    // if (page.beneficaryNumber.children.textBox.text.length === 0) {
+                    //     page.beneficaryNumber.children.warning.visible = true;
+                    //     approveCheckPass = false;
+                    // }
+
+                    // if (page.amount.children.textBox.text.length === 0) {
+                    //     page.amount.children.warning.visible = true;
+                    //     approveCheckPass = false;
+                    // }
+                    // else {
+                    //     // if (isNaN(page.amount.children.textBox.text)) {
+                    //     //     page.amount.children.warning.visible = true;
+                    //     //     approveCheckPass = false;
+                    //     // }
+                    // }
+
+                    if (approveCheckPass == true) {
+                        const http = require("sf-core/net/http");
+                        var body = global.userData.data.body;
+                        var parsedResponse = JSON.parse(body);
+                        // alert(parsedResponse.items[0].BeneficaryCode);
+
+                        parsedResponse.items[0].PaymentOrderStatus = 3;
+                        var myHeaders = {
+                            "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                        }
+
+                        var params1 = {
+                            url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                            body: JSON.stringify(parsedResponse.items[0]),
+                            method: "PUT",
+                            headers: myHeaders
+                        }
+                        // alert("http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID);
+                        // alert(JSON.stringify(parsedResponse.items[0]));
+                        // alert(params1);
+
+                        http.request(params1,
+                            function(response1) {
+                
+                                Router.goBack();
+                            },
+                            function(err1) {
+                                alert("error in change status to 3  " + err1.toString());
+                            });
+
+
+
+
+
+
+                    }
+
                 }
             }));
             flButtons.addChild(btnApprove);
@@ -136,7 +191,56 @@ const pgDetails = extend(PageDetailsDesign)(
                             index: AlertView.ButtonType.POSITIVE,
                             text: lang['ok'],
                             onClick: function() {
-                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                                
+                                  // alert(page.headerBar.title + " " + page.paymentID);
+                                const http = require("sf-core/net/http");
+                                var params = {
+                                    url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    method: "GET"
+                                }
+
+
+                                http.request(params,
+                                    function(response) {
+                                        var body = response.body;
+                                        var parsedResponse = JSON.parse(body);
+
+
+
+                                        var myHeaders = {
+                                            "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                                        }
+
+                                        parsedResponse.PaymentOrderStatus = 0;
+                                        parsedResponse.Remark = page.notes.children.textBox.text;
+
+                                        // alert(parsedResponse.items[0].Remark);
+                                        // alert(JSON.stringify(parsedResponse.items[0]));
+
+                                        var params1 = {
+                                            url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            body: JSON.stringify(parsedResponse),
+                                            method: "PUT",
+                                            headers: myHeaders
+                                        }
+
+
+                                        http.request(params1,
+                                            function(response1) {
+                                                // Router.goBack();
+                                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                                            },
+                                            function(err1) {
+                                                alert("error in change status to 2  ");
+                                            });
+
+
+                                    },
+                                    function(err) {
+                                        alert("error in approve ");
+                                    });
+                                    
+                                // checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
                             }
                         });
 

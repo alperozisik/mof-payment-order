@@ -7,7 +7,7 @@ nw.registerService(require("./definitions/approve"));
 //nw.registerService(require("./definitions/user"));
 //nw.registerService(require("./definitions/case-detail"));
 
-nw.baseURL = "http://localhost:7101/PaymentOrderProcess/webservice/rest";
+nw.baseURL = "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/UsersVO?q=Username=rev";
 
 nw.commonHeaders["Accept"] = nw.commonHeaders["Content-Type"] = "application/json";
 

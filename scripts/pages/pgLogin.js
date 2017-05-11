@@ -31,6 +31,7 @@ const PageLogin = extend(PageLoginDesign)(
             temp();
 
             this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
+            this.imgBg.imageFillType = ImageView.FillType.STRETCH;
             var imageView = new ImageView({
 
             });
@@ -184,68 +185,83 @@ function loading(page, uiComponents) {
                 uiComponents.inputLayout.alpha = 0;
             }
         }).complete(function() {
-            nw.factory("login")
-                .query("userName", uiComponents.emailTextBox.text)
-                .query("password", uiComponents.passwordTextBox.text)
-                .result(function(err, data) {
-                    //TODO: handle error
-                    var response = (err && err.body) || (data && data.body) || {};
-                    if (response.checkLogin === "1") { //user logged in
-                        global.userData = { //can use a model too
-                            username: uiComponents.emailTextBox.text,
-                            password: uiComponents.passwordTextBox.text,
-                            data: response
-                        };
-                    }
-                    else {
+
+            const http = require("sf-core/net/http");
+
+            var params = {
+
+                url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/UsersVO?q=Username=" + uiComponents.emailTextBox.text + ";Password=" + uiComponents.passwordTextBox.text,
+                method: "GET"
+            }
+
+            http.request(params,
+                function(response) {
+
+
+                    var body = response.body;
+                    var parsedResponse = JSON.parse(body);
+                    var numOfItems = parsedResponse.items.length;
+
+                    if (numOfItems > 0) {
+                        var priv = parsedResponse.items[0].Priv;
+
+                        var paymentOrderStatus = 0;
+                        var navigateTo = null;
+                        if (priv == "rev") {
+                            paymentOrderStatus = 1;
+                            navigateTo="reviewerList";
+                            
+                        }
+                        else if (priv == "approver1") {
+                            paymentOrderStatus = 2;
+                            navigateTo="list";
+                        }
+                        else if (priv == "approver2") {
+                            paymentOrderStatus = 3;
+                            navigateTo="secondApproverList";
+                        }
+                        else if (priv == "mof") {
+                            paymentOrderStatus = 4;
+                            navigateTo="mofUserList";
+                        }
                         
-                        imageView.visible = false;
-                        Animator.animate(page.layout, 300, function() {
-                            uiComponents.inputLayout.height = 150;
-                            imageView.alpha = 0.2;
-                            uiComponents.inputLayout.alpha = 1;
-                        }).complete(function() {
-                            imageView.alpha = 0;
-                            Animator.animate(layout, 100, function() {
-                                uiComponents.loginButton.width = 180;
-                                uiComponents.loginButton.alpha = 1;
-                            }).complete(function() {
-                                uiComponents.loginButton.text = lang['login'];
+                        if(paymentOrderStatus!=0){
+                            
+                            var params = {
+                                url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                                method: "GET"
+                            }
 
-                            });
-                            alert(lang['wrongUserNameOrPassword']);
-                        });
-                    }
-                }).chain("payment-order")
-                .query("userName", uiComponents.emailTextBox.text)
-                .query("password", uiComponents.passwordTextBox.text)
-                .result(function(err, data) {
-                    stopRotate();
-                    //TODO: handle error
-                    var response = (err && err.body) || (data && data.body) || {};
-                    //TODO: pass propper data
 
-                    if (global.userData.username == "amro") {
-                        Router.go("list", {
-                            data: response
-                        });
-                    }
-                    else if (global.userData.username == "oweidi") {
-                        Router.go("secondApproverList", {
-                            data: response
-                        });
-                    }
-                    else if (global.userData.username == "mof") {
-                        Router.go("mofUserList", {
-                            data: response
-                        });
-                    }else if (global.userData.username == "rev"){
-                         Router.go("reviewerList", {
-                            data: response
-                        });
+                            http.request(params,
+                                function(response) {
+                                    var body = response.body;
+                                    var parsedResponse = JSON.parse(body);
+
+                                    // alert(parsedResponse.items[0].BeneficaryName);
+                                    global.userData = { //can use a model too
+                                        username: uiComponents.emailTextBox.text,
+                                        password: uiComponents.passwordTextBox.text,
+                                        paymentOrderStatus: paymentOrderStatus,
+                                        data: response
+                                    };
+                                    Router.go(navigateTo, {
+                                        data: response
+                                    });
+
+                                },
+                                function(err) {
+                                    alert("error in getting payment orders");
+                                });
+
+                            
+                        }
+
+
+
+
                     }
                     else {
-                        // stopRotate();
                         imageView.visible = false;
                         Animator.animate(page.layout, 300, function() {
                             uiComponents.inputLayout.height = 150;
@@ -262,12 +278,164 @@ function loading(page, uiComponents) {
                             });
                             alert(lang['wrongUserNameOrPassword']);
                         });
+
                     }
 
-                    page.birdSprite.stop();
-                })[nw.action]();
+
+
+                    // alert("test 123 ");
+                },
+                function(err) {
+                    alert("error in login" + err);
+                });
+
+
+
+
+            // nw.factory("login")
+            //     // .query("userName", uiComponents.emailTextBox.text)
+            //     // .query("password", uiComponents.passwordTextBox.text)
+            //     .result(function(err, data) {
+            //         //TODO: handle error
+            //         var response = (err && err.body) || (data && data.body) || {};
+            //         alert(response.toString());
+            //         // console.log(response);
+            //         // var body = response.body;
+            //         var parsedResponse = JSON.parse(response);
+            //         alert(parsedResponse);
+            //         // alert(parsedResponse);
+            //         //   if (response.checkLogin === "1") { //user logged in
+            //         //     global.userData = { //can use a model too
+            //         //         username: uiComponents.emailTextBox.text,
+            //         //         password: uiComponents.passwordTextBox.text,
+            //         //         data: response
+            //         //     };
+            //         // }
+
+
+            //         // if (response.checkLogin === "1") { //user logged in
+            //         //     global.userData = { //can use a model too
+            //         //         username: uiComponents.emailTextBox.text,
+            //         //         password: uiComponents.passwordTextBox.text,
+            //         //         data: response
+            //         //     };
+            //         // }
+            //         // else {
+
+            //         //     imageView.visible = false;
+            //         //     Animator.animate(page.layout, 300, function() {
+            //         //         uiComponents.inputLayout.height = 150;
+            //         //         imageView.alpha = 0.2;
+            //         //         uiComponents.inputLayout.alpha = 1;
+            //         //     }).complete(function() {
+            //         //         imageView.alpha = 0;
+            //         //         Animator.animate(layout, 100, function() {
+            //         //             uiComponents.loginButton.width = 180;
+            //         //             uiComponents.loginButton.alpha = 1;
+            //         //         }).complete(function() {
+            //         //             uiComponents.loginButton.text = lang['login'];
+
+            //         //         });
+            //         //         alert(lang['wrongUserNameOrPassword']);
+            //         //     });
+            //         // }
+            //     }).chain("payment-order")
+            //     // .query("userName", uiComponents.emailTextBox.text)
+            //     // .query("password", uiComponents.passwordTextBox.text)
+            //     .result(function(err, data) {
+            //         // stopRotate();
+            //         // //TODO: handle error
+            //         // var response = (err && err.body) || (data && data.body) || {};
+            //         // //TODO: pass propper data
+
+            //         // if (global.userData.username == "amro") {
+            //         //     Router.go("list", {
+            //         //         data: response
+            //         //     });
+            //         // }
+            //         // else if (global.userData.username == "oweidi") {
+            //         //     Router.go("secondApproverList", {
+            //         //         data: response
+            //         //     });
+            //         // }
+            //         // else if (global.userData.username == "mof") {
+            //         //     Router.go("mofUserList", {
+            //         //         data: response
+            //         //     });
+            //         // }else if (global.userData.username == "rev"){
+            //         //      Router.go("reviewerList", {
+            //         //         data: response
+            //         //     });
+            //         // }
+            //         // else {
+            //         //     // stopRotate();
+            //         //     imageView.visible = false;
+            //         //     Animator.animate(page.layout, 300, function() {
+            //         //         uiComponents.inputLayout.height = 150;
+            //         //         imageView.alpha = 0.2;
+            //         //         uiComponents.inputLayout.alpha = 1;
+            //         //     }).complete(function() {
+            //         //         imageView.alpha = 0;
+            //         //         Animator.animate(layout, 100, function() {
+            //         //             uiComponents.loginButton.width = 180;
+            //         //             uiComponents.loginButton.alpha = 1;
+            //         //         }).complete(function() {
+            //         //             uiComponents.loginButton.text = lang['login'];
+
+            //         //         });
+            //         //         alert(lang['wrongUserNameOrPassword']);
+            //         //     });
+            //         // }
+
+            //         // page.birdSprite.stop();
+            //     })[nw.action]();
         });
     });
+}
+
+function onLoad(response) {
+    var body = response.body;
+    var parsedResponse = JSON.parse(body);
+    var numOfItems = parsedResponse.items.length;
+
+    if (numOfItems > 0) {
+        var priv = parsedResponse.items[0].Priv;
+        alert(priv);
+        // alert(parsedResponse);
+        alert(numOfItems);
+    }
+    else {
+        // stopRotate();
+        // var imageView = uiComponents.bottomLayout.findChildById(100);
+        //                 imageView.visible = false;
+        //     Animator.animate(page.layout, 300, function() {
+        //         uiComponents.inputLayout.height = 150;
+        //         imageView.alpha = 0.2;
+        //         uiComponents.inputLayout.alpha = 1;
+        //     }).complete(function() {
+        //         imageView.alpha = 0;
+        //         Animator.animate(layout, 100, function() {
+        //             uiComponents.loginButton.width = 180;
+        //             uiComponents.loginButton.alpha = 1;
+        //         }).complete(function() {
+        //             uiComponents.loginButton.text = lang['login'];
+
+        //         });
+        //         alert(lang['wrongUserNameOrPassword']);
+    }
+    //This variable returns the number of the news from the JSON Data
+    //news : This is the name of the JSON object
+    // 	var numOfNews = parsedResponse.news.length;
+    // console.log(body);
+    // alert(body);
+
+
+
+
+}
+
+function onError(error) {
+    alert(error);
 }
 
 function restartPage(page, uiComponents) {

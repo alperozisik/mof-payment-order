@@ -3,8 +3,8 @@
 		{
 			"type": "Page",
 			"props": {
-				"width": 187.5,
-				"height": 333.5,
+				"width": 180,
+				"height": 320,
 				"children": [
 					"statusBar",
 					"headerBar",
@@ -41,7 +41,7 @@
 		{
 			"type": "StatusBar",
 			"props": {
-				"height": 20,
+				"height": 25,
 				"name": "statusBar",
 				"parent": "pgLogin",
 				"flexProps": {},
@@ -50,7 +50,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 10
+					"height": 12.5
 				},
 				"flex": {},
 				"visibility": false
@@ -59,7 +59,7 @@
 		{
 			"type": "HeaderBar",
 			"props": {
-				"height": 44,
+				"height": 56.6,
 				"title": "Login",
 				"titleColor": "#000000",
 				"name": "headerBar",
@@ -71,7 +71,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 22
+					"height": 28.3
 				},
 				"flex": {},
 				"visibility": false
@@ -136,6 +136,9 @@
 				"top": 0,
 				"right": 0,
 				"bottom": 0,
+				"children": [
+					"imgBg"
+				],
 				"usePageVariable": true,
 				"name": "spriteLayout",
 				"parent": "rootLayout",
@@ -738,6 +741,43 @@
 				},
 				"visibility": true,
 				"text": "LOGIN"
+			}
+		},
+		{
+			"type": "ImageView",
+			"id": "840f9266",
+			"props": {
+				"left": 0,
+				"top": 0,
+				"width": null,
+				"height": null,
+				"children": [],
+				"usePageVariable": true,
+				"name": "imgBg",
+				"parent": "spriteLayout",
+				"flexProps": {
+					"positionType": "ABSOLUTE",
+					"right": 0,
+					"bottom": 0
+				},
+				"style": {
+					"backgroundColor": "#FFFFFF",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"right": 0,
+					"bottom": 0,
+					"left": 0,
+					"top": 0
+				},
+				"flex": {
+					"positionType": 1
+				},
+				"visibility": true,
+				"image": "green_bg.png"
 			}
 		}
 	]

@@ -108,7 +108,7 @@ const pgDetails = extend(PageDetailsDesign)(
                     disabled: Color.create("#001800")
                 },
                 onPress: function onButtonPress(e) {
-
+                    page.notes.children.warning.visible = false;
                     if (page.priority.children.textBox.text.length === 0) {
                         page.priority.children.warning.visible = true;
                         //  checksPass = false;
@@ -131,28 +131,52 @@ const pgDetails = extend(PageDetailsDesign)(
                     disabled: Color.create("#460F00")
                 },
                 onPress: function onButtonPress(e) {
+                    page.priority.children.warning.visible = false;
                     if (page.notes.children.textBox.text.length === 0) {
                         page.notes.children.warning.visible = true;
                         //  checksPass = false;
                     }
                     else {
-                        var myAlertView = new AlertView({
-                            title: lang['returnPO'],
-                            message: lang['areYouSureYouWantToReturnThisPO']
-                        });
-                        myAlertView.addButton({
-                            index: AlertView.ButtonType.NEGATIVE,
-                            text: lang['cancel']
-                        });
-                        myAlertView.addButton({
-                            index: AlertView.ButtonType.POSITIVE,
-                            text: lang['ok'],
-                            onClick: function() {
-                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
-                            }
-                        });
 
-                        myAlertView.show();
+                        // const Dialog = require("sf-core/ui/dialog");
+                        // // const Button = require("sf-core/ui/button");
+                        // // const Color = require("sf-core/ui/color");
+                        // // const FlexLayout = require("sf-core/ui/flexlayout");
+
+                        // var myDialog = new Dialog();
+                        // myDialog.layout.justifyContent = FlexLayout.JustifyContent.CENTER;
+                        // myDialog.layout.alignItems = FlexLayout.AlignItems.CENTER;
+
+                        // var myButton = new Button({
+                        //     width: 100,
+                        //     height: 80,
+                        //     backgroundColor: Color.BLUE,
+                        //     text: "Hide Dialog",
+                        //     onPress: function() {
+                        //         myDialog.hide();
+                        //     }
+                        // });
+
+                        // myDialog.layout.addChild(myButton);
+                        // myDialog.layout.applyLayout();
+                        // myDialog.show();
+                        // var myAlertView = new AlertView({
+                        //     title: lang['returnPO'],
+                        //     message: lang['areYouSureYouWantToReturnThisPO']
+                        // });
+                        // myAlertView.addButton({
+                        //     index: AlertView.ButtonType.NEGATIVE,
+                        //     text: lang['cancel']
+                        // });
+                        // myAlertView.addButton({
+                        //     index: AlertView.ButtonType.POSITIVE,
+                        //     text: lang['ok'],
+                        //     onClick: function() {
+                        //         checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                        //     }
+                        // });
+
+                        // myAlertView.show();
                     }
                 }
             }));

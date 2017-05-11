@@ -30,8 +30,15 @@ const PgList = extend(PgListDesign)(
             page.children.flLoading.visible = false;
 
             var data = e && e.data;
+
             if (data) {
-                updateListView(data);
+                var body = data.body.toString();
+                var parsedResponse = JSON.parse(body);
+                //This variable returns the number of the news from the JSON Data
+                //news : This is the name of the JSON object
+                var numOfNews = parsedResponse.items.length;
+                // 	var newsArray = [];
+                updateListView(parsedResponse.items);
             }
             else {
                 fetchData();
@@ -41,7 +48,7 @@ const PgList = extend(PgListDesign)(
 
         function toggleListView(multiselectValue) {
             console.log("toggleListView toggleListView.edit.flLoading");
-            
+
             console.log("multiselectValue multiselectValue.edit.flLoading");
             if (typeof multiselectValue !== "undefined") {
                 if (multiSelect === multiselectValue)
@@ -117,7 +124,7 @@ const PgList = extend(PgListDesign)(
                 onPress: function() {
                     console.log("edit edit.edit.flLoading");
                     toggleListView();
-                    
+
                 }
             });
 
@@ -239,7 +246,7 @@ const PgList = extend(PgListDesign)(
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 visible: false,
-                color:Color.RED,
+                color: Color.RED,
                 justifyContent: FlexLayout.JustifyContent.CENTER,
                 alignItems: FlexLayout.AlignItems.CENTER
             });
@@ -251,7 +258,7 @@ const PgList = extend(PgListDesign)(
                 height: 15,
                 borderColor: selectionColor,
                 backgroundColor: Color.WHITE,
-                color:Color.RED,
+                color: Color.RED,
                 borderWidth: 1,
                 borderRadius: 7.5
             });
@@ -280,9 +287,13 @@ const PgList = extend(PgListDesign)(
             vLineSeparator.visible = getDataCount() !== (index + 1);
             flCheck.visible = multiSelect;
             flRowData.left = multiSelect ? 60 : 15;
+
+
             var rowData = dataSet[index];
-            lblTitle.text = dataSet[index].beneficaryName;
-            lblSubTitle.text = rowData.paymentOrderNumber;
+
+
+            lblTitle.text = dataSet[index].BeneficaryName;
+            lblSubTitle.text = rowData.PaymentOrderNumber;
             if (multiSelect) {
                 var selected = dataSet[index].selected = !!dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
@@ -304,10 +315,17 @@ const PgList = extend(PgListDesign)(
             }
             else {
                 var data = dataSet[index];
+                // alert(data.PaymentOrderNumber +"  "+ data.Id);
+                // alert();
                 Router.go("reviewrDetails", {
-                    title: data.paymentOrderNumber,
-                    id: data.id
+                    title: data.PaymentOrderNumber,
+                    id: data.Id
                 });
+
+                //  Router.go("secondApproverDetails", {
+                //     title: "1",
+                //     id: "1"
+                // });
             }
         };
 
@@ -316,6 +334,7 @@ const PgList = extend(PgListDesign)(
         };
 
         function getDataCount() {
+            // alert("getDataCount = "+ (dataSet && dataSet.length) || 0);
             return (dataSet && dataSet.length) || 0;
         }
 
@@ -342,22 +361,60 @@ const PgList = extend(PgListDesign)(
         }
 
         function fetchData(callback, doNotShowLoading) {
-            var username = global.userData.username;
-            var password = global.userData.password;
-
-            if (!doNotShowLoading) {
-                page.children.flLoading.visible = true;
+            var paymentOrderStatus = global.userData.paymentOrderStatus;
+            const http = require("sf-core/net/http");
+            var params = {
+                url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                method: "GET"
             }
-            nw.factory("payment-order")
-                .query("userName", username)
-                .query("password", password)
-                .result(function(err, data) {
-                    //TODO: handle error
-                    var response = (err && err.body) || (data && data.body) || {};
-                    updateListView(response);
+
+
+            http.request(params,
+                function(response) {
+                    var body = response.body;
+                    var parsedResponse = JSON.parse(body);
+                    // var parsedResponse = JSON.parse(body);
+                    //This variable returns the number of the news from the JSON Data
+                    //news : This is the name of the JSON object
+                    // var numOfNews = parsedResponse.items.length;
+                    // 	var newsArray = [];
+                    updateListView(parsedResponse.items);
+                    //  var response = (err && err.body) || (data && data.body) || {};
+                    // updateListView(response);
                     page.children.flLoading.visible = false;
                     callback && callback();
-                })[nw.action]();
+
+                    // // alert(parsedResponse.items[0].BeneficaryName);
+                    // global.userData = { //can use a model too
+                    //     username: uiComponents.emailTextBox.text,
+                    //     password: uiComponents.passwordTextBox.text,
+                    //     data: response
+                    // };
+                    // Router.go("reviewerList", {
+                    //     data: response
+                    // });
+
+                },
+                function(err) {
+                    alert("error in getting payment orders");
+                });
+
+            // var username = global.userData.username;
+            // var password = global.userData.password;
+
+            // if (!doNotShowLoading) {
+            //     page.children.flLoading.visible = true;
+            // }
+            // nw.factory("payment-order")
+            //     .query("userName", username)
+            //     .query("password", password)
+            //     .result(function(err, data) {
+            //         //TODO: handle error
+            //         var response = (err && err.body) || (data && data.body) || {};
+            //         updateListView(response);
+            //         page.children.flLoading.visible = false;
+            //         callback && callback();
+            //     })[nw.action]();
         }
     });
 

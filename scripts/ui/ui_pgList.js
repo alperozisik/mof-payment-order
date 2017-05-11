@@ -36,19 +36,8 @@ const PgList_ = extend(Page)(
 			visible: true,
 			text: "Nothing to display"
 		});
-		lblNoData.font = Font.create("default", 22, Font.NORMAL);
-		
-		var activityindicator1 = new ActivityIndicator({
-			width: 42,
-			height: 42,
-			positionType: FlexLayout.PositionType.RELATIVE,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		});
-		
+		lblNoData.font = Font.create("default", 22, Font.NORMAL); 
+		this.layout.addChild(lblNoData);
 		
 		var flLoading = new FlexLayout({
 			left: 0,
@@ -67,8 +56,8 @@ const PgList_ = extend(Page)(
 			borderColor: Color.create(255, 0, 0, 0),
 			borderWidth: 0,
 			visible: true
-		});
-		
+		}); 
+		this.layout.addChild(flLoading);
 		
 		var flIndicatorContainer = new FlexLayout({
 			width: 200,
@@ -85,8 +74,20 @@ const PgList_ = extend(Page)(
 			borderColor: Color.create(255, 0, 0, 0),
 			borderWidth: 0,
 			visible: true
-		});
+		}); 
+		flLoading.addChild(flIndicatorContainer);
 		
+		var activityindicator1 = new ActivityIndicator({
+			width: 42,
+			height: 42,
+			positionType: FlexLayout.PositionType.RELATIVE,
+			backgroundColor: Color.create("#FFFFFF"),
+			alpha: 1,
+			borderColor: Color.create(255, 0, 0, 0),
+			borderWidth: 0,
+			visible: true
+		}); 
+		flIndicatorContainer.addChild(activityindicator1);
 		
 		
 		//assign the children to page 
@@ -108,7 +109,6 @@ function onLoad() {
   this.headerBar.titleColor = Color.create("#000000");
   this.headerBar.backgroundColor = Color.create("#FFFFFF");
   this.headerBar.visible = true;
-
   this.statusBar.visible = true;
   this.layout.alignContent = FlexLayout.AlignContent.STRETCH;
   this.layout.alignItems = FlexLayout.AlignItems.CENTER;
@@ -118,36 +118,6 @@ function onLoad() {
   this.layout.justifyContent = FlexLayout.JustifyContent.CENTER;
   this.layout.backgroundColor = Color.create("#FFFFFF");
 
-    
-  //add components to page.
-	const childrenOfPage = this.children || {},
-		pageLayout = this.layout;
-		
-	Object
-		.keys(childrenOfPage)
-		.forEach(function(childName) {
-			var component = childrenOfPage[childName];
-			if (component.children) {
-				addChild(component);
-			}
-			pageLayout.addChild(component);
-		});
-		
-}
-
-//add child components to parent component.
-function addChild(component) {
-
-	Object
-		.keys(component.children)
-		.forEach(function(childName) {
-			var child = component.children[childName];
-			if (child.children) {
-				addChild(child);
-			}
-			component.addChild(child);
-		});
-		
 }
 
 module && (module.exports = PgList_);
