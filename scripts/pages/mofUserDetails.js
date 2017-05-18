@@ -114,7 +114,42 @@ const pgDetails = extend(PageDetailsDesign)(
                         //  checksPass = false;
                     }
                     else {
-                        checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnApprove, btnReject, false, lang['approve']);
+
+
+
+                        // alert(page.headerBar.title + " " + page.paymentID);
+                        const http = require("sf-core/net/http");
+
+
+                        var body = global.userData.data.body;
+                        var parsedResponse = JSON.parse(body);
+
+                        var myHeaders = {
+                            "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                        }
+
+                        parsedResponse.items[0].PaymentOrderStatus = 5;
+                        parsedResponse.items[0].Priority = page.priority.children.textBox.text;
+
+                        // alert(JSON.stringify(parsedResponse.items[0]));
+
+                        var params1 = {
+                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                            body: JSON.stringify(parsedResponse.items[0]),
+                            method: "PUT",
+                            headers: myHeaders
+                        }
+
+                        http.request(params1,
+                            function(response1) {
+                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnApprove, btnReject, false, lang['approve']);
+                                // Router.goBack();
+                            },
+                            function(err1) {
+                                alert("error in change status to 5  ");
+                            });
+
+
                     }
 
 
@@ -131,52 +166,79 @@ const pgDetails = extend(PageDetailsDesign)(
                     disabled: Color.create("#460F00")
                 },
                 onPress: function onButtonPress(e) {
-                    page.priority.children.warning.visible = false;
+                    // page.beneficaryNumber.children.warning.visible = false;
+                    // page.amount.children.warning.visible = false;
                     if (page.notes.children.textBox.text.length === 0) {
                         page.notes.children.warning.visible = true;
                         //  checksPass = false;
                     }
                     else {
+                        var myAlertView = new AlertView({
+                            title: lang['returnPO'],
+                            message: lang['areYouSureYouWantToReturnThisPO']
+                        });
+                        myAlertView.addButton({
+                            index: AlertView.ButtonType.NEGATIVE,
+                            text: lang['cancel']
+                        });
+                        myAlertView.addButton({
+                            index: AlertView.ButtonType.POSITIVE,
+                            text: lang['ok'],
+                            onClick: function() {
 
-                        // const Dialog = require("sf-core/ui/dialog");
-                        // // const Button = require("sf-core/ui/button");
-                        // // const Color = require("sf-core/ui/color");
-                        // // const FlexLayout = require("sf-core/ui/flexlayout");
+                                // alert(page.headerBar.title + " " + page.paymentID);
+                                const http = require("sf-core/net/http");
+                                var params = {
+                                    url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    method: "GET"
+                                }
 
-                        // var myDialog = new Dialog();
-                        // myDialog.layout.justifyContent = FlexLayout.JustifyContent.CENTER;
-                        // myDialog.layout.alignItems = FlexLayout.AlignItems.CENTER;
 
-                        // var myButton = new Button({
-                        //     width: 100,
-                        //     height: 80,
-                        //     backgroundColor: Color.BLUE,
-                        //     text: "Hide Dialog",
-                        //     onPress: function() {
-                        //         myDialog.hide();
-                        //     }
-                        // });
+                                http.request(params,
+                                    function(response) {
+                                        var body = response.body;
+                                        var parsedResponse = JSON.parse(body);
 
-                        // myDialog.layout.addChild(myButton);
-                        // myDialog.layout.applyLayout();
-                        // myDialog.show();
-                        // var myAlertView = new AlertView({
-                        //     title: lang['returnPO'],
-                        //     message: lang['areYouSureYouWantToReturnThisPO']
-                        // });
-                        // myAlertView.addButton({
-                        //     index: AlertView.ButtonType.NEGATIVE,
-                        //     text: lang['cancel']
-                        // });
-                        // myAlertView.addButton({
-                        //     index: AlertView.ButtonType.POSITIVE,
-                        //     text: lang['ok'],
-                        //     onClick: function() {
-                        //         checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
-                        //     }
-                        // });
 
-                        // myAlertView.show();
+
+                                        var myHeaders = {
+                                            "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                                        }
+
+                                        parsedResponse.PaymentOrderStatus = 0;
+                                        parsedResponse.Remark = page.notes.children.textBox.text;
+
+
+
+                                        var params1 = {
+                                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            body: JSON.stringify(parsedResponse),
+                                            method: "PUT",
+                                            headers: myHeaders
+                                        }
+
+
+                                        http.request(params1,
+                                            function(response1) {
+                                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+                                            },
+                                            function(err1) {
+                                                alert("error in change status to 2  ");
+                                            });
+
+
+                                    },
+                                    function(err) {
+                                        alert("error in return PO ");
+                                    });
+
+
+
+
+                            }
+                        });
+
+                        myAlertView.show();
                     }
                 }
             }));
@@ -278,26 +340,70 @@ const pgDetails = extend(PageDetailsDesign)(
             page.headerBar.title = title;
             page.paymentID = e.id;
 
-            nw.factory("payment-order-detail")
-                .query("userName", global.userData.username)
-                .query("password", global.userData.password)
-                .query("pold", e.id)
-                .result(function(err, data) {
+
+            // alert(page.headerBar.title + " " + page.paymentID);
+            const http = require("sf-core/net/http");
+            var params = {
+                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                method: "GET"
+            }
+
+
+            http.request(params,
+                function(response) {
+                    var body = response.body;
+                    var parsedResponse = JSON.parse(body);
+
                     page.children.flLoading.visible = false;
                     var scrollRootFlex = page.scrollRootFlex;
-                    //TODO: handle error
-                    var response = (err && err.body) || (data && data.body) || {};
-                    scrollRootFlex.fieldObjects.date.text = response.paymentOrderDateG + " " + response.paymentOrderDateH;
-                    scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-                    scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-                    scrollRootFlex.fieldObjects.beneficaryNumber.text = response.beneficiaryBean.code;
-                    scrollRootFlex.fieldObjects.beneficaryName.text = response.beneficaryName;
-                    scrollRootFlex.fieldObjects.beneficarAlternative.text = response.beneficiaryBean.nameEn; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.bankAccountNumber.text = response.bankBean.id; // TOOD: set this correct
-                    scrollRootFlex.fieldObjects.currency.text = response.currencyBean.nameEn; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.amount.text = response.amountInWord + "(" + response.amount + ")";
+                    scrollRootFlex.fieldObjects.date.text = parsedResponse.PaymentOrderDateH;
+                    scrollRootFlex.fieldObjects.financialYear.text = parsedResponse.PaymentOrderYear;
+                    scrollRootFlex.fieldObjects.exchangeMethod.text = parsedResponse.PaymentMethod;
+                    scrollRootFlex.fieldObjects.beneficaryNumber.text = parsedResponse.BeneficaryCode;
+                    scrollRootFlex.fieldObjects.beneficaryName.text = parsedResponse.BeneficaryNameAr;
+                    scrollRootFlex.fieldObjects.beneficarAlternative.text = parsedResponse.BeneficaryName; //TODO: set this correctly by language
+                    scrollRootFlex.fieldObjects.bankAccountNumber.text = parsedResponse.Iban; // TOOD: set this correct
+                    scrollRootFlex.fieldObjects.currency.text = parsedResponse.CurrencyName; //TODO: set this correctly by language
+                    scrollRootFlex.fieldObjects.amount.text = parsedResponse.AmountInWord + "(" + parsedResponse.Amount + ")";
 
-                })[nw.action]();
+                    //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
+                    //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
+                    // // alert(parsedResponse.items[0].BeneficaryName);
+                    // global.userData = { //can use a model too
+                    //     username: uiComponents.emailTextBox.text,
+                    //     password: uiComponents.passwordTextBox.text,
+                    //     data: response
+                    // };
+                    // Router.go("reviewerList", {
+                    //     data: response
+                    // });
+
+                },
+                function(err) {
+                    alert("error in getting details orders");
+                });
+
+
+            // nw.factory("payment-order-detail")
+            //     .query("userName", global.userData.username)
+            //     .query("password", global.userData.password)
+            //     .query("pold", e.id)
+            //     .result(function(err, data) {
+            //         page.children.flLoading.visible = false;
+            //         var scrollRootFlex = page.scrollRootFlex;
+            //         //TODO: handle error
+            //         var response = (err && err.body) || (data && data.body) || {};
+            //         scrollRootFlex.fieldObjects.date.text = response.paymentOrderDateG + " " + response.paymentOrderDateH;
+            //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
+            //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
+            //         scrollRootFlex.fieldObjects.beneficaryNumber.text = response.beneficiaryBean.code;
+            //         scrollRootFlex.fieldObjects.beneficaryName.text = response.beneficaryName;
+            //         scrollRootFlex.fieldObjects.beneficarAlternative.text = response.beneficiaryBean.nameEn; //TODO: set this correctly by language
+            //         scrollRootFlex.fieldObjects.bankAccountNumber.text = response.bankBean.id; // TOOD: set this correct
+            //         scrollRootFlex.fieldObjects.currency.text = response.currencyBean.nameEn; //TODO: set this correctly by language
+            //         scrollRootFlex.fieldObjects.amount.text = response.amountInWord + "(" + response.amount + ")";
+
+            //     })[nw.action]();
 
         };
 

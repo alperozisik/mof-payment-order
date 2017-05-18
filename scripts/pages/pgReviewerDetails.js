@@ -146,7 +146,7 @@ const pgDetails = extend(PageDetailsDesign)(
                         // alert(page.headerBar.title + " " + page.paymentID);
                         const http = require("sf-core/net/http");
                         var params = {
-                            url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=BeneficaryCode=" + page.beneficaryNumber.children.textBox.text + ";Amount=" + page.amount.children.textBox.text,
+                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=BeneficaryCode=" + page.beneficaryNumber.children.textBox.text + ";Amount=" + page.amount.children.textBox.text,
                             method: "GET"
                         }
 
@@ -156,6 +156,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                 var body = response.body;
                                 var parsedResponse = JSON.parse(body);
 
+                                // alert(JSON.stringify(parsedResponse));
                                 var numOfItems = parsedResponse.items.length;
 
                                 if (numOfItems == 1) {
@@ -170,7 +171,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                     // alert(JSON.stringify(parsedResponse.items[0]));
 
                                     var params1 = {
-                                        url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                        url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
                                         body: JSON.stringify(parsedResponse.items[0]),
                                         method: "PUT",
                                         headers: myHeaders
@@ -179,7 +180,8 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                     http.request(params1,
                                         function(response1) {
-                                            Router.goBack();
+                                            checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, false, lang['reject']);
+                                            // Router.goBack();
                                         },
                                         function(err1) {
                                             alert("error in change status to 2  ");
@@ -235,7 +237,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                 // alert(page.headerBar.title + " " + page.paymentID);
                                 const http = require("sf-core/net/http");
                                 var params = {
-                                    url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
                                     method: "GET"
                                 }
 
@@ -251,14 +253,13 @@ const pgDetails = extend(PageDetailsDesign)(
                                             "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
                                         }
 
-                                        parsedResponse.PaymentOrderStatus = 1;
+                                        parsedResponse.PaymentOrderStatus = 0;
                                         parsedResponse.Remark = page.notes.children.textBox.text;
 
-                                        // alert(parsedResponse.items[0].Remark);
-                                        // alert(JSON.stringify(parsedResponse.items[0]));
+
 
                                         var params1 = {
-                                            url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
                                             body: JSON.stringify(parsedResponse),
                                             method: "PUT",
                                             headers: myHeaders
@@ -267,7 +268,6 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                         http.request(params1,
                                             function(response1) {
-                                                // Router.goBack();
                                                 checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
                                             },
                                             function(err1) {
@@ -277,7 +277,7 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                     },
                                     function(err) {
-                                        alert("error in approve ");
+                                        alert("error in return PO ");
                                     });
 
 
@@ -391,7 +391,7 @@ const pgDetails = extend(PageDetailsDesign)(
             // alert(page.headerBar.title + " " + page.paymentID);
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
                 method: "GET"
             }
 

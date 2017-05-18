@@ -29,9 +29,17 @@ const PgList = extend(PgListDesign)(
             this.headerBar.title = lang['paymentOrders'];
             page.children.flLoading.visible = false;
 
+            
             var data = e && e.data;
+            
             if (data) {
-                updateListView(data);
+                var body = data.body.toString();
+                var parsedResponse = JSON.parse(body);
+                //This variable returns the number of the news from the JSON Data
+                //news : This is the name of the JSON object
+                var numOfNews = parsedResponse.items.length;
+                // 	var newsArray = [];
+                updateListView(parsedResponse.items);
             }
             else {
                 fetchData();
@@ -272,9 +280,13 @@ const PgList = extend(PgListDesign)(
             vLineSeparator.visible = getDataCount() !== (index + 1);
             flCheck.visible = multiSelect;
             flRowData.left = multiSelect ? 60 : 15;
+            
+            
             var rowData = dataSet[index];
-            lblTitle.text = dataSet[index].beneficaryName;
-            lblSubTitle.text = rowData.paymentOrderNumber;
+
+
+            lblTitle.text = dataSet[index].BeneficaryName;
+            lblSubTitle.text = rowData.PaymentOrderNumber;
             if (multiSelect) {
                 var selected = dataSet[index].selected = !!dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
@@ -297,8 +309,9 @@ const PgList = extend(PgListDesign)(
             else {
                 var data = dataSet[index];
                 Router.go("secondApproverDetails", {
-                    title: data.paymentOrderNumber,
-                    id: data.id
+                    title: data.PaymentOrderNumber,
+                    id: data.Id,
+                    data:data
                 });
             }
         };
@@ -334,22 +347,62 @@ const PgList = extend(PgListDesign)(
         }
 
         function fetchData(callback, doNotShowLoading) {
-            var username = "oweidi";
-            var password = "oweidi";
-
-            if (!doNotShowLoading) {
-                page.children.flLoading.visible = true;
+            var paymentOrderStatus = global.userData.paymentOrderStatus;
+            const http = require("sf-core/net/http");
+            
+            // alert("paymentOrderStatus" + paymentOrderStatus);
+            var params = {
+                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                method: "GET"
             }
-            nw.factory("payment-order")
-                .query("userName", username)
-                .query("password", password)
-                .result(function(err, data) {
-                    //TODO: handle error
-                    var response = (err && err.body) || (data && data.body) || {};
-                    updateListView(response);
+
+
+            http.request(params,
+                function(response) {
+                    var body = response.body;
+                    var parsedResponse = JSON.parse(body);
+                    // var parsedResponse = JSON.parse(body);
+                    //This variable returns the number of the news from the JSON Data
+                    //news : This is the name of the JSON object
+                    // var numOfNews = parsedResponse.items.length;
+                    // 	var newsArray = [];
+                    updateListView(parsedResponse.items);
+                    //  var response = (err && err.body) || (data && data.body) || {};
+                    // updateListView(response);
                     page.children.flLoading.visible = false;
                     callback && callback();
-                })[nw.action]();
+
+                    // // alert(parsedResponse.items[0].BeneficaryName);
+                    // global.userData = { //can use a model too
+                    //     username: uiComponents.emailTextBox.text,
+                    //     password: uiComponents.passwordTextBox.text,
+                    //     data: response
+                    // };
+                    // Router.go("reviewerList", {
+                    //     data: response
+                    // });
+
+                },
+                function(err) {
+                    alert("error in getting payment orders");
+                });
+
+            // var username = global.userData.username;
+            // var password = global.userData.password;
+
+            // if (!doNotShowLoading) {
+            //     page.children.flLoading.visible = true;
+            // }
+            // nw.factory("payment-order")
+            //     .query("userName", username)
+            //     .query("password", password)
+            //     .result(function(err, data) {
+            //         //TODO: handle error
+            //         var response = (err && err.body) || (data && data.body) || {};
+            //         updateListView(response);
+            //         page.children.flLoading.visible = false;
+            //         callback && callback();
+            //     })[nw.action]();
         }
     });
 

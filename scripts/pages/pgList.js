@@ -318,7 +318,7 @@ const PgList = extend(PgListDesign)(
                 Router.go("details", {
                     title: data.PaymentOrderNumber,
                     id: data.Id,
-                    data:data
+                    data: data
                 });
 
             }
@@ -355,11 +355,11 @@ const PgList = extend(PgListDesign)(
             return items;
         }
 
-       function fetchData(callback, doNotShowLoading) {
+        function fetchData(callback, doNotShowLoading) {
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.104:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 
