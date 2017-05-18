@@ -194,7 +194,7 @@ const PgLogin_ = extend(Page)(
 			visible: true,
 			text: "LOGIN"
 		});
-		loginButton.font = Font.create("Arial", 26, Font.NORMAL); 
+		loginButton.font = Font.create("Droid Sans Arabic", 26, Font.NORMAL); 
 		bottomLayout.addChild(loginButton);
 		this.loginButton = loginButton;
 		var imageview1 = new ImageView({
@@ -277,7 +277,7 @@ const PgLogin_ = extend(Page)(
 			borderRadius: 15,
 			visible: true,
 		});
-		emailTextBox.font = Font.create("Lato", 18, Font.NORMAL); 
+		emailTextBox.font = Font.create("Droid Sans Arabic", 18, Font.NORMAL); 
 		emailLayout.addChild(emailTextBox);
 		this.emailTextBox = emailTextBox;
 		var passwordTextBox = new TextBox({
@@ -292,7 +292,7 @@ const PgLogin_ = extend(Page)(
 			borderRadius: 15,
 			visible: true,
 		});
-		passwordTextBox.font = Font.create("Lato", 18, Font.NORMAL); 
+		passwordTextBox.font = Font.create("Droid Sans Arabic", 18, Font.NORMAL); 
 		passwordlayout_1.addChild(passwordTextBox);
 		this.passwordTextBox = passwordTextBox;
 		
