@@ -119,7 +119,7 @@ const PgLogin_ = extend(Page)(
 			height: 40,
 			positionType: FlexLayout.PositionType.ABSOLUTE,
 			right: 0,
-			backgroundColor: Color.create("#FFFFFF"),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
 			borderColor: Color.create(255, 0, 0, 0),
 			borderWidth: 0,
@@ -152,7 +152,7 @@ const PgLogin_ = extend(Page)(
 			positionType: FlexLayout.PositionType.ABSOLUTE,
 			bottom: 0,
 			right: 0,
-			backgroundColor: Color.create("#FFFFFF"),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
 			borderColor: Color.create(255, 0, 0, 0),
 			borderWidth: 0,
@@ -194,30 +194,9 @@ const PgLogin_ = extend(Page)(
 			visible: true,
 			text: "LOGIN"
 		});
-		loginButton.font = Font.create("Arial", 16, Font.NORMAL); 
+		loginButton.font = Font.create("Arial", 26, Font.NORMAL); 
 		bottomLayout.addChild(loginButton);
 		this.loginButton = loginButton;
-		var flexlayout7 = new FlexLayout({
-			left: 10,
-			top: 10,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.CENTER,
-			justifyContent: FlexLayout.JustifyContent.CENTER,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 0,
-			flexDirection: FlexLayout.FlexDirection.COLUMN,
-			positionType: FlexLayout.PositionType.ABSOLUTE,
-			right: 10,
-			bottom: 10,
-			backgroundColor: Color.create(51, 255, 255, 255),
-			alpha: 1,
-			borderColor: Color.create(255, 255, 255, 255),
-			borderWidth: 1,
-			borderRadius: 10,
-			visible: true
-		}); 
-		inputLayout.addChild(flexlayout7);
-		this.flexlayout7 = flexlayout7;
 		var imageview1 = new ImageView({
 			width: 200,
 			height: 123,
@@ -232,16 +211,36 @@ const PgLogin_ = extend(Page)(
 		}); 
 		imageLayout.addChild(imageview1);
 		this.imageview1 = imageview1;
+		var flexlayout7 = new FlexLayout({
+			left: 15,
+			top: 20,
+			alignContent: FlexLayout.AlignContent.STRETCH,
+			alignItems: FlexLayout.AlignItems.CENTER,
+			justifyContent: FlexLayout.JustifyContent.SPACE_BETWEEN,
+			flexWrap: FlexLayout.FlexWrap.NOWRAP,
+			flexGrow: 0,
+			flexDirection: FlexLayout.FlexDirection.COLUMN,
+			positionType: FlexLayout.PositionType.ABSOLUTE,
+			right: 15,
+			bottom: 20,
+			backgroundColor: Color.create(0, 255, 255, 255),
+			alpha: 1,
+			borderColor: Color.create(255, 255, 255, 255),
+			borderWidth: 0,
+			visible: true
+		}); 
+		inputLayout.addChild(flexlayout7);
+		this.flexlayout7 = flexlayout7;
 		var emailLayout = new FlexLayout({
+			height: 45,
 			alignContent: FlexLayout.AlignContent.STRETCH,
 			alignItems: FlexLayout.AlignItems.STRETCH,
 			justifyContent: FlexLayout.JustifyContent.FLEX_START,
 			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 1,
 			flexDirection: FlexLayout.FlexDirection.ROW,
 			positionType: FlexLayout.PositionType.RELATIVE,
 			alignSelf: FlexLayout.AlignSelf.STRETCH,
-			backgroundColor: Color.create(51, 255, 255, 255),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
 			borderColor: Color.create(25500, 0, 0, 0),
 			borderWidth: 0,
@@ -249,34 +248,16 @@ const PgLogin_ = extend(Page)(
 		}); 
 		flexlayout7.addChild(emailLayout);
 		this.emailLayout = emailLayout;
-		var divider = new FlexLayout({
-			height: 1,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.STRETCH,
-			justifyContent: FlexLayout.JustifyContent.FLEX_START,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 0,
-			flexDirection: FlexLayout.FlexDirection.ROW,
-			positionType: FlexLayout.PositionType.RELATIVE,
-			alignSelf: FlexLayout.AlignSelf.STRETCH,
-			backgroundColor: Color.create(32, 0, 0, 0),
-			alpha: 1,
-			borderColor: Color.create(25500, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
-		flexlayout7.addChild(divider);
-		this.divider = divider;
 		var passwordlayout_1 = new FlexLayout({
+			height: 45,
 			alignContent: FlexLayout.AlignContent.STRETCH,
 			alignItems: FlexLayout.AlignItems.STRETCH,
 			justifyContent: FlexLayout.JustifyContent.FLEX_START,
 			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 1,
 			flexDirection: FlexLayout.FlexDirection.ROW,
 			positionType: FlexLayout.PositionType.RELATIVE,
 			alignSelf: FlexLayout.AlignSelf.STRETCH,
-			backgroundColor: Color.create(51, 255, 255, 255),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
 			borderColor: Color.create(25500, 0, 0, 0),
 			borderWidth: 0,
@@ -284,50 +265,34 @@ const PgLogin_ = extend(Page)(
 		}); 
 		flexlayout7.addChild(passwordlayout_1);
 		this.passwordlayout_1 = passwordlayout_1;
-		var divider2 = new FlexLayout({
-			height: 1,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.STRETCH,
-			justifyContent: FlexLayout.JustifyContent.FLEX_START,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 0,
-			flexDirection: FlexLayout.FlexDirection.ROW,
-			positionType: FlexLayout.PositionType.RELATIVE,
-			alignSelf: FlexLayout.AlignSelf.STRETCH,
-			backgroundColor: Color.create(32, 0, 0, 0),
-			alpha: 1,
-			borderColor: Color.create(25500, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
-		flexlayout7.addChild(divider2);
-		this.divider2 = divider2;
 		var emailTextBox = new TextBox({
 			positionType: FlexLayout.PositionType.RELATIVE,
 			flexGrow: 1,
-			backgroundColor: Color.create(51, 255, 255, 255),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
-			borderColor: Color.create(25500, 0, 0, 0),
-			borderWidth: 0,
-			textColor: Color.create(25500, 0, 0, 0),
+			borderColor: Color.create(255, 255, 255, 255),
+			borderWidth: 2,
+			textColor: Color.create(255, 255, 255, 255),
 			textAlignment: TextAlignment.MIDCENTER,
+			borderRadius: 15,
 			visible: true,
 		});
-		emailTextBox.font = Font.create("Lato", 14, Font.NORMAL); 
+		emailTextBox.font = Font.create("Lato", 18, Font.NORMAL); 
 		emailLayout.addChild(emailTextBox);
 		this.emailTextBox = emailTextBox;
 		var passwordTextBox = new TextBox({
 			positionType: FlexLayout.PositionType.RELATIVE,
 			flexGrow: 1,
-			backgroundColor: Color.create(51, 255, 255, 255),
+			backgroundColor: Color.create(0, 255, 255, 255),
 			alpha: 1,
-			borderColor: Color.create(25500, 0, 0, 0),
-			borderWidth: 0,
-			textColor: Color.create(25500, 0, 0, 0),
+			borderColor: Color.create(255, 255, 255, 255),
+			borderWidth: 2,
+			textColor: Color.create(255, 255, 255, 255),
 			textAlignment: TextAlignment.MIDCENTER,
+			borderRadius: 15,
 			visible: true,
 		});
-		passwordTextBox.font = Font.create("Lato", 14, Font.NORMAL); 
+		passwordTextBox.font = Font.create("Lato", 18, Font.NORMAL); 
 		passwordlayout_1.addChild(passwordTextBox);
 		this.passwordTextBox = passwordTextBox;
 		
@@ -374,9 +339,7 @@ const PgLogin_ = extend(Page)(
 		//assign the children of flexlayout7
 		flexlayout7.children =  Object.assign({}, {
 			emailLayout: emailLayout,
-			divider: divider,
-			passwordlayout_1: passwordlayout_1,
-			divider2: divider2
+			passwordlayout_1: passwordlayout_1
 		});
 		
 		//assign the children of emailLayout

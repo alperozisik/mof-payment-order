@@ -395,7 +395,7 @@ const pgDetails = extend(PageDetailsDesign)(
         };
 
         this.onShow = function(e) {
-            page.children.flLoading.visible = true; //actually should show?
+            page.children.flLoading.visible = false; //actually should show?
             e = e || {};
             var title = e.title;
             page.headerBar.title = title;

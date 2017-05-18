@@ -23,6 +23,7 @@ const PageLogin = extend(PageLoginDesign)(
         var self = this;
         _super(self);
         var temp = this.onLoad;
+
         var uiComponents = this;
         // this.rootLayout.backgroundColor=Color.create("#5500A1F1"); 
 
@@ -30,6 +31,8 @@ const PageLogin = extend(PageLoginDesign)(
         // uiComponents.bottomLayout.children.Direction=FlexLayout.Direction.RTL;
         this.onLoad = function() {
             temp();
+            setBackgroundSprite.call(this, uiComponents.spriteLayout);
+            setLoginButton.call(this, uiComponents);
 
             this.imageview1.imageFillType = ImageView.FillType.ASPECTFIT;
             this.imgBg.imageFillType = ImageView.FillType.STRETCH;
@@ -60,11 +63,12 @@ const PageLogin = extend(PageLoginDesign)(
 
             uiComponents.loginButton.backgroundColor = Color.createGradient({
                 direction: GradientDirection.HORIZONTAL,
-                startColor:  Color.create(178, 140, 70),
-                endColor:Color.create(227, 213, 188)
+                startColor: Color.create(178, 140, 70),
+                endColor: Color.create(227, 213, 188)
             });
 
-
+            uiComponents.emailTextBox.android.hintTextColor = Color.create("#EEEEEE");
+            uiComponents.passwordTextBox.android.hintTextColor = Color.create("#EEEEEE");
             this.layout.applyLayout();
         };
 
@@ -72,8 +76,7 @@ const PageLogin = extend(PageLoginDesign)(
             Application.exit();
         };
 
-        setBackgroundSprite.call(this, uiComponents.spriteLayout);
-        setLoginButton.call(this, uiComponents);
+
 
         this.onShow = function() {
             uiComponents.emailTextBox.hint = lang['userName'];
@@ -262,6 +265,7 @@ function loading(page, uiComponents) {
                                     var body = response.body;
                                     var parsedResponse = JSON.parse(body);
 
+                                    stopRotate();
                                     // alert(parsedResponse.items[0].BeneficaryName);
                                     global.userData = { //can use a model too
                                         username: uiComponents.emailTextBox.text,

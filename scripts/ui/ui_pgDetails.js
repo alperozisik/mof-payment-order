@@ -6,8 +6,8 @@
 
 const extend = require('js-base/core/extend');
 const Page = require('sf-core/ui/page');
-const FlexLayout = require('sf-core/ui/flexlayout');
 const Color = require('sf-core/ui/color');
+const FlexLayout = require('sf-core/ui/flexlayout');
 
 
 
@@ -19,24 +19,6 @@ const PgDetails_ = extend(Page)(
 			onLoad: onLoad.bind(this)
 		});
 
-		var flIndicatorContainer = new FlexLayout({
-			width: 200,
-			height: 200,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.CENTER,
-			justifyContent: FlexLayout.JustifyContent.CENTER,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexDirection: FlexLayout.FlexDirection.COLUMN,
-			positionType: FlexLayout.PositionType.ABSOLUTE,
-			alignSelf: FlexLayout.AlignSelf.CENTER,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
-		flLoading.addChild(flIndicatorContainer);
-		
 
 });
 
