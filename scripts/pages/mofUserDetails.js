@@ -128,7 +128,7 @@ const pgDetails = extend(PageDetailsDesign)(
                         }
 
                         var params1 = {
-                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                            url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                             body: JSON.stringify(body),
                             method: "PUT",
                             headers: myHeaders
@@ -184,7 +184,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                 // alert(page.headerBar.title + " " + page.paymentID);
                                 const http = require("sf-core/net/http");
                                 var params = {
-                                    url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                     method: "GET"
                                 }
 
@@ -206,7 +206,7 @@ const pgDetails = extend(PageDetailsDesign)(
 
 
                                         var params1 = {
-                                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                             body: JSON.stringify(parsedResponse),
                                             method: "PUT",
                                             headers: myHeaders
@@ -341,7 +341,7 @@ const pgDetails = extend(PageDetailsDesign)(
             // alert(page.headerBar.title + " " + page.paymentID);
             // const http = require("sf-core/net/http");
             // var params = {
-            //     url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+            //     url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
             //     method: "GET"
             // }
 

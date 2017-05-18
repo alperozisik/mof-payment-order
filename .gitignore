@@ -11,3 +11,5 @@ plugin/iOS/*
 !plugin/Android/README.md
 !plugin/iOS/README.md
 sample-sparrow
+.npm
+.tmp

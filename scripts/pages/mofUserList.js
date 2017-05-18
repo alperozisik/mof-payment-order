@@ -353,7 +353,7 @@ const PgList = extend(PgListDesign)(
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
+                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 

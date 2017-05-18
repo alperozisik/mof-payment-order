@@ -190,7 +190,7 @@ function loading(page, uiComponents) {
 
             var params = {
 
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/UsersVO?q=Username=" + uiComponents.emailTextBox.text + ";Password=" + uiComponents.passwordTextBox.text,
+                url: global.baseUrl + "/UsersVO?q=Username=" + uiComponents.emailTextBox.text + ";Password=" + uiComponents.passwordTextBox.text,
                 method: "GET"
             }
 
@@ -228,7 +228,7 @@ function loading(page, uiComponents) {
                         if(paymentOrderStatus!=0){
                             
                             var params = {
-                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
                                 method: "GET"
                             }
 

@@ -119,7 +119,7 @@ const pgDetails = extend(PageDetailsDesign)(
                     }
 
                     var params1 = {
-                        url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                        url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                         body: JSON.stringify(body),
                         method: "PUT",
                         headers: myHeaders
@@ -172,9 +172,9 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                 const http = require("sf-core/net/http");
                                 var params = {
-                                    url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                     method: "GET"
-                                }
+                                };
 
 
                                 http.request(params,
@@ -192,7 +192,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                         parsedResponse.Remark = page.notes.children.textBox.text;
 
                                         var params1 = {
-                                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                             body: JSON.stringify(parsedResponse),
                                             method: "PUT",
                                             headers: myHeaders
@@ -311,78 +311,24 @@ const pgDetails = extend(PageDetailsDesign)(
         };
 
         this.onShow = function(e) {
-            page.children.flLoading.visible = true; //actually should show?
+            console.log("showing pgDetails");
+            page.children.flLoading.visible = false; //actually should show?
             e = e || {};
             var title = e.title;
             page.headerBar.title = title;
             page.paymentID = e.id;
             page.data = e.data;
 
-
-
-            // alert(page.headerBar.title + " " + page.paymentID);
-            // const http = require("sf-core/net/http");
-            // var params = {
-            //     url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
-            //     method: "GET"
-            // }
-
-            // http.request(params,
-            //     function(response) {
-            //         var body = response.body;
-            //         var parsedResponse = JSON.parse(body);
-
-            //         // alert
-
-            //         page.children.flLoading.visible = false;
-                    var scrollRootFlex = page.scrollRootFlex;
-                    scrollRootFlex.fieldObjects.date.text = page.data.PaymentOrderDateH;
-                    scrollRootFlex.fieldObjects.financialYear.text = page.data.PaymentOrderYear;
-                    scrollRootFlex.fieldObjects.exchangeMethod.text = page.data.PaymentMethod;
-                    scrollRootFlex.fieldObjects.beneficaryNumber.text = page.data.BeneficaryCode;
-                    scrollRootFlex.fieldObjects.beneficaryName.text = page.data.BeneficaryNameAr;
-                    scrollRootFlex.fieldObjects.beneficarAlternative.text = page.data.BeneficaryName; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.bankAccountNumber.text = page.data.Iban; // TOOD: set this correct
-                    scrollRootFlex.fieldObjects.currency.text = page.data.CurrencyName; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.amount.text = page.data.AmountInWord + "(" + page.data.Amount + ")";
-
-                    //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-                    //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-                    // // alert(parsedResponse.items[0].BeneficaryName);
-                    // global.userData = { //can use a model too
-                    //     username: uiComponents.emailTextBox.text,
-                    //     password: uiComponents.passwordTextBox.text,
-                    //     data: response
-                    // };
-                    // Router.go("reviewerList", {
-                    //     data: response
-                    // });
-
-                // },
-                // function(err) {
-                //     alert("error in getting details orders");
-                // });
-
-            // nw.factory("payment-order-detail")
-            //     .query("userName", global.userData.username)
-            //     .query("password", global.userData.password)
-            //     .query("pold", e.id)
-            //     .result(function(err, data) {
-            //         page.children.flLoading.visible = false;
-            //         var scrollRootFlex = page.scrollRootFlex;
-            //         //TODO: handle error
-            //         var response = (err && err.body) || (data && data.body) || {};
-            //         scrollRootFlex.fieldObjects.date.text = response.paymentOrderDateG + " " + response.paymentOrderDateH;
-            //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-            //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-            //         scrollRootFlex.fieldObjects.beneficaryNumber.text = response.beneficiaryBean.code;
-            //         scrollRootFlex.fieldObjects.beneficaryName.text = response.beneficaryName;
-            //         scrollRootFlex.fieldObjects.beneficarAlternative.text = response.beneficiaryBean.nameEn; //TODO: set this correctly by language
-            //         scrollRootFlex.fieldObjects.bankAccountNumber.text = response.bankBean.id; // TOOD: set this correct
-            //         scrollRootFlex.fieldObjects.currency.text = response.currencyBean.nameEn; //TODO: set this correctly by language
-            //         scrollRootFlex.fieldObjects.amount.text = response.amountInWord + "(" + response.amount + ")";
-
-            //     })[nw.action]();
+            var scrollRootFlex = page.scrollRootFlex;
+            scrollRootFlex.fieldObjects.date.text = page.data.PaymentOrderDateH;
+            scrollRootFlex.fieldObjects.financialYear.text = page.data.PaymentOrderYear;
+            scrollRootFlex.fieldObjects.exchangeMethod.text = page.data.PaymentMethod;
+            scrollRootFlex.fieldObjects.beneficaryNumber.text = page.data.BeneficaryCode;
+            scrollRootFlex.fieldObjects.beneficaryName.text = page.data.BeneficaryNameAr;
+            scrollRootFlex.fieldObjects.beneficarAlternative.text = page.data.BeneficaryName; //TODO: set this correctly by language
+            scrollRootFlex.fieldObjects.bankAccountNumber.text = page.data.Iban; // TOOD: set this correct
+            scrollRootFlex.fieldObjects.currency.text = page.data.CurrencyName; //TODO: set this correctly by language
+            scrollRootFlex.fieldObjects.amount.text = page.data.AmountInWord + "(" + page.data.Amount + ")";
 
         };
 
