@@ -10,6 +10,7 @@ const FlexLayout = require('sf-core/ui/flexlayout');
 const Color = require('sf-core/ui/color');
 const ImageView = require('sf-core/ui/imageview');
 const Image = require('sf-core/ui/image');
+const ImageFillType = require('sf-core/ui/imagefilltype');
 const Button = require('sf-core/ui/button');
 const TextAlignment = require('sf-core/ui/textalignment');
 const Font = require('sf-core/ui/font');
@@ -112,6 +113,22 @@ const PgLogin_ = extend(Page)(
 		}); 
 		spriteLayout.addChild(imgBg);
 		this.imgBg = imgBg;
+		var topImg = new ImageView({
+			left: 0,
+			top: 0,
+			height: 40,
+			positionType: FlexLayout.PositionType.ABSOLUTE,
+			right: 0,
+			backgroundColor: Color.create("#FFFFFF"),
+			alpha: 1,
+			borderColor: Color.create(255, 0, 0, 0),
+			borderWidth: 0,
+			visible: true,
+			image: Image.createFromFile("images://top.png"),
+			imageFillType: ImageFillType.STRETCH
+		}); 
+		spriteLayout.addChild(topImg);
+		
 		var inputLayout = new FlexLayout({
 			height: 150,
 			alignContent: FlexLayout.AlignContent.STRETCH,
@@ -129,6 +146,22 @@ const PgLogin_ = extend(Page)(
 		}); 
 		mainLayout.addChild(inputLayout);
 		this.inputLayout = inputLayout;
+		var bottomImg = new ImageView({
+			left: 0,
+			height: 40,
+			positionType: FlexLayout.PositionType.ABSOLUTE,
+			bottom: 0,
+			right: 0,
+			backgroundColor: Color.create("#FFFFFF"),
+			alpha: 1,
+			borderColor: Color.create(255, 0, 0, 0),
+			borderWidth: 0,
+			visible: true,
+			image: Image.createFromFile("images://bottom.png"),
+			imageFillType: ImageFillType.STRETCH
+		}); 
+		spriteLayout.addChild(bottomImg);
+		
 		var bottomLayout = new FlexLayout({
 			alignContent: FlexLayout.AlignContent.STRETCH,
 			alignItems: FlexLayout.AlignItems.CENTER,
@@ -151,7 +184,7 @@ const PgLogin_ = extend(Page)(
 			height: 50,
 			positionType: FlexLayout.PositionType.RELATIVE,
 			marginTop: 40,
-			backgroundColor: Color.create(255, 219, 182, 81),
+			backgroundColor: Color.create(255, 219, 81, 96),
 			alpha: 1,
 			borderColor: Color.create(136, 255, 255, 255),
 			borderWidth: 1,
@@ -194,7 +227,8 @@ const PgLogin_ = extend(Page)(
 			borderColor: Color.create(25500, 0, 0, 0),
 			borderWidth: 0,
 			visible: true,
-			image: Image.createFromFile("images://logo_mof.png")
+			image: Image.createFromFile("images://moflogo.png"),
+			imageFillType: ImageFillType.ASPECTFIT
 		}); 
 		imageLayout.addChild(imageview1);
 		this.imageview1 = imageview1;
@@ -310,7 +344,9 @@ const PgLogin_ = extend(Page)(
 		
 		//assign the children of spriteLayout
 		spriteLayout.children =  Object.assign({}, {
-			imgBg: imgBg
+			imgBg: imgBg,
+			topImg: topImg,
+			bottomImg: bottomImg
 		});
 		
 		//assign the children of mainLayout

@@ -11,6 +11,7 @@ const ImageView = require('sf-core/ui/imageview');
 const PageConstants = {}; //require('pages/PageConstants');
 const AlertView = require('sf-core/ui/alertview');
 const Application = require("sf-core/application");
+const GradientDirection = Color.GradientDirection;
 
 // Get generetad UI code
 var PageLoginDesign = require("../ui/ui_pgLogin");
@@ -50,6 +51,20 @@ const PageLogin = extend(PageLoginDesign)(
             uiComponents.loginButton.alpha = 0;
             uiComponents.inputLayout.height = 0;
             uiComponents.inputLayout.alpha = 0;
+
+
+            // uiComponents.loginButton.backgroundImage = {
+            //     normal: Image.createFromFile("images://loginbtn1.png"),
+            //     pressed: Image.createFromFile("images://loginbtn2.png")
+            // };
+
+            uiComponents.loginButton.backgroundColor = Color.createGradient({
+                direction: GradientDirection.HORIZONTAL,
+                startColor:  Color.create(178, 140, 70),
+                endColor:Color.create(227, 213, 188)
+            });
+
+
             this.layout.applyLayout();
         };
 
@@ -71,7 +86,7 @@ const PageLogin = extend(PageLoginDesign)(
             uiComponents.emailTextBox.text = ""; // TODO: remove after AND-2785
             uiComponents.passwordTextBox.text = ""; // TODO: remove after AND-2785
 
-            this.birdSprite.play(3000);
+            // this.birdSprite.play(3000);
             restartPage(this, uiComponents);
             this.headerBar.visible = false;
             this.statusBar.visible = false;
@@ -79,17 +94,24 @@ const PageLogin = extend(PageLoginDesign)(
     });
 
 function setBackgroundSprite(spriteLayout) {
-    this.birdSprite = new SpriteView({
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        positionType: FlexLayout.PositionType.ABSOLUTE,
-        imageFillType: ImageView.FillType.STRETCH,
+    // this.birdSprite = new SpriteView({
+    //     top: 0,
+    //     bottom: 0,
+    //     left: 0,
+    //     right: 0,
+    //     positionType: FlexLayout.PositionType.ABSOLUTE,
+    //     imageFillType: ImageView.FillType.STRETCH,
 
-        backgroundColor: Color.create("#167e43")
+    //     backgroundColor: Color.create("#167e43")
+    // });
+    // spriteLayout.addChild(this.birdSprite);
+
+    spriteLayout.children.imgBg.visible = false;
+    spriteLayout.backgroundColor = Color.createGradient({
+        direction: GradientDirection.HORIZONTAL,
+        startColor: Color.create(227, 213, 188),
+        endColor: Color.create(178, 140, 70)
     });
-    spriteLayout.addChild(this.birdSprite);
 
     // this.birdSprite.setSprite({
     //     sheet: Image.createFromFile("images://smartfac.png"),
@@ -153,7 +175,9 @@ function loading(page, uiComponents) {
     var imageView = uiComponents.bottomLayout.findChildById(100);
 
     uiComponents.loginButton.text = "";
-    uiComponents.loginButton.backgroundColor = Color.create("#dbb651");
+    // uiComponents.loginButton.backgroundColor = Color.create("#dbb651");
+
+
     var layout;
     if (Device.deviceOS == 'Android') {
         layout = uiComponents.bottomLayout;
@@ -209,26 +233,26 @@ function loading(page, uiComponents) {
                         var navigateTo = null;
                         if (priv == "rev") {
                             paymentOrderStatus = 1;
-                            navigateTo="reviewerList";
-                            
+                            navigateTo = "reviewerList";
+
                         }
                         else if (priv == "approver1") {
                             paymentOrderStatus = 2;
-                            navigateTo="list";
+                            navigateTo = "list";
                         }
                         else if (priv == "approver2") {
                             paymentOrderStatus = 3;
-                            navigateTo="secondApproverList";
+                            navigateTo = "secondApproverList";
                         }
                         else if (priv == "mof") {
                             paymentOrderStatus = 4;
-                            navigateTo="mofUserList";
+                            navigateTo = "mofUserList";
                         }
-                        
-                        if(paymentOrderStatus!=0){
-                            
+
+                        if (paymentOrderStatus != 0) {
+
                             var params = {
-                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                                 method: "GET"
                             }
 
@@ -254,7 +278,7 @@ function loading(page, uiComponents) {
                                     alert("error in getting payment orders");
                                 });
 
-                            
+
                         }
 
 
