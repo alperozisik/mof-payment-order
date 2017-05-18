@@ -15,6 +15,7 @@ const nw = require("smf-nw");
 const Font = require('sf-core/ui/font');
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#dbb651");
 var PgListDesign = require("../ui/ui_pgList");
+const Timer = require("sf-core/timer");
 
 const PgList = extend(PgListDesign)(
     function(_super) {
@@ -30,20 +31,25 @@ const PgList = extend(PgListDesign)(
             page.children.flLoading.visible = false;
 
             var data = e && e.data;
+            Timer.setTimeout({
+                delay: 300,
+                task: function() {
+                    if (data) {
+                        var body = data.body.toString();
+                        var parsedResponse = JSON.parse(body);
+                        //This variable returns the number of the news from the JSON Data
+                        //news : This is the name of the JSON object
+                        var numOfNews = parsedResponse.items.length;
+                        // 	var newsArray = [];
+                        updateListView(parsedResponse.items);
+                    }
+                    else {
+                        fetchData();
+                    }
+                    toggleListView(false);
+                }.bind(this)
+            });
 
-            if (data) {
-                var body = data.body.toString();
-                var parsedResponse = JSON.parse(body);
-                //This variable returns the number of the news from the JSON Data
-                //news : This is the name of the JSON object
-                var numOfNews = parsedResponse.items.length;
-                // 	var newsArray = [];
-                updateListView(parsedResponse.items);
-            }
-            else {
-                fetchData();
-            }
-            toggleListView(false);
         };
 
         function toggleListView(multiselectValue) {
@@ -314,18 +320,12 @@ const PgList = extend(PgListDesign)(
             }
             else {
                 var data = dataSet[index];
-                // alert(data.PaymentOrderNumber +"  "+ data.Id);
-                // alert();
                 Router.go("reviewrDetails", {
                     title: data.PaymentOrderNumber,
                     id: data.Id,
-                    data:data
+                    data: data
                 });
 
-                //  Router.go("secondApproverDetails", {
-                //     title: "1",
-                //     id: "1"
-                // });
             }
         };
 
@@ -334,7 +334,6 @@ const PgList = extend(PgListDesign)(
         };
 
         function getDataCount() {
-            // alert("getDataCount = "+ (dataSet && dataSet.length) || 0);
             return (dataSet && dataSet.length) || 0;
         }
 
@@ -364,7 +363,7 @@ const PgList = extend(PgListDesign)(
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 
@@ -396,7 +395,7 @@ const PgList = extend(PgListDesign)(
 
                 },
                 function(err) {
-                    alert("error in getting payment orders");
+                    alert(lang['errorPleaseContactTechSupport']);
                 });
 
             // var username = global.userData.username;

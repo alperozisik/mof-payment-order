@@ -21,7 +21,7 @@ SMF.i18n.defineLanguage('ar', {
 	"passwordNotEmptyMsg": "الرجاء ادخال كلمة المرور",
 	"missingFields": "الحقول المفقودة",
 	"approve": "اعتماد",
-	"edit": "تعديل",
+	"edit":  "تحديد العديد",
 	"paymentOrders": "أوامر الدفع",
 	"reject": "رفض",
 	"pageTitle": "عنوان الصفحة",
@@ -41,5 +41,8 @@ SMF.i18n.defineLanguage('ar', {
 	"areYouSureYouWantToReturnThisPO" : "هل أنت متأكد انك تريد ارجاع امر الدفع؟",
 	"returnPO" : "إرجاع امر الدفع",
 	"saveSuccessfully": "تم الحفظ بنجاح",
-	"prioritization": "النفقة"
+	"prioritization": "النفقة",
+	"pleaseCheckTheAmountAndBeneficiaryNumberMsg" : "يرجى التاكد من المبلغ و رقم المستفيد",
+	"errorPleaseContactTechSupport": "لقد حصل خطأ, الرجاء الاتصال بالدعم الفني",
+	"selectMultiplePO" : "تحديد العديد"
 });

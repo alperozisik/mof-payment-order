@@ -20,7 +20,7 @@ const ActivityIndicator = require('sf-core/ui/activityindicator');
 const StatusBarStyle = require('sf-core/ui/statusbarstyle');
 const System = require("sf-core/device/system");
 const nw = require("smf-nw");
-
+const Timer = require("sf-core/timer");
 
 const Router = require("sf-core/ui/router");
 // Get generetad UI code
@@ -72,17 +72,18 @@ const pgDetails = extend(PageDetailsDesign)(
 
             }
 
+
+            const KeyboardType = require("sf-core/ui/keyboardtype");
+
             var beneficaryNumberFlex = createTextBoxFlex(60, lang['beneficaryNumber'], null, 15);
+            beneficaryNumberFlex.children.textBox.keyboardType = KeyboardType.NUMBER;
             scrollRootFlex.addChild(beneficaryNumberFlex);
             scrollRootFlex.fieldObjects.notes = beneficaryNumberFlex;
             page.beneficaryNumber = beneficaryNumberFlex;
 
 
             var amountFlex = createTextBoxFlex(60, lang['amount'], null, 15);
-            const KeyboardType = require("sf-core/ui/keyboardtype");
-            // var myKeyboardType = KeyboardType.DEFAULT;
-
-            // amountFlex.children.textBox.keyboardType = KeyboardType.NUMBER;
+            amountFlex.children.textBox.keyboardType = KeyboardType.NUMBER;
             scrollRootFlex.addChild(amountFlex);
             scrollRootFlex.fieldObjects.notes = amountFlex;
             page.amount = amountFlex;
@@ -118,9 +119,9 @@ const pgDetails = extend(PageDetailsDesign)(
             var btnApprove = new Button(Object.assign({}, buttonBase, {
                 text: lang['approve'],
                 backgroundColor: {
-                    normal: Color.create("#C58E1B"),
-                    pressed: Color.create("#004B10"),
-                    disabled: Color.create("#001800")
+                    normal: Color.create("#167e43"),
+                    pressed: Color.create("#167e43"),
+                    disabled: Color.create("#167e43")
                 },
                 onPress: function onButtonPress(e) {
                     page.notes.children.warning.visible = false;
@@ -180,20 +181,25 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                     http.request(params1,
                                         function(response1) {
-                                            checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, false, lang['reject']);
-                                            // Router.goBack();
+                                            // checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, false, lang['reject']);
+                                            Timer.setTimeout({
+                                                delay: 300,
+                                                task: function() {
+                                                    Router.goBack();
+                                                }.bind(this)
+                                            });
                                         },
                                         function(err1) {
-                                            alert("error in change status to 2  ");
+                                            alert(lang['errorPleaseContactTechSupport']);
                                         });
                                 }
                                 else {
-                                    alert("you cant approve , wrong information");
+                                    alert(lang['pleaseCheckTheAmountAndBeneficiaryNumberMsg']);
                                 }
 
                             },
                             function(err) {
-                                alert("error in approve ");
+                                alert(lang['errorPleaseContactTechSupport']);
                             });
 
 
@@ -209,7 +215,7 @@ const pgDetails = extend(PageDetailsDesign)(
             var btnReject = new Button(Object.assign({}, buttonBase, {
                 text: lang['return'],
                 backgroundColor: {
-                    normal: Color.RED,
+                    normal: Color.create("#C58E1B"),
                     pressed: Color.create("#925B00"),
                     disabled: Color.create("#460F00")
                 },
@@ -268,16 +274,24 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                         http.request(params1,
                                             function(response1) {
-                                                checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
+
+                                                Timer.setTimeout({
+                                                    delay: 300,
+                                                    task: function() {
+                                                        Router.goBack();
+                                                    }.bind(this)
+                                                });
+
+                                                // checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
                                             },
                                             function(err1) {
-                                                alert("error in change status to 2  ");
+                                                alert(lang['errorPleaseContactTechSupport']);
                                             });
 
 
                                     },
                                     function(err) {
-                                        alert("error in return PO ");
+                                        alert(lang['errorPleaseContactTechSupport']);
                                     });
 
 
@@ -386,6 +400,13 @@ const pgDetails = extend(PageDetailsDesign)(
             var title = e.title;
             page.headerBar.title = title;
             page.paymentID = e.id;
+            page.data = e.data;
+            // Timer.setTimeout({
+            //     delay: 300,
+            //     task: function() {
+
+            //     }.bind(this)
+            // });
 
 
             // alert(page.headerBar.title + " " + page.paymentID);
@@ -396,39 +417,39 @@ const pgDetails = extend(PageDetailsDesign)(
             }
 
 
-            http.request(params,
-                function(response) {
-                    var body = response.body;
-                    var parsedResponse = JSON.parse(body);
+            // http.request(params,
+            //     function(response) {
+            //         var body = response.body;
+            //         var parsedResponse = JSON.parse(body);
 
-                    page.children.flLoading.visible = false;
-                    var scrollRootFlex = page.scrollRootFlex;
-                    scrollRootFlex.fieldObjects.date.text = parsedResponse.PaymentOrderDateH;
-                    scrollRootFlex.fieldObjects.financialYear.text = parsedResponse.PaymentOrderYear;
-                    scrollRootFlex.fieldObjects.exchangeMethod.text = parsedResponse.PaymentMethod;
-                    //   scrollRootFlex.fieldObjects.beneficaryNumber.text = parsedResponse.BeneficaryCode;
-                    scrollRootFlex.fieldObjects.beneficaryName.text = parsedResponse.BeneficaryNameAr;
-                    scrollRootFlex.fieldObjects.beneficarAlternative.text = parsedResponse.BeneficaryName; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.bankAccountNumber.text = parsedResponse.Iban; // TOOD: set this correct
-                    scrollRootFlex.fieldObjects.currency.text = parsedResponse.CurrencyName; //TODO: set this correctly by language
-                    //   scrollRootFlex.fieldObjects.amount.text = parsedResponse.AmountInWord + "(" + parsedResponse.Amount + ")";
+            page.children.flLoading.visible = false;
+            var scrollRootFlex = page.scrollRootFlex;
+            scrollRootFlex.fieldObjects.date.text = page.data.PaymentOrderDateH;
+            scrollRootFlex.fieldObjects.financialYear.text = page.data.PaymentOrderYear;
+            scrollRootFlex.fieldObjects.exchangeMethod.text = page.data.PaymentMethod;
+            //   scrollRootFlex.fieldObjects.beneficaryNumber.text = parsedResponse.BeneficaryCode;
+            scrollRootFlex.fieldObjects.beneficaryName.text = page.data.BeneficaryNameAr;
+            scrollRootFlex.fieldObjects.beneficarAlternative.text = page.data.BeneficaryName; //TODO: set this correctly by language
+            scrollRootFlex.fieldObjects.bankAccountNumber.text = page.data.Iban; // TOOD: set this correct
+            scrollRootFlex.fieldObjects.currency.text = page.data.CurrencyName; //TODO: set this correctly by language
+            //   scrollRootFlex.fieldObjects.amount.text = parsedResponse.AmountInWord + "(" + parsedResponse.Amount + ")";
 
-                    //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-                    //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-                    // // alert(parsedResponse.items[0].BeneficaryName);
-                    // global.userData = { //can use a model too
-                    //     username: uiComponents.emailTextBox.text,
-                    //     password: uiComponents.passwordTextBox.text,
-                    //     data: response
-                    // };
-                    // Router.go("reviewerList", {
-                    //     data: response
-                    // });
+            //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
+            //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
+            // // alert(parsedResponse.items[0].BeneficaryName);
+            // global.userData = { //can use a model too
+            //     username: uiComponents.emailTextBox.text,
+            //     password: uiComponents.passwordTextBox.text,
+            //     data: response
+            // };
+            // Router.go("reviewerList", {
+            //     data: response
+            // });
 
-                },
-                function(err) {
-                    alert("error in getting details orders");
-                });
+            // },
+            // function(err) {
+            //     alert(lang['errorPleaseContactTechSupport']);
+            // });
 
 
             // nw.factory("payment-order-detail")
@@ -600,42 +621,43 @@ const pgDetails = extend(PageDetailsDesign)(
             if (!checksPass)
                 return;
 
+            Router.goBack();
 
-            var buttonText = button.text;
-            var otherButtonBg = otherButton.backgroundColor;
-            otherButton.text = "";
-            otherButton.enabled = button.enabled = false;
-            if (System.OS === "iOS") {
-                Animator.animate(page.layout, 300, function() {
-                    button.flexGrow = 1000;
-                }).complete(function() {
-                    button.text = "";
-                    indicator.alpha = 1;
-                    startNw();
-                });
-            }
-            else {
-                otherButton.backgroundColor = button.backgroundColor;
-                button.text = "";
-                indicator.alpha = 1;
-                startNw();
-            }
+            // var buttonText = button.text;
+            // var otherButtonBg = otherButton.backgroundColor;
+            // otherButton.text = "";
+            // otherButton.enabled = button.enabled = false;
+            // if (System.OS === "iOS") {
+            //     Animator.animate(page.layout, 300, function() {
+            //         button.flexGrow = 1000;
+            //     }).complete(function() {
+            //         button.text = "";
+            //         indicator.alpha = 1;
+            //         startNw();
+            //     });
+            // }
+            // else {
+            //     otherButton.backgroundColor = button.backgroundColor;
+            //     button.text = "";
+            //     indicator.alpha = 1;
+            //     startNw();
+            // }
 
-            function startNw() {
-                // nw.factory("approve")
-                //     .query("userName", global.userData.username)
-                //     .query("password", global.userData.password)
-                //     .query("pold", page.paymentID)
-                //     .query("actionType", "Approve")
-                //     .result(function(err, data) {
-                //TODO handle error
-                indicator.alpha = 0;
-                button.text = lang['saveSuccessfully'];
-                setTimeout(function() {
-                    Router.goBack();
-                }, 500);
-                // })[nw.action]();
-            }
+            // function startNw() {
+            //     // nw.factory("approve")
+            //     //     .query("userName", global.userData.username)
+            //     //     .query("password", global.userData.password)
+            //     //     .query("pold", page.paymentID)
+            //     //     .query("actionType", "Approve")
+            //     //     .result(function(err, data) {
+            //     //TODO handle error
+            //     // indicator.alpha = 0;
+            //     // button.text = lang['saveSuccessfully'];
+            //     // setTimeout(function() {
+            //     //     Router.goBack();
+            //     // }, 500);
+            //     // })[nw.action]();
+            // }
 
         }
 

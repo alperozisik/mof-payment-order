@@ -3,8 +3,8 @@
 		{
 			"type": "Page",
 			"props": {
-				"width": 180,
-				"height": 320,
+				"width": 187.5,
+				"height": 333.5,
 				"children": [
 					"statusBar",
 					"headerBar",
@@ -41,7 +41,7 @@
 		{
 			"type": "StatusBar",
 			"props": {
-				"height": 25,
+				"height": 20,
 				"name": "statusBar",
 				"parent": "pgLogin",
 				"flexProps": {},
@@ -50,7 +50,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 12.5
+					"height": 10
 				},
 				"flex": {},
 				"visibility": false
@@ -59,7 +59,7 @@
 		{
 			"type": "HeaderBar",
 			"props": {
-				"height": 56.6,
+				"height": 44,
 				"title": "Login",
 				"titleColor": "#000000",
 				"name": "headerBar",
@@ -71,7 +71,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 28.3
+					"height": 22
 				},
 				"flex": {},
 				"visibility": false

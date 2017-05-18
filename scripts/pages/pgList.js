@@ -16,6 +16,7 @@ const Font = require('sf-core/ui/font');
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#dbb651");
 var PgListDesign = require("../ui/ui_pgList");
 
+var selectedItems = [];
 const PgList = extend(PgListDesign)(
     function(_super) {
         _super(this);
@@ -49,7 +50,6 @@ const PgList = extend(PgListDesign)(
         function toggleListView(multiselectValue) {
             console.log("toggleListView toggleListView.edit.flLoading");
 
-            console.log("multiselectValue multiselectValue.edit.flLoading");
             if (typeof multiselectValue !== "undefined") {
                 if (multiSelect === multiselectValue)
                     return;
@@ -85,7 +85,7 @@ const PgList = extend(PgListDesign)(
                     page.headerBar.setItems([editItem, approveItem]);
                 }
                 else {
-                    // page.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           .setItems([editItem]);
+                    // test                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            //   .setItems([editItem]);
                 }
             }
         }
@@ -131,19 +131,59 @@ const PgList = extend(PgListDesign)(
             approveItem = new HeaderBarItem({
                 title: lang['approve'],
                 onPress: function() {
-                    if (getSelectedItemCount() === 0)
+
+                    if (getSelectedItemCount() === 0) {
                         return; //double check
-                    page.children.flLoading.visible = true;
-                    nw.factory("approve")
-                        .query("userName", global.userData.username)
-                        .query("password", global.userData.password)
-                        .query("pold", getSelectedItemIds().join(","))
-                        .query("actionType", "Approve")
-                        .result(function(err, data) {
-                            //TODO handle error
-                            page.children.flLoading.visible = false;
-                            toggleListView();
-                        })[nw.action]();
+                    }
+                    else {
+                        page.children.flLoading.visible = true;
+                        for (i = 0; i < selectedItems.length; i++) {
+
+                            const http = require("sf-core/net/http");
+
+                            var body = selectedItems[i];
+
+                            delete body.selected;
+                            body.PaymentOrderStatus = 3;
+
+                            var myHeaders = {
+                                "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                            }
+                            var params1 = {
+                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + body.Id,
+                                body: JSON.stringify(body),
+                                method: "PATCH",
+                                headers: myHeaders
+                            }
+
+                            http.request(params1,
+                                function(response1) {
+                                    
+                                    toggleListView(false);
+                                    fetchData();
+                                },
+                                function(err1) {
+                                    alert("error in change status to 3  " + JSON.stringify(err1));
+                                });
+                        }
+                        page.children.flLoading.visible = false;
+
+                       
+                    }
+
+                    // if (getSelectedItemCount() === 0)
+                    //     return; //double check
+                    // page.children.flLoading.visible = true;
+                    // nw.factory("approve")
+                    //     .query("userName", global.userData.username)
+                    //     .query("password", global.userData.password)
+                    //     .query("pold", getSelectedItemIds().join(","))
+                    //     .query("actionType", "Approve")
+                    //     .result(function(err, data) {
+                    //         //TODO handle error
+                    //         page.children.flLoading.visible = false;
+                    //         toggleListView();
+                    //     })[nw.action]();
                     //TODO: perform approve then toggle
 
                 },
@@ -305,6 +345,17 @@ const PgList = extend(PgListDesign)(
             if (multiSelect) {
                 var selected = dataSet[index].selected = !dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
+                // alert( "selected = " +dataSet[index].selected );
+                if (selected) {
+                    selectedItems.push(dataSet[index]);
+                }
+                else {
+                    var index = selectedItems.indexOf(dataSet[index]);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                    }
+                }
+
                 if (getSelectedItemCount() > 0) {
                     approveItem.setEnabled(true);
 
@@ -315,6 +366,7 @@ const PgList = extend(PgListDesign)(
             }
             else {
                 var data = dataSet[index];
+
                 Router.go("details", {
                     title: data.PaymentOrderNumber,
                     id: data.Id,
@@ -368,26 +420,9 @@ const PgList = extend(PgListDesign)(
                 function(response) {
                     var body = response.body;
                     var parsedResponse = JSON.parse(body);
-                    // var parsedResponse = JSON.parse(body);
-                    //This variable returns the number of the news from the JSON Data
-                    //news : This is the name of the JSON object
-                    // var numOfNews = parsedResponse.items.length;
-                    // 	var newsArray = [];
                     updateListView(parsedResponse.items);
-                    //  var response = (err && err.body) || (data && data.body) || {};
-                    // updateListView(response);
                     page.children.flLoading.visible = false;
                     callback && callback();
-
-                    // // alert(parsedResponse.items[0].BeneficaryName);
-                    // global.userData = { //can use a model too
-                    //     username: uiComponents.emailTextBox.text,
-                    //     password: uiComponents.passwordTextBox.text,
-                    //     data: response
-                    // };
-                    // Router.go("reviewerList", {
-                    //     data: response
-                    // });
 
                 },
                 function(err) {

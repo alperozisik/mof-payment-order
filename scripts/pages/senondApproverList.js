@@ -15,7 +15,7 @@ const Font = require('sf-core/ui/font');
 var selectionColor = System.OS === "iOS" ? Color.create(14, 122, 254) : Color.create("#dbb651");
 var PgListDesign = require("../ui/ui_pgList");
 const TextAlignment = require('sf-core/ui/textalignment');
-
+var selectedItems = [];
 const PgList = extend(PgListDesign)(
     function(_super) {
         _super(this);
@@ -127,19 +127,58 @@ const PgList = extend(PgListDesign)(
             approveItem = new HeaderBarItem({
                 title: lang['approve'],
                 onPress: function() {
-                    if (getSelectedItemCount() === 0)
+                     if (getSelectedItemCount() === 0) {
                         return; //double check
-                    page.children.flLoading.visible = true;
-                    nw.factory("approve")
-                        .query("userName", global.userData.username)
-                        .query("password", global.userData.password)
-                        .query("pold", getSelectedItemIds().join(","))
-                        .query("actionType", "Approve")
-                        .result(function(err, data) {
-                            //TODO handle error
-                            page.children.flLoading.visible = false;
-                            toggleListView();
-                        })[nw.action]();
+                    }
+                    else {
+                        page.children.flLoading.visible = true;
+                        for (i = 0; i < selectedItems.length; i++) {
+
+                            const http = require("sf-core/net/http");
+
+                            var body = selectedItems[i];
+
+                            delete body.selected;
+                            body.PaymentOrderStatus = 4;
+
+                            var myHeaders = {
+                                "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
+                            }
+                            var params1 = {
+                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + body.Id,
+                                body: JSON.stringify(body),
+                                method: "PATCH",
+                                headers: myHeaders
+                            }
+
+                            http.request(params1,
+                                function(response1) {
+                                    
+                                    toggleListView(false);
+                                    fetchData();
+                                },
+                                function(err1) {
+                                    alert("error in change status to 3  " + JSON.stringify(err1));
+                                });
+                        }
+                        page.children.flLoading.visible = false;
+
+                       
+                    }
+
+                    // if (getSelectedItemCount() === 0)
+                    //     return; //double check
+                    // page.children.flLoading.visible = true;
+                    // nw.factory("approve")
+                    //     .query("userName", global.userData.username)
+                    //     .query("password", global.userData.password)
+                    //     .query("pold", getSelectedItemIds().join(","))
+                    //     .query("actionType", "Approve")
+                    //     .result(function(err, data) {
+                    //         //TODO handle error
+                    //         page.children.flLoading.visible = false;
+                    //         toggleListView();
+                    //     })[nw.action]();
                     //TODO: perform approve then toggle
 
                 },
@@ -298,6 +337,17 @@ const PgList = extend(PgListDesign)(
             if (multiSelect) {
                 var selected = dataSet[index].selected = !dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
+                
+                if (selected) {
+                    selectedItems.push(dataSet[index]);
+                }
+                else {
+                    var index = selectedItems.indexOf(dataSet[index]);
+                    if (index > -1) {
+                        selectedItems.splice(index, 1);
+                    }
+                }
+                
                 if (getSelectedItemCount() > 0) {
                     approveItem.setEnabled(true);
 

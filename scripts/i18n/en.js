@@ -38,5 +38,8 @@ SMF.i18n.defineLanguage('en', {
 	"areYouSureYouWantToReturnThisPO" : "Are you sure you want to return this Payment Order ?",
 	"returnPO" : "Return Payment Order",
 	"saveSuccessfully": "Saved successfully",
-	"prioritization": "Prioritization "
+	"prioritization": "Prioritization ",
+	"pleaseCheckTheAmountAndBeneficiaryNumberMsg" : "Please check the amount and the beneficary Number",
+	"errorPleaseContactTechSupport": "Error please contact Technical support",
+	"selectMultiplePO" : "Select Multiple"
 });

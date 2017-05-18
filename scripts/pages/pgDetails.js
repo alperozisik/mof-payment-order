@@ -101,7 +101,7 @@ const pgDetails = extend(PageDetailsDesign)(
             var btnApprove = new Button(Object.assign({}, buttonBase, {
                 text: lang['approve'],
                 backgroundColor: {
-                    normal: Color.create("#C58E1B"),
+                    normal: Color.create("#167e43"),
                     pressed: Color.create("#004B10"),
                     disabled: Color.create("#001800")
                 },
@@ -110,29 +110,23 @@ const pgDetails = extend(PageDetailsDesign)(
 
                     const http = require("sf-core/net/http");
 
-                    var body = global.userData.data.body;
-                    var parsedResponse = JSON.parse(body);
-                    // alert(JSON.stringify(parsedResponse.items[0]));
+                    var body = page.data;
 
-                    alert("payment id =" + page.paymentID);
-                    alert("body = " + JSON.stringify(body));
-                    alert("parsedResponse = " + JSON.stringify(parsedResponse.items[0]));
 
-                    parsedResponse.items[0].PaymentOrderStatus = 3;
+                    body.PaymentOrderStatus = 3;
                     var myHeaders = {
                         "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
                     }
 
                     var params1 = {
                         url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
-                        body: JSON.stringify(parsedResponse.items[0]),
+                        body: JSON.stringify(body),
                         method: "PUT",
                         headers: myHeaders
                     }
                     http.request(params1,
                         function(response1) {
-
-                            Router.goBack();
+                            checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, false, lang['approve']);
                         },
                         function(err1) {
                             alert("error in change status to 3  " + err1.toString());
@@ -151,7 +145,7 @@ const pgDetails = extend(PageDetailsDesign)(
             var btnReject = new Button(Object.assign({}, buttonBase, {
                 text: lang['return'],
                 backgroundColor: {
-                    normal: Color.RED,
+                    normal: Color.create("#C58E1B"),
                     pressed: Color.create("#925B00"),
                     disabled: Color.create("#460F00")
                 },
@@ -175,7 +169,7 @@ const pgDetails = extend(PageDetailsDesign)(
                             text: lang['ok'],
                             onClick: function() {
 
-                                // alert(page.headerBar.title + " " + page.paymentID);
+
                                 const http = require("sf-core/net/http");
                                 var params = {
                                     url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
@@ -197,9 +191,6 @@ const pgDetails = extend(PageDetailsDesign)(
                                         parsedResponse.PaymentOrderStatus = 0;
                                         parsedResponse.Remark = page.notes.children.textBox.text;
 
-                                        // alert(parsedResponse.items[0].Remark);
-                                        // alert(JSON.stringify(parsedResponse.items[0]));
-
                                         var params1 = {
                                             url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
                                             body: JSON.stringify(parsedResponse),
@@ -210,7 +201,6 @@ const pgDetails = extend(PageDetailsDesign)(
 
                                         http.request(params1,
                                             function(response1) {
-                                                // Router.goBack();
                                                 checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
                                             },
                                             function(err1) {
@@ -223,7 +213,6 @@ const pgDetails = extend(PageDetailsDesign)(
                                         alert("error in approve ");
                                     });
 
-                                // checkValidationAndRunService(scrollRootFlex, myActivityIndicator, btnReject, btnApprove, true, lang['reject']);
                             }
                         });
 
@@ -327,34 +316,35 @@ const pgDetails = extend(PageDetailsDesign)(
             var title = e.title;
             page.headerBar.title = title;
             page.paymentID = e.id;
+            page.data = e.data;
 
 
 
             // alert(page.headerBar.title + " " + page.paymentID);
-            const http = require("sf-core/net/http");
-            var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
-                method: "GET"
-            }
+            // const http = require("sf-core/net/http");
+            // var params = {
+            //     url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+            //     method: "GET"
+            // }
 
-            http.request(params,
-                function(response) {
-                    var body = response.body;
-                    var parsedResponse = JSON.parse(body);
+            // http.request(params,
+            //     function(response) {
+            //         var body = response.body;
+            //         var parsedResponse = JSON.parse(body);
 
-                    // alert
+            //         // alert
 
-                    page.children.flLoading.visible = false;
+            //         page.children.flLoading.visible = false;
                     var scrollRootFlex = page.scrollRootFlex;
-                    scrollRootFlex.fieldObjects.date.text = parsedResponse.PaymentOrderDateH;
-                    scrollRootFlex.fieldObjects.financialYear.text = parsedResponse.PaymentOrderYear;
-                    scrollRootFlex.fieldObjects.exchangeMethod.text = parsedResponse.PaymentMethod;
-                    scrollRootFlex.fieldObjects.beneficaryNumber.text = parsedResponse.BeneficaryCode;
-                    scrollRootFlex.fieldObjects.beneficaryName.text = parsedResponse.BeneficaryNameAr;
-                    scrollRootFlex.fieldObjects.beneficarAlternative.text = parsedResponse.BeneficaryName; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.bankAccountNumber.text = parsedResponse.Iban; // TOOD: set this correct
-                    scrollRootFlex.fieldObjects.currency.text = parsedResponse.CurrencyName; //TODO: set this correctly by language
-                    scrollRootFlex.fieldObjects.amount.text = parsedResponse.AmountInWord + "(" + parsedResponse.Amount + ")";
+                    scrollRootFlex.fieldObjects.date.text = page.data.PaymentOrderDateH;
+                    scrollRootFlex.fieldObjects.financialYear.text = page.data.PaymentOrderYear;
+                    scrollRootFlex.fieldObjects.exchangeMethod.text = page.data.PaymentMethod;
+                    scrollRootFlex.fieldObjects.beneficaryNumber.text = page.data.BeneficaryCode;
+                    scrollRootFlex.fieldObjects.beneficaryName.text = page.data.BeneficaryNameAr;
+                    scrollRootFlex.fieldObjects.beneficarAlternative.text = page.data.BeneficaryName; //TODO: set this correctly by language
+                    scrollRootFlex.fieldObjects.bankAccountNumber.text = page.data.Iban; // TOOD: set this correct
+                    scrollRootFlex.fieldObjects.currency.text = page.data.CurrencyName; //TODO: set this correctly by language
+                    scrollRootFlex.fieldObjects.amount.text = page.data.AmountInWord + "(" + page.data.Amount + ")";
 
                     //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
                     //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
@@ -368,10 +358,10 @@ const pgDetails = extend(PageDetailsDesign)(
                     //     data: response
                     // });
 
-                },
-                function(err) {
-                    alert("error in getting details orders");
-                });
+                // },
+                // function(err) {
+                //     alert("error in getting details orders");
+                // });
 
             // nw.factory("payment-order-detail")
             //     .query("userName", global.userData.username)
