@@ -3,8 +3,8 @@
 		{
 			"type": "Page",
 			"props": {
-				"width": 207.69230769230768,
-				"height": 345.2307692307692,
+				"width": 180,
+				"height": 320,
 				"children": [
 					"statusBar",
 					"headerBar",
@@ -767,7 +767,7 @@
 					"bottom": 0
 				},
 				"style": {
-					"backgroundColor": "#FFFFFF",
+					"backgroundColor": "rgba( 255, 255, 255, 0 )",
 					"opacity": 1,
 					"borderColor": "rgba(0,0,0,1)",
 					"borderWidth": 0,
@@ -802,7 +802,7 @@
 					"right": 0
 				},
 				"style": {
-					"backgroundColor": "#FFFFFF",
+					"backgroundColor": "rgba( 255, 255, 255, 0 )",
 					"opacity": 1,
 					"borderColor": "rgba(0,0,0,1)",
 					"borderWidth": 0,
@@ -827,6 +827,7 @@
 			"id": "525c08d7",
 			"props": {
 				"left": 0,
+				"top": null,
 				"width": null,
 				"height": 40,
 				"children": [],
@@ -841,7 +842,7 @@
 					"right": 0
 				},
 				"style": {
-					"backgroundColor": "#FFFFFF",
+					"backgroundColor": "rgba( 255, 255, 255, 0 )",
 					"opacity": 1,
 					"borderColor": "rgba(0,0,0,1)",
 					"borderWidth": 0,

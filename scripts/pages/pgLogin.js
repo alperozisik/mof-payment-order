@@ -60,20 +60,19 @@ const PageLogin = extend(PageLoginDesign)(
 
             uiComponents.loginButton.backgroundColor = Color.createGradient({
                 direction: GradientDirection.HORIZONTAL,
-                startColor:  Color.create(178, 140, 70),
-                endColor:Color.create(227, 213, 188)
+                startColor: Color.create(178, 140, 70),
+                endColor: Color.create(227, 213, 188)
             });
 
 
+            setBackgroundSprite.call(this, uiComponents.spriteLayout);
+            setLoginButton.call(this, uiComponents);
             this.layout.applyLayout();
         };
 
         this.android.onBackButtonPressed = function() {
             Application.exit();
         };
-
-        setBackgroundSprite.call(this, uiComponents.spriteLayout);
-        setLoginButton.call(this, uiComponents);
 
         this.onShow = function() {
             uiComponents.emailTextBox.hint = lang['userName'];
@@ -252,7 +251,7 @@ function loading(page, uiComponents) {
                         if (paymentOrderStatus != 0) {
 
                             var params = {
-                                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                                 method: "GET"
                             }
 
@@ -261,7 +260,7 @@ function loading(page, uiComponents) {
                                 function(response) {
                                     var body = response.body;
                                     var parsedResponse = JSON.parse(body);
-
+                                    stopRotate();
                                     // alert(parsedResponse.items[0].BeneficaryName);
                                     global.userData = { //can use a model too
                                         username: uiComponents.emailTextBox.text,
