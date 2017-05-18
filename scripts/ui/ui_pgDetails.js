@@ -34,8 +34,8 @@ const PgDetails_ = extend(Page)(
 			borderColor: Color.create(255, 0, 0, 0),
 			borderWidth: 0,
 			visible: true
-		});
-		
+		}); 
+		flLoading.addChild(flIndicatorContainer);
 		
 
 });
@@ -46,7 +46,6 @@ function onLoad() {
   this.headerBar.titleColor = Color.create(255, 255, 255, 255);
   this.headerBar.backgroundColor = Color.create(255, 22, 126, 67);
   this.headerBar.visible = true;
-
   this.statusBar.visible = true;
   this.layout.alignContent = FlexLayout.AlignContent.STRETCH;
   this.layout.alignItems = FlexLayout.AlignItems.STRETCH;
@@ -56,36 +55,6 @@ function onLoad() {
   this.layout.justifyContent = FlexLayout.JustifyContent.FLEX_START;
   this.layout.backgroundColor = Color.create("#FFFFFF");
 
-    
-  //add components to page.
-	const childrenOfPage = this.children || {},
-		pageLayout = this.layout;
-		
-	Object
-		.keys(childrenOfPage)
-		.forEach(function(childName) {
-			var component = childrenOfPage[childName];
-			if (component.children) {
-				addChild(component);
-			}
-			pageLayout.addChild(component);
-		});
-		
-}
-
-//add child components to parent component.
-function addChild(component) {
-
-	Object
-		.keys(component.children)
-		.forEach(function(childName) {
-			var child = component.children[childName];
-			if (child.children) {
-				addChild(child);
-			}
-			component.addChild(child);
-		});
-		
 }
 
 module && (module.exports = PgDetails_);

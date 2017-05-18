@@ -3,8 +3,8 @@
 		{
 			"type": "Page",
 			"props": {
-				"width": 187.5,
-				"height": 333.5,
+				"width": 207.69230769230768,
+				"height": 345.2307692307692,
 				"children": [
 					"statusBar",
 					"headerBar",
@@ -41,7 +41,7 @@
 		{
 			"type": "StatusBar",
 			"props": {
-				"height": 20,
+				"height": 25,
 				"name": "statusBar",
 				"parent": "pgLogin",
 				"flexProps": {},
@@ -50,7 +50,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 10
+					"height": 12.5
 				},
 				"flex": {},
 				"visibility": false
@@ -59,7 +59,7 @@
 		{
 			"type": "HeaderBar",
 			"props": {
-				"height": 44,
+				"height": 56.6,
 				"title": "Login",
 				"titleColor": "#000000",
 				"name": "headerBar",
@@ -71,7 +71,7 @@
 				},
 				"isRemovable": false,
 				"layout": {
-					"height": 22
+					"height": 28.3
 				},
 				"flex": {},
 				"visibility": false
@@ -136,8 +136,12 @@
 				"top": 0,
 				"right": 0,
 				"bottom": 0,
+				"width": null,
+				"height": null,
 				"children": [
-					"imgBg"
+					"imgBg",
+					"topImg",
+					"bottomImg"
 				],
 				"usePageVariable": true,
 				"name": "spriteLayout",
@@ -186,6 +190,7 @@
 				"top": 99.5,
 				"right": 0,
 				"bottom": 0,
+				"width": null,
 				"height": 200,
 				"children": [
 					"imageLayout",
@@ -300,7 +305,8 @@
 					"positionType": 0
 				},
 				"visibility": true,
-				"image": "logo_mof.png"
+				"image": "moflogo.png",
+				"imageFillType": "ASPECTFIT"
 			}
 		},
 		{
@@ -715,7 +721,7 @@
 					"marginTop": 40
 				},
 				"style": {
-					"backgroundColor": "rgba( 219, 182, 81, 1 )",
+					"backgroundColor": "rgba( 219, 81, 96, 1 )",
 					"opacity": 1,
 					"borderColor": "rgba( 255, 255, 255, 0.5333333333333333 )",
 					"borderWidth": 1,
@@ -778,6 +784,81 @@
 				},
 				"visibility": true,
 				"image": "green_bg.png"
+			}
+		},
+		{
+			"type": "ImageView",
+			"id": "84df830a",
+			"props": {
+				"left": 0,
+				"top": 0,
+				"width": null,
+				"height": 40,
+				"children": [],
+				"name": "topImg",
+				"parent": "spriteLayout",
+				"flexProps": {
+					"positionType": "ABSOLUTE",
+					"right": 0
+				},
+				"style": {
+					"backgroundColor": "#FFFFFF",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"right": 0,
+					"left": 0,
+					"top": 0,
+					"height": 20
+				},
+				"flex": {
+					"positionType": 1
+				},
+				"visibility": true,
+				"image": "top.png",
+				"imageFillType": "STRETCH"
+			}
+		},
+		{
+			"type": "ImageView",
+			"id": "525c08d7",
+			"props": {
+				"left": 0,
+				"width": null,
+				"height": 40,
+				"children": [],
+				"name": "bottomImg",
+				"parent": "spriteLayout",
+				"flexProps": {
+					"positionType": "ABSOLUTE",
+					"marginBottom": null,
+					"marginRight": null,
+					"marginLeft": null,
+					"bottom": 0,
+					"right": 0
+				},
+				"style": {
+					"backgroundColor": "#FFFFFF",
+					"opacity": 1,
+					"borderColor": "rgba(0,0,0,1)",
+					"borderWidth": 0,
+					"font": {}
+				},
+				"layout": {
+					"right": 0,
+					"bottom": 0,
+					"left": 0,
+					"height": 20
+				},
+				"flex": {
+					"positionType": 1
+				},
+				"visibility": true,
+				"image": "bottom.png",
+				"imageFillType": "STRETCH"
 			}
 		}
 	]
