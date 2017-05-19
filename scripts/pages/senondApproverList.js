@@ -215,7 +215,7 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.create("#167e43"),
+            backgroundColor: global.listViewBackgroundColor,
             itemCount: getDataCount(),
             refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE,
@@ -238,7 +238,7 @@ const PgList = extend(PgListDesign)(
                 left: 15,
                 top: 0,
                 right: 5,
-                backgroundColor: Color.create("#167e43"),
+                backgroundColor: Color.TRANSPARENT,
                 bottom: 1,
                 positionType: FlexLayout.PositionType.ABSOLUTE
             });
@@ -255,7 +255,7 @@ const PgList = extend(PgListDesign)(
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 font: Font.create(Font.DEFAULT, 16, Font.BOLD),
                 textColor: Color.create("#DFDCE3"),
-                backgroundColor: Color.create("#167e43")
+                backgroundColor: Color.TRANSPARENT
             });
             flRowData.addChild(lblTitle);
 
@@ -269,7 +269,7 @@ const PgList = extend(PgListDesign)(
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 textColor: Color.create("#DFDCE3"),
-                backgroundColor: Color.create("#167e43")
+                backgroundColor: Color.TRANSPARENT
             });
             flRowData.addChild(lblSubTitle);
             var flCheck = new FlexLayout({
@@ -303,7 +303,7 @@ const PgList = extend(PgListDesign)(
                 height: 1,
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
-                backgroundColor: Color.create("#C58E1B")
+                backgroundColor: global.listLineSeparatorColor
             });
             lvItem.addChild(vLineSeparator);
 

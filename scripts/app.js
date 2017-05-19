@@ -2,10 +2,11 @@
 require("i18n/i18n.js"); //generates global lang object
 const Application = require("sf-core/application");
 const Router = require("sf-core/ui/router");
+const Color = require('sf-core/ui/color');
 
 // Set uncaught exception handler, all exceptions that are not caught will
 // trigger onUnhandledError callback.
-Application.onUnhandledError = function (e) {
+Application.onUnhandledError = function(e) {
     alert({
         title: lang.applicationError,
         message: e.message + "\n\n*" + e.sourceURL + "\n*" + e.line + "\n*" + e.stack
@@ -17,11 +18,21 @@ require("timers-smf"); //setTimeout fix
 require("./nw-setup");
 
 global.ipAddress = "192.168.8.103";
-global.baseUrl = "http://"+global.ipAddress+":7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/"; 
+global.baseUrl = "http://" + global.ipAddress + ":7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/";
 
 
 // UI colors
-global.listViewBackgroundColor= "";
+global.listViewBackgroundColor = Color.createGradient({
+    direction: Color.GradientDirection.HORIZONTAL,
+    startColor: Color.create(227, 213, 188),
+    endColor: Color.create(178, 140, 70)
+});
+
+global.listLineSeparatorColor = Color.createGradient({
+    direction: Color.GradientDirection.HORIZONTAL,
+    startColor: Color.create("#006f43"),
+    endColor: Color.create("#00b6a9")
+});
 
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));

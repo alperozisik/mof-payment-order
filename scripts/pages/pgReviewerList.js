@@ -144,12 +144,7 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.createGradient({
-                direction: Color.GradientDirection.HORIZONTAL,
-                startColor: Color.create(227, 213, 188),
-                endColor: Color.create(178, 140, 70)
-            }),
-
+            backgroundColor: global.listViewBackgroundColor,
             itemCount: getDataCount(),
             refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE,
@@ -241,11 +236,7 @@ const PgList = extend(PgListDesign)(
                 height: 1,
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
-                backgroundColor: Color.createGradient({
-                    direction: Color.GradientDirection.HORIZONTAL,
-                    startColor: Color.create("#006f43"),
-                    endColor: Color.create("#00b6a9")
-                })
+                backgroundColor: global.listLineSeparatorColor
             });
             lvItem.addChild(vLineSeparator);
 
