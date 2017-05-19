@@ -150,7 +150,7 @@ const PgList = extend(PgListDesign)(
                                 "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
                             }
                             var params1 = {
-                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + body.Id,
+                                url: global.baseUrl + "/PaymentOrderVO/" + body.Id,
                                 body: JSON.stringify(body),
                                 method: "PATCH",
                                 headers: myHeaders
@@ -158,7 +158,7 @@ const PgList = extend(PgListDesign)(
 
                             http.request(params1,
                                 function(response1) {
-                                    
+
                                     toggleListView(false);
                                     fetchData();
                                 },
@@ -168,7 +168,7 @@ const PgList = extend(PgListDesign)(
                         }
                         page.children.flLoading.visible = false;
 
-                       
+
                     }
 
                     // if (getSelectedItemCount() === 0)
@@ -411,7 +411,7 @@ const PgList = extend(PgListDesign)(
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
+                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 

@@ -97,7 +97,12 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollView.addChild(scrollRootFlex);
             this.layout.addChild(scrollView);
 
-            // this.layout.backgroundColor = Color.create("#167e43");
+            this.layout.backgroundColor = Color.createGradient({
+                direction: Color.GradientDirection.HORIZONTAL,
+                startColor: Color.create("#00b6a9"),
+                endColor: Color.create("#006f43")
+            });
+
 
             var flButtons = new FlexLayout({
                 bottom: 0,
@@ -147,7 +152,7 @@ const pgDetails = extend(PageDetailsDesign)(
                         // alert(page.headerBar.title + " " + page.paymentID);
                         const http = require("sf-core/net/http");
                         var params = {
-                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=BeneficaryCode=" + page.beneficaryNumber.children.textBox.text + ";Amount=" + page.amount.children.textBox.text,
+                            url: global.baseUrl + "/PaymentOrderVO?q=BeneficaryCode=" + page.beneficaryNumber.children.textBox.text + ";Amount=" + page.amount.children.textBox.text,
                             method: "GET"
                         }
 
@@ -172,7 +177,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                     // alert(JSON.stringify(parsedResponse.items[0]));
 
                                     var params1 = {
-                                        url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                        url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                         body: JSON.stringify(parsedResponse.items[0]),
                                         method: "PUT",
                                         headers: myHeaders
@@ -243,7 +248,7 @@ const pgDetails = extend(PageDetailsDesign)(
                                 // alert(page.headerBar.title + " " + page.paymentID);
                                 const http = require("sf-core/net/http");
                                 var params = {
-                                    url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                    url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                     method: "GET"
                                 }
 
@@ -265,7 +270,7 @@ const pgDetails = extend(PageDetailsDesign)(
 
 
                                         var params1 = {
-                                            url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                                            url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                                             body: JSON.stringify(parsedResponse),
                                             method: "PUT",
                                             headers: myHeaders
@@ -412,15 +417,10 @@ const pgDetails = extend(PageDetailsDesign)(
             // alert(page.headerBar.title + " " + page.paymentID);
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + page.paymentID,
+                url: global.baseUrl + "/PaymentOrderVO/" + page.paymentID,
                 method: "GET"
             }
 
-
-            // http.request(params,
-            //     function(response) {
-            //         var body = response.body;
-            //         var parsedResponse = JSON.parse(body);
 
             page.children.flLoading.visible = false;
             var scrollRootFlex = page.scrollRootFlex;
@@ -432,46 +432,9 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollRootFlex.fieldObjects.beneficarAlternative.text = page.data.BeneficaryName; //TODO: set this correctly by language
             scrollRootFlex.fieldObjects.bankAccountNumber.text = page.data.Iban; // TOOD: set this correct
             scrollRootFlex.fieldObjects.currency.text = page.data.CurrencyName; //TODO: set this correctly by language
-            //   scrollRootFlex.fieldObjects.amount.text = parsedResponse.AmountInWord + "(" + parsedResponse.Amount + ")";
-
-            //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-            //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-            // // alert(parsedResponse.items[0].BeneficaryName);
-            // global.userData = { //can use a model too
-            //     username: uiComponents.emailTextBox.text,
-            //     password: uiComponents.passwordTextBox.text,
-            //     data: response
-            // };
-            // Router.go("reviewerList", {
-            //     data: response
-            // });
-
-            // },
-            // function(err) {
-            //     alert(lang['errorPleaseContactTechSupport']);
-            // });
 
 
-            // nw.factory("payment-order-detail")
-            //     .query("userName", global.userData.username)
-            //     .query("password", global.userData.password)
-            //     .query("pold", e.id)
-            //     .result(function(err, data) {
-            //         page.children.flLoading.visible = false;
-            //         var scrollRootFlex = page.scrollRootFlex;
-            //         //TODO: handle error
-            //         var response = (err && err.body) || (data && data.body) || {};
-            //         scrollRootFlex.fieldObjects.date.text = response.paymentOrderDateG + " " + response.paymentOrderDateH;
-            //         scrollRootFlex.fieldObjects.financialYear.text = response.paymentOrderYear;
-            //         scrollRootFlex.fieldObjects.exchangeMethod.text = response.paymentMethod;
-            //         // scrollRootFlex.fieldObjects.beneficaryNumber.text = response.beneficiaryBean.code;
-            //         scrollRootFlex.fieldObjects.beneficaryName.text = response.beneficaryName;
-            //         scrollRootFlex.fieldObjects.beneficarAlternative.text = response.beneficiaryBean.nameEn; //TODO: set this correctly by language
-            //         scrollRootFlex.fieldObjects.bankAccountNumber.text = response.bankBean.id; // TOOD: set this correct
-            //         scrollRootFlex.fieldObjects.currency.text = response.currencyBean.nameEn; //TODO: set this correctly by language
-            //         // scrollRootFlex.fieldObjects.amount.text = response.amountInWord + "(" + response.amount + ")";
 
-            //     })[nw.action]();
 
         };
 
@@ -479,7 +442,11 @@ const pgDetails = extend(PageDetailsDesign)(
         function createLine(position, margin) {
             var line = new FlexLayout();
             line.positionType = FlexLayout.PositionType.ABSOLUTE;
-            line.backgroundColor = Color.create(20, 0, 0, 0);
+            line.backgroundColor = Color.createGradient({
+                direction: Color.GradientDirection.HORIZONTAL,
+                startColor: Color.create(227, 213, 188),
+                endColor: Color.create(178, 140, 70)
+            });
             line.height = 1;
             line.left = margin;
             line.right = margin;
@@ -498,7 +465,7 @@ const pgDetails = extend(PageDetailsDesign)(
             labelTitle.marginLeft = margin;
             labelTitle.marginRight = margin;
             labelTitle.touchEnabled = false;
-            labelTitle.textColor = Color.BLACK;
+            labelTitle.textColor = Color.WHITE;
             flex.addChild(labelTitle);
 
             var line = createLine("bottom", 15);
@@ -519,14 +486,14 @@ const pgDetails = extend(PageDetailsDesign)(
             var labelBase = {
                 textAlignment: TextAlignment.MIDRIGHT,
                 marginLeft: margin,
-                textColor: Color.BLACK,
+                textColor: Color.WHITE,
                 marginRight: margin,
                 flexGrow: 1
             };
 
             var lblTitle = new Label(Object.assign({}, labelBase, {
                 text: text,
-                textColor: Color.BLACK,
+                textColor: Color.WHITE,
                 font: Font.create(Font.DEFAULT, 13, Font.BOLD),
             }));
             flex.addChild(lblTitle);

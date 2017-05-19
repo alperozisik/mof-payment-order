@@ -127,52 +127,11 @@ const PgList = extend(PgListDesign)(
             editItem = new HeaderBarItem({
                 title: lang['edit'],
                 onPress: function() {
-                    console.log("edit edit.edit.flLoading");
                     toggleListView();
 
                 }
             });
 
-            // approveItem = new HeaderBarItem({
-            //     title: lang['approve'],
-            //     onPress: function() {
-            //         if (getSelectedItemCount() === 0)
-            //             return; //double check
-            //         page.children.flLoading.visible = true;
-            //         nw.factory("approve")
-            //             .query("userName", global.userData.username)
-            //             .query("password", global.userData.password)
-            //             .query("pold", getSelectedItemIds().join(","))
-            //             .query("actionType", "Approve")
-            //             .result(function(err, data) {
-            //                 //TODO handle error
-            //                 page.children.flLoading.visible = false;
-            //                 toggleListView();
-            //             })[nw.action]();
-            //         //TODO: perform approve then toggle
-
-            //     },
-            //     enabled: false
-            // });
-            // approveItem.setEnabled = function setEnabled(value) {
-            //     approveItem.enabled = value;
-            //     var color;
-            //     if (System.OS === "Android") {
-            //         color = value ? Color.create("#167e43") : Color.LIGHTGRAY;
-            //         approveItem.color = color;
-            //         var timeOut = 10;
-            //         editItem.text = multiSelect ? lang['cancel'] : lang['edit'];
-            //         var itemArray = multiSelect ? [editItem, approveItem] : [editItem];
-            //         setTimeout(function() {
-            //             page.headerBar.setItems(itemArray);
-            //         }, timeOut);
-            //     }
-            // };
-            // if (System.OS === "Android") {
-            //     editItem.color = approveItem.color = Color.create("#167e43");
-            // }
-            // page.headerBar.setItems([editItem]);
-            // System.OS === "iOS" && page.headerBar.setLeftItem(approveItem);
             page.headerBar.leftItemEnabled = false;
         };
         this.android.onBackButtonPressed = function() {
@@ -185,7 +144,12 @@ const PgList = extend(PgListDesign)(
             right: 0,
             bottom: 0,
             rowHeight: 81,
-            backgroundColor: Color.create("#167e43"),
+            backgroundColor: Color.createGradient({
+                direction: Color.GradientDirection.HORIZONTAL,
+                startColor: Color.create(227, 213, 188),
+                endColor: Color.create(178, 140, 70)
+            }),
+
             itemCount: getDataCount(),
             refreshEnabled: true,
             positionType: FlexLayout.PositionType.ABSOLUTE,
@@ -208,7 +172,7 @@ const PgList = extend(PgListDesign)(
                 left: 15,
                 top: 0,
                 right: 5,
-                backgroundColor: Color.create("#167e43"),
+                backgroundColor: Color.TRANSPARENT,
                 bottom: 1,
                 positionType: FlexLayout.PositionType.ABSOLUTE
             });
@@ -220,12 +184,12 @@ const PgList = extend(PgListDesign)(
                 right: 0,
                 left: 0,
                 top: 5,
+                font: Font.create("Droid Sans Arabic", 16, Font.NORMAL),
                 textAlignment: TextAlignment.MIDRIGHT,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
-                font: Font.create(Font.DEFAULT, 16, Font.BOLD),
                 textColor: Color.create("#DFDCE3"),
-                backgroundColor: Color.create("#167e43")
+                backgroundColor: Color.TRANSPARENT
             });
             flRowData.addChild(lblTitle);
 
@@ -236,10 +200,11 @@ const PgList = extend(PgListDesign)(
                 textAlignment: TextAlignment.MIDRIGHT,
                 left: 0,
                 bottom: 5,
+                font: Font.create("Droid Sans Arabic", 14, Font.NORMAL),
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 textColor: Color.create("#DFDCE3"),
-                backgroundColor: Color.create("#167e43")
+                backgroundColor: Color.TRANSPARENT
             });
             flRowData.addChild(lblSubTitle);
 
@@ -276,7 +241,11 @@ const PgList = extend(PgListDesign)(
                 height: 1,
                 bottom: 0,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
-                backgroundColor: Color.create("#C58E1B")
+                backgroundColor: Color.createGradient({
+                    direction: Color.GradientDirection.HORIZONTAL,
+                    startColor: Color.create("#006f43"),
+                    endColor: Color.create("#00b6a9")
+                })
             });
             lvItem.addChild(vLineSeparator);
 
@@ -363,7 +332,7 @@ const PgList = extend(PgListDesign)(
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
+                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 
@@ -372,48 +341,16 @@ const PgList = extend(PgListDesign)(
                 function(response) {
                     var body = response.body;
                     var parsedResponse = JSON.parse(body);
-                    // var parsedResponse = JSON.parse(body);
-                    //This variable returns the number of the news from the JSON Data
-                    //news : This is the name of the JSON object
-                    // var numOfNews = parsedResponse.items.length;
-                    // 	var newsArray = [];
+
                     updateListView(parsedResponse.items);
-                    //  var response = (err && err.body) || (data && data.body) || {};
-                    // updateListView(response);
                     page.children.flLoading.visible = false;
                     callback && callback();
-
-                    // // alert(parsedResponse.items[0].BeneficaryName);
-                    // global.userData = { //can use a model too
-                    //     username: uiComponents.emailTextBox.text,
-                    //     password: uiComponents.passwordTextBox.text,
-                    //     data: response
-                    // };
-                    // Router.go("reviewerList", {
-                    //     data: response
-                    // });
 
                 },
                 function(err) {
                     alert(lang['errorPleaseContactTechSupport']);
                 });
 
-            // var username = global.userData.username;
-            // var password = global.userData.password;
-
-            // if (!doNotShowLoading) {
-            //     page.children.flLoading.visible = true;
-            // }
-            // nw.factory("payment-order")
-            //     .query("userName", username)
-            //     .query("password", password)
-            //     .result(function(err, data) {
-            //         //TODO: handle error
-            //         var response = (err && err.body) || (data && data.body) || {};
-            //         updateListView(response);
-            //         page.children.flLoading.visible = false;
-            //         callback && callback();
-            //     })[nw.action]();
         }
     });
 

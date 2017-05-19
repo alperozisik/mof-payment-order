@@ -16,6 +16,13 @@ global.Orientation = Page.Orientation;
 require("timers-smf"); //setTimeout fix
 require("./nw-setup");
 
+global.ipAddress = "192.168.8.103";
+global.baseUrl = "http://"+global.ipAddress+":7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/"; 
+
+
+// UI colors
+global.listViewBackgroundColor= "";
+
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));
 Router.add("list", require("./pages/pgList"));

@@ -29,9 +29,9 @@ const PgList = extend(PgListDesign)(
             this.headerBar.title = lang['paymentOrders'];
             page.children.flLoading.visible = false;
 
-            
+
             var data = e && e.data;
-            
+
             if (data) {
                 var body = data.body.toString();
                 var parsedResponse = JSON.parse(body);
@@ -127,7 +127,7 @@ const PgList = extend(PgListDesign)(
             approveItem = new HeaderBarItem({
                 title: lang['approve'],
                 onPress: function() {
-                     if (getSelectedItemCount() === 0) {
+                    if (getSelectedItemCount() === 0) {
                         return; //double check
                     }
                     else {
@@ -145,7 +145,7 @@ const PgList = extend(PgListDesign)(
                                 "Content-Type": "application/vnd.oracle.adf.resourceitem+json"
                             }
                             var params1 = {
-                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO/" + body.Id,
+                                url: global.baseUrl + "/PaymentOrderVO/" + body.Id,
                                 body: JSON.stringify(body),
                                 method: "PATCH",
                                 headers: myHeaders
@@ -153,7 +153,7 @@ const PgList = extend(PgListDesign)(
 
                             http.request(params1,
                                 function(response1) {
-                                    
+
                                     toggleListView(false);
                                     fetchData();
                                 },
@@ -163,7 +163,7 @@ const PgList = extend(PgListDesign)(
                         }
                         page.children.flLoading.visible = false;
 
-                       
+
                     }
 
                     // if (getSelectedItemCount() === 0)
@@ -319,8 +319,8 @@ const PgList = extend(PgListDesign)(
             vLineSeparator.visible = getDataCount() !== (index + 1);
             flCheck.visible = multiSelect;
             flRowData.left = multiSelect ? 60 : 15;
-            
-            
+
+
             var rowData = dataSet[index];
 
 
@@ -337,7 +337,7 @@ const PgList = extend(PgListDesign)(
             if (multiSelect) {
                 var selected = dataSet[index].selected = !dataSet[index].selected;
                 vCheck.backgroundColor = selected ? selectionColor : Color.WHITE;
-                
+
                 if (selected) {
                     selectedItems.push(dataSet[index]);
                 }
@@ -347,7 +347,7 @@ const PgList = extend(PgListDesign)(
                         selectedItems.splice(index, 1);
                     }
                 }
-                
+
                 if (getSelectedItemCount() > 0) {
                     approveItem.setEnabled(true);
 
@@ -361,7 +361,7 @@ const PgList = extend(PgListDesign)(
                 Router.go("secondApproverDetails", {
                     title: data.PaymentOrderNumber,
                     id: data.Id,
-                    data:data
+                    data: data
                 });
             }
         };
@@ -399,10 +399,10 @@ const PgList = extend(PgListDesign)(
         function fetchData(callback, doNotShowLoading) {
             var paymentOrderStatus = global.userData.paymentOrderStatus;
             const http = require("sf-core/net/http");
-            
+
             // alert("paymentOrderStatus" + paymentOrderStatus);
             var params = {
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus="+paymentOrderStatus+"&totalResults=true&limit=100",
+                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                 method: "GET"
             }
 

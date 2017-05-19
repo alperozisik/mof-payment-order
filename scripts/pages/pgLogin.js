@@ -56,10 +56,6 @@ const PageLogin = extend(PageLoginDesign)(
             uiComponents.inputLayout.alpha = 0;
 
 
-            // uiComponents.loginButton.backgroundImage = {
-            //     normal: Image.createFromFile("images://loginbtn1.png"),
-            //     pressed: Image.createFromFile("images://loginbtn2.png")
-            // };
 
             uiComponents.loginButton.backgroundColor = Color.createGradient({
                 direction: GradientDirection.HORIZONTAL,
@@ -89,7 +85,6 @@ const PageLogin = extend(PageLoginDesign)(
             uiComponents.emailTextBox.text = ""; // TODO: remove after AND-2785
             uiComponents.passwordTextBox.text = ""; // TODO: remove after AND-2785
 
-            // this.birdSprite.play(3000);
             restartPage(this, uiComponents);
             this.headerBar.visible = false;
             this.statusBar.visible = false;
@@ -97,17 +92,7 @@ const PageLogin = extend(PageLoginDesign)(
     });
 
 function setBackgroundSprite(spriteLayout) {
-    // this.birdSprite = new SpriteView({
-    //     top: 0,
-    //     bottom: 0,
-    //     left: 0,
-    //     right: 0,
-    //     positionType: FlexLayout.PositionType.ABSOLUTE,
-    //     imageFillType: ImageView.FillType.STRETCH,
 
-    //     backgroundColor: Color.create("#167e43")
-    // });
-    // spriteLayout.addChild(this.birdSprite);
 
     spriteLayout.children.imgBg.visible = false;
     spriteLayout.backgroundColor = Color.createGradient({
@@ -116,13 +101,6 @@ function setBackgroundSprite(spriteLayout) {
         endColor: Color.create(178, 140, 70)
     });
 
-    // this.birdSprite.setSprite({
-    //     sheet: Image.createFromFile("images://smartfac.png"),
-
-    //     frameX: 7,
-    //     frameY: 4,
-    //     frameCount: 27
-    // });
 }
 
 function setLoginButton(uiComponents) {
@@ -178,7 +156,6 @@ function loading(page, uiComponents) {
     var imageView = uiComponents.bottomLayout.findChildById(100);
 
     uiComponents.loginButton.text = "";
-    // uiComponents.loginButton.backgroundColor = Color.create("#dbb651");
 
 
     var layout;
@@ -217,7 +194,7 @@ function loading(page, uiComponents) {
 
             var params = {
 
-                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/UsersVO?q=Username=" + uiComponents.emailTextBox.text + ";Password=" + uiComponents.passwordTextBox.text,
+                url: global.baseUrl + "/UsersVO?q=Username=" + uiComponents.emailTextBox.text + ";Password=" + uiComponents.passwordTextBox.text,
                 method: "GET"
             }
 
@@ -255,7 +232,7 @@ function loading(page, uiComponents) {
                         if (paymentOrderStatus != 0) {
 
                             var params = {
-                                url: "http://192.168.8.103:7101/MOF_POC_REST-RESTWebService-context-root/rest/v1/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
+                                url: global.baseUrl + "/PaymentOrderVO?q=PaymentOrderStatus=" + paymentOrderStatus + "&totalResults=true&limit=100",
                                 method: "GET"
                             }
 
@@ -266,7 +243,6 @@ function loading(page, uiComponents) {
                                     var parsedResponse = JSON.parse(body);
 
                                     stopRotate();
-                                    // alert(parsedResponse.items[0].BeneficaryName);
                                     global.userData = { //can use a model too
                                         username: uiComponents.emailTextBox.text,
                                         password: uiComponents.passwordTextBox.text,
@@ -309,114 +285,12 @@ function loading(page, uiComponents) {
 
                     }
 
-
-
-                    // alert("test 123 ");
                 },
                 function(err) {
                     alert("error in login" + err);
                 });
 
 
-
-
-            // nw.factory("login")
-            //     // .query("userName", uiComponents.emailTextBox.text)
-            //     // .query("password", uiComponents.passwordTextBox.text)
-            //     .result(function(err, data) {
-            //         //TODO: handle error
-            //         var response = (err && err.body) || (data && data.body) || {};
-            //         alert(response.toString());
-            //         // console.log(response);
-            //         // var body = response.body;
-            //         var parsedResponse = JSON.parse(response);
-            //         alert(parsedResponse);
-            //         // alert(parsedResponse);
-            //         //   if (response.checkLogin === "1") { //user logged in
-            //         //     global.userData = { //can use a model too
-            //         //         username: uiComponents.emailTextBox.text,
-            //         //         password: uiComponents.passwordTextBox.text,
-            //         //         data: response
-            //         //     };
-            //         // }
-
-
-            //         // if (response.checkLogin === "1") { //user logged in
-            //         //     global.userData = { //can use a model too
-            //         //         username: uiComponents.emailTextBox.text,
-            //         //         password: uiComponents.passwordTextBox.text,
-            //         //         data: response
-            //         //     };
-            //         // }
-            //         // else {
-
-            //         //     imageView.visible = false;
-            //         //     Animator.animate(page.layout, 300, function() {
-            //         //         uiComponents.inputLayout.height = 150;
-            //         //         imageView.alpha = 0.2;
-            //         //         uiComponents.inputLayout.alpha = 1;
-            //         //     }).complete(function() {
-            //         //         imageView.alpha = 0;
-            //         //         Animator.animate(layout, 100, function() {
-            //         //             uiComponents.loginButton.width = 180;
-            //         //             uiComponents.loginButton.alpha = 1;
-            //         //         }).complete(function() {
-            //         //             uiComponents.loginButton.text = lang['login'];
-
-            //         //         });
-            //         //         alert(lang['wrongUserNameOrPassword']);
-            //         //     });
-            //         // }
-            //     }).chain("payment-order")
-            //     // .query("userName", uiComponents.emailTextBox.text)
-            //     // .query("password", uiComponents.passwordTextBox.text)
-            //     .result(function(err, data) {
-            //         // stopRotate();
-            //         // //TODO: handle error
-            //         // var response = (err && err.body) || (data && data.body) || {};
-            //         // //TODO: pass propper data
-
-            //         // if (global.userData.username == "amro") {
-            //         //     Router.go("list", {
-            //         //         data: response
-            //         //     });
-            //         // }
-            //         // else if (global.userData.username == "oweidi") {
-            //         //     Router.go("secondApproverList", {
-            //         //         data: response
-            //         //     });
-            //         // }
-            //         // else if (global.userData.username == "mof") {
-            //         //     Router.go("mofUserList", {
-            //         //         data: response
-            //         //     });
-            //         // }else if (global.userData.username == "rev"){
-            //         //      Router.go("reviewerList", {
-            //         //         data: response
-            //         //     });
-            //         // }
-            //         // else {
-            //         //     // stopRotate();
-            //         //     imageView.visible = false;
-            //         //     Animator.animate(page.layout, 300, function() {
-            //         //         uiComponents.inputLayout.height = 150;
-            //         //         imageView.alpha = 0.2;
-            //         //         uiComponents.inputLayout.alpha = 1;
-            //         //     }).complete(function() {
-            //         //         imageView.alpha = 0;
-            //         //         Animator.animate(layout, 100, function() {
-            //         //             uiComponents.loginButton.width = 180;
-            //         //             uiComponents.loginButton.alpha = 1;
-            //         //         }).complete(function() {
-            //         //             uiComponents.loginButton.text = lang['login'];
-
-            //         //         });
-            //         //         alert(lang['wrongUserNameOrPassword']);
-            //         //     });
-            //         // }
-
-            //         // page.birdSprite.stop();
-            //     })[nw.action]();
         });
     });
 }
@@ -428,34 +302,11 @@ function onLoad(response) {
 
     if (numOfItems > 0) {
         var priv = parsedResponse.items[0].Priv;
-        alert(priv);
-        // alert(parsedResponse);
-        alert(numOfItems);
     }
     else {
-        // stopRotate();
-        // var imageView = uiComponents.bottomLayout.findChildById(100);
-        //                 imageView.visible = false;
-        //     Animator.animate(page.layout, 300, function() {
-        //         uiComponents.inputLayout.height = 150;
-        //         imageView.alpha = 0.2;
-        //         uiComponents.inputLayout.alpha = 1;
-        //     }).complete(function() {
-        //         imageView.alpha = 0;
-        //         Animator.animate(layout, 100, function() {
-        //             uiComponents.loginButton.width = 180;
-        //             uiComponents.loginButton.alpha = 1;
-        //         }).complete(function() {
-        //             uiComponents.loginButton.text = lang['login'];
 
-        //         });
-        //         alert(lang['wrongUserNameOrPassword']);
     }
-    //This variable returns the number of the news from the JSON Data
-    //news : This is the name of the JSON object
-    // 	var numOfNews = parsedResponse.news.length;
-    // console.log(body);
-    // alert(body);
+
 
 
 
