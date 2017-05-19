@@ -27,6 +27,7 @@ const PgList = extend(PgListDesign)(
             page.statusBar.android.color = Color.create("#dbb651");
             this.headerBar.backgroundColor = Color.create("#dbb651");
             this.headerBar.title = lang['paymentOrders'];
+            this.headerBar.titleColor = Color.WHITE;
             page.children.flLoading.visible = false;
 
 
