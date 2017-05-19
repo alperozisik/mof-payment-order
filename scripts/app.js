@@ -3,6 +3,7 @@ require("i18n/i18n.js"); //generates global lang object
 const Application = require("sf-core/application");
 const Router = require("sf-core/ui/router");
 const Color = require('sf-core/ui/color');
+const Font = require('sf-core/ui/font');
 
 // Set uncaught exception handler, all exceptions that are not caught will
 // trigger onUnhandledError callback.
@@ -33,6 +34,9 @@ global.listLineSeparatorColor = Color.createGradient({
     startColor: Color.create("#006f43"),
     endColor: Color.create("#00b6a9")
 });
+
+global.listSubTitleFont =   Font.create("Droid Sans Arabic", 14, Font.NORMAL);
+global.listTitleFont =   Font.create("Droid Sans Arabic", 16, Font.NORMAL);
 
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));

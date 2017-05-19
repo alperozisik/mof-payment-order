@@ -258,7 +258,7 @@ const PgList = extend(PgListDesign)(
                 textAlignment: TextAlignment.MIDRIGHT,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
-                font: Font.create(Font.DEFAULT, 16, Font.BOLD),
+                font: global.listTitleFont,
                 textColor: Color.create("#DFDCE3"),
                 backgroundColor: Color.TRANSPARENT
             });
@@ -271,6 +271,7 @@ const PgList = extend(PgListDesign)(
                 textAlignment: TextAlignment.MIDRIGHT,
                 left: 0,
                 bottom: 5,
+                font: global.listSubTitleFont,
                 positionType: FlexLayout.PositionType.ABSOLUTE,
                 alignSelf: FlexLayout.AlignSelf.FLEX_START,
                 textColor: Color.create("#DFDCE3"),
