@@ -97,11 +97,7 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollView.addChild(scrollRootFlex);
             this.layout.addChild(scrollView);
 
-            this.layout.backgroundColor = Color.createGradient({
-                direction: Color.GradientDirection.HORIZONTAL,
-                startColor: Color.create("#00b6a9"),
-                endColor: Color.create("#006f43")
-            });
+            this.layout.backgroundColor = global.detailsBackgroundColor;
 
 
             var flButtons = new FlexLayout({
@@ -442,11 +438,7 @@ const pgDetails = extend(PageDetailsDesign)(
         function createLine(position, margin) {
             var line = new FlexLayout();
             line.positionType = FlexLayout.PositionType.ABSOLUTE;
-            line.backgroundColor = Color.createGradient({
-                direction: Color.GradientDirection.HORIZONTAL,
-                startColor: Color.create(227, 213, 188),
-                endColor: Color.create(178, 140, 70)
-            });
+            line.backgroundColor = global.detailsLineColor;
             line.height = 1;
             line.left = margin;
             line.right = margin;

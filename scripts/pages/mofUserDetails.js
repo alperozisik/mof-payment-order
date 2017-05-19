@@ -83,6 +83,8 @@ const pgDetails = extend(PageDetailsDesign)(
             scrollView.addChild(scrollRootFlex);
             this.layout.addChild(scrollView);
 
+            this.layout.backgroundColor = global.detailsBackgroundColor;
+            
             var flButtons = new FlexLayout({
                 bottom: 0,
                 left: 0,
@@ -408,7 +410,7 @@ const pgDetails = extend(PageDetailsDesign)(
         function createLine(position, margin) {
             var line = new FlexLayout();
             line.positionType = FlexLayout.PositionType.ABSOLUTE;
-            line.backgroundColor = Color.create(20, 0, 0, 0);
+            line.backgroundColor = global.detailsLineColor;
             line.height = 1;
             line.left = margin;
             line.right = margin;

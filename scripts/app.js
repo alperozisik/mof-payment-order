@@ -35,8 +35,21 @@ global.listLineSeparatorColor = Color.createGradient({
     endColor: Color.create("#00b6a9")
 });
 
-global.listSubTitleFont =   Font.create("Droid Sans Arabic", 14, Font.NORMAL);
-global.listTitleFont =   Font.create("Droid Sans Arabic", 16, Font.NORMAL);
+
+global.detailsBackgroundColor = Color.createGradient({
+    direction: Color.GradientDirection.HORIZONTAL,
+    startColor: Color.create("#00b6a9"),
+    endColor: Color.create("#006f43")
+});
+
+global.detailsLineColor = Color.createGradient({
+    direction: Color.GradientDirection.HORIZONTAL,
+    startColor: Color.create(227, 213, 188),
+    endColor: Color.create(178, 140, 70)
+});
+
+global.listSubTitleFont = Font.create("Droid Sans Arabic", 14, Font.NORMAL);
+global.listTitleFont = Font.create("Droid Sans Arabic", 16, Font.NORMAL);
 
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));
