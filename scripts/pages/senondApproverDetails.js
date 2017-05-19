@@ -311,7 +311,7 @@ const pgDetails = extend(PageDetailsDesign)(
             page.children.flLoading.visible = false; //actually should show?
             e = e || {};
             var title = e.title;
-            page.headerBar.title = title;
+            page.headerBar.title = e.data.BeneficaryNameAr;
             page.paymentID = e.id;
             page.data = e.data;
 
@@ -473,6 +473,7 @@ const pgDetails = extend(PageDetailsDesign)(
             textBox.marginLeft = margin;
             textBox.marginRight = margin;
             textBox.textColor = Color.WHITE;
+            textBox.android.hintTextColor = Color.WHITE;
             // textBox.onActionButtonPress = function() {
             //     textBox.hideKeyboard();
             // };

@@ -314,7 +314,7 @@ const pgDetails = extend(PageDetailsDesign)(
             page.children.flLoading.visible = false; //actually should show?
             e = e || {};
             var title = e.title;
-            page.headerBar.title = title;
+            page.headerBar.title = e.data.BeneficaryNameAr;
             page.paymentID = e.id;
             page.data = e.data;
 
