@@ -36,16 +36,28 @@ global.listLineSeparatorColor = Color.createGradient({
 });
 
 
-global.detailsBackgroundColor = Color.createGradient({
-    direction: Color.GradientDirection.HORIZONTAL,
-    startColor: Color.create("#00b6a9"),
-    endColor: Color.create("#006f43")
-});
+// global.detailsBackgroundColor = Color.createGradient({
+//     direction: Color.GradientDirection.HORIZONTAL,
+//     startColor: Color.create("#00b6a9"),
+//     endColor: Color.create("#006f43")
+// });
 
-global.detailsLineColor = Color.createGradient({
+global.detailsBackgroundColor = Color.createGradient({
     direction: Color.GradientDirection.HORIZONTAL,
     startColor: Color.create(227, 213, 188),
     endColor: Color.create(178, 140, 70)
+});
+
+// global.detailsLineColor = Color.createGradient({
+//     direction: Color.GradientDirection.HORIZONTAL,
+//     startColor: Color.create(227, 213, 188),
+//     endColor: Color.create(178, 140, 70)
+// });
+
+global.detailsLineColor =Color.createGradient({
+    direction: Color.GradientDirection.HORIZONTAL,
+    startColor: Color.create("#00b6a9"),
+    endColor: Color.create("#006f43")
 });
 
 global.listSubTitleFont = Font.create("Droid Sans Arabic", 14, Font.NORMAL);

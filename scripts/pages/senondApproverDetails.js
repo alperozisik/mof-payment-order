@@ -405,7 +405,7 @@ const pgDetails = extend(PageDetailsDesign)(
             labelTitle.marginLeft = margin;
             labelTitle.marginRight = margin;
             labelTitle.touchEnabled = false;
-            labelTitle.textColor = Color.BLACK;
+            labelTitle.textColor = Color.WHITE;
             flex.addChild(labelTitle);
 
             var line = createLine("bottom", 15);
@@ -426,14 +426,14 @@ const pgDetails = extend(PageDetailsDesign)(
             var labelBase = {
                 textAlignment: TextAlignment.MIDRIGHT,
                 marginLeft: margin,
-                textColor: Color.BLACK,
+                textColor: Color.WHITE,
                 marginRight: margin,
                 flexGrow: 1
             };
 
             var lblTitle = new Label(Object.assign({}, labelBase, {
                 text: text,
-                textColor: Color.BLACK,
+                textColor: Color.WHITE,
                 font: Font.create(Font.DEFAULT, 13, Font.BOLD),
             }));
             flex.addChild(lblTitle);
