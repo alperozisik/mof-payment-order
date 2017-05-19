@@ -434,14 +434,14 @@ const pgDetails = extend(PageDetailsDesign)(
             var lblTitle = new Label(Object.assign({}, labelBase, {
                 text: text,
                 textColor: Color.WHITE,
-                font: Font.create(Font.DEFAULT, 13, Font.BOLD),
+                font: global.detailsTitleFont,
             }));
             flex.addChild(lblTitle);
             flex.children.lblTitle = lblTitle;
 
             var lblValue = new Label(Object.assign({}, labelBase, {
                 text: "",
-                font: Font.create(Font.DEFAULT, 15, Font.NORMAL),
+                font: global.detailsValueFont,
                 flexGrow: 2
             }));
             flex.addChild(lblValue);

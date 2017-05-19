@@ -60,8 +60,12 @@ global.detailsLineColor =Color.createGradient({
     endColor: Color.create("#006f43")
 });
 
-global.listSubTitleFont = Font.create("Droid Sans Arabic", 14, Font.NORMAL);
 global.listTitleFont = Font.create("Droid Sans Arabic", 16, Font.NORMAL);
+global.listSubTitleFont = Font.create("Droid Sans Arabic", 14, Font.NORMAL);
+
+global.detailsTitleFont = Font.create("Droid Sans Arabic", 14, Font.NORMAL);
+global.detailsValueFont = Font.create("Droid Sans Arabic", 16, Font.NORMAL);
+
 
 // Define routes and go to initial page of application
 Router.add("login", require("./pages/pgLogin"));

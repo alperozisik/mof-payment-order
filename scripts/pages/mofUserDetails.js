@@ -84,7 +84,7 @@ const pgDetails = extend(PageDetailsDesign)(
             this.layout.addChild(scrollView);
 
             this.layout.backgroundColor = global.detailsBackgroundColor;
-            
+
             var flButtons = new FlexLayout({
                 bottom: 0,
                 left: 0,
@@ -429,7 +429,7 @@ const pgDetails = extend(PageDetailsDesign)(
             labelTitle.marginLeft = margin;
             labelTitle.marginRight = margin;
             labelTitle.touchEnabled = false;
-            labelTitle.textColor =Color.WHITE;
+            labelTitle.textColor = Color.WHITE;
             flex.addChild(labelTitle);
 
             var line = createLine("bottom", 15);
@@ -458,14 +458,14 @@ const pgDetails = extend(PageDetailsDesign)(
             var lblTitle = new Label(Object.assign({}, labelBase, {
                 text: text,
                 textColor: Color.WHITE,
-                font: Font.create(Font.DEFAULT, 13, Font.BOLD),
+                font: global.detailsTitleFont,
             }));
             flex.addChild(lblTitle);
             flex.children.lblTitle = lblTitle;
 
             var lblValue = new Label(Object.assign({}, labelBase, {
                 text: "",
-                font: Font.create(Font.DEFAULT, 15, Font.NORMAL),
+                font: global.detailsValueFont,
                 flexGrow: 2
             }));
             flex.addChild(lblValue);
