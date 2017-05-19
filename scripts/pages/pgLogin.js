@@ -63,8 +63,8 @@ const PageLogin = extend(PageLoginDesign)(
                 endColor: Color.create(227, 213, 188)
             });
 
-            uiComponents.emailTextBox.android.hintTextColor = Color.create("#EEEEEE");
-            uiComponents.passwordTextBox.android.hintTextColor = Color.create("#EEEEEE");
+            uiComponents.emailTextBox.android.hintTextColor = Color.WHITE;
+            uiComponents.passwordTextBox.android.hintTextColor = Color.WHITE;
             this.layout.applyLayout();
         };
 

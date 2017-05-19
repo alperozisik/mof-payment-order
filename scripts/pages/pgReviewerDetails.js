@@ -524,6 +524,8 @@ const pgDetails = extend(PageDetailsDesign)(
             textBox.flexGrow = 1;
             textBox.marginLeft = margin;
             textBox.marginRight = margin;
+            textBox.textColor = Color.WHITE;
+            textBox.android.hintTextColor = Color.WHITE;
             // textBox.onActionButtonPress = function() {
             //     textBox.hideKeyboard();
             // };
