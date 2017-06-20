@@ -8,57 +8,57 @@ const extend = require('js-base/core/extend');
 const Page = require('sf-core/ui/page');
 const ImageView = require('sf-core/ui/imageview');
 const FlexLayout = require('sf-core/ui/flexlayout');
-const Color = require('sf-core/ui/color');
-const Image = require('sf-core/ui/image');
 
 
+
+const getCombinedStyle = require("library/styler-builder").getCombinedStyle;
 
 const Login_ = extend(Page)(
 	//constructor
-	function(_super){
+	function(_super, props) {
 		// initalizes super class for this page scope
-		_super(this, {
+		_super(this, Object.assign({}, {
+			onShow: onShow.bind(this),
 			onLoad: onLoad.bind(this)
-		});
+		}, props || {}));
 
-		var imageview1 = new ImageView({
-			left: 0,
-			top: 0,
-			positionType: FlexLayout.PositionType.ABSOLUTE,
-			right: 0,
-			bottom: 0,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true,
-			image: Image.createFromFile("images://splash_image.png")
-		}); 
+		const imageview1Style = getCombinedStyle(".imageView", {});
+		var imageview1 = new ImageView(imageview1Style);
 		this.layout.addChild(imageview1);
-		
 		
 		//assign the children to page 
 		this.children = Object.assign({}, {
 			imageview1: imageview1
 		});
+		
+	});
 
-});
+// Page.onShow -> This event is called when a page appears on the screen (everytime).
+function onShow() {
+  //StatusBar props
+  const statusBarStyle = getCombinedStyle(".statusBar", {});
+	
+	Object.assign(this.statusBar, statusBarStyle);
+	
+	if(statusBarStyle.color)
+	  this.statusBar.android && (this.statusBar.android.color = statusBarStyle.color);
+	if(statusBarStyle.style)
+	  this.statusBar.ios && (this.statusBar.ios.style = statusBarStyle.style);
 
+  //HeaderBar props
+  const headerBarStyle = getCombinedStyle(".headerBar", {});
+	
+	Object.assign(this.headerBar,	headerBarStyle);
+	
+}
+
+// Page.onLoad -> This event is called once when page is created.
 function onLoad() { 
 
-  this.headerBar.title = "newPage001";
-  this.headerBar.titleColor = Color.create("#000000");
-  this.headerBar.backgroundColor = Color.create("#FFFFFF");
-  this.headerBar.visible = true;
-  this.statusBar.visible = true;
-  this.layout.alignContent = FlexLayout.AlignContent.STRETCH;
-  this.layout.alignItems = FlexLayout.AlignItems.STRETCH;
-  this.layout.direction = FlexLayout.Direction.INHERIT;
-  this.layout.flexDirection = FlexLayout.FlexDirection.COLUMN;
-  this.layout.flexWrap = FlexLayout.FlexWrap.NOWRAP;
-  this.layout.justifyContent = FlexLayout.JustifyContent.FLEX_START;
-  this.layout.backgroundColor = Color.create("#FFFFFF");
-
+  const pageStyle = getCombinedStyle(".page", {});
+	
+	Object.assign(this.layout, pageStyle);
+	
 }
 
 module && (module.exports = Login_);

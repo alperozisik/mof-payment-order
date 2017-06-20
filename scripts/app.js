@@ -1,3 +1,16 @@
+//
+//
+//
+//
+
+const stylerBuilder = require("library/styler-builder");
+const settings = require("./.settings.json");
+stylerBuilder.registerThemes(settings.config.theme.themes || "Defaults");
+stylerBuilder.setActiveTheme(settings.config.theme.currentTheme);
+
+//
+//
+
 /* globals lang */
 require("i18n/i18n.js"); //generates global lang object
 const Application = require("sf-core/application");

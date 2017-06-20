@@ -8,87 +8,36 @@ const extend = require('js-base/core/extend');
 const Page = require('sf-core/ui/page');
 const Label = require('sf-core/ui/label');
 const FlexLayout = require('sf-core/ui/flexlayout');
-const Color = require('sf-core/ui/color');
-const TextAlignment = require('sf-core/ui/textalignment');
-const Font = require('sf-core/ui/font');
 const ActivityIndicator = require('sf-core/ui/activityindicator');
 
 
 
+const getCombinedStyle = require("library/styler-builder").getCombinedStyle;
+
 const PgList_ = extend(Page)(
 	//constructor
-	function(_super){
+	function(_super, props) {
 		// initalizes super class for this page scope
-		_super(this, {
+		_super(this, Object.assign({}, {
+			onShow: onShow.bind(this),
 			onLoad: onLoad.bind(this)
-		});
+		}, props || {}));
 
-		var lblNoData = new Label({
-			width: 250,
-			height: 70,
-			positionType: FlexLayout.PositionType.RELATIVE,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			textColor: Color.create("#000000"),
-			textAlignment: TextAlignment.MIDCENTER,
-			visible: true,
-			text: "Nothing to display"
-		});
-		lblNoData.font = Font.create("default", 22, Font.NORMAL); 
+		const lblNoDataStyle = getCombinedStyle(".label", {});
+		var lblNoData = new Label(lblNoDataStyle);
 		this.layout.addChild(lblNoData);
 		
-		var flLoading = new FlexLayout({
-			left: 0,
-			top: 0,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.CENTER,
-			justifyContent: FlexLayout.JustifyContent.CENTER,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexGrow: 0,
-			flexDirection: FlexLayout.FlexDirection.COLUMN,
-			positionType: FlexLayout.PositionType.ABSOLUTE,
-			right: 0,
-			bottom: 0,
-			backgroundColor: Color.create(204, 67, 49, 10),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
+		const flLoadingStyle = getCombinedStyle(".flexLayout", {});
+		var flLoading = new FlexLayout(flLoadingStyle);
 		this.layout.addChild(flLoading);
 		
-		var flIndicatorContainer = new FlexLayout({
-			width: 200,
-			height: 200,
-			alignContent: FlexLayout.AlignContent.STRETCH,
-			alignItems: FlexLayout.AlignItems.CENTER,
-			justifyContent: FlexLayout.JustifyContent.CENTER,
-			flexWrap: FlexLayout.FlexWrap.NOWRAP,
-			flexDirection: FlexLayout.FlexDirection.COLUMN,
-			positionType: FlexLayout.PositionType.ABSOLUTE,
-			alignSelf: FlexLayout.AlignSelf.CENTER,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
+		const flIndicatorContainerStyle = getCombinedStyle(".flexLayout", {});
+		var flIndicatorContainer = new FlexLayout(flIndicatorContainerStyle);
 		flLoading.addChild(flIndicatorContainer);
 		
-		var activityindicator1 = new ActivityIndicator({
-			width: 42,
-			height: 42,
-			positionType: FlexLayout.PositionType.RELATIVE,
-			backgroundColor: Color.create("#FFFFFF"),
-			alpha: 1,
-			borderColor: Color.create(255, 0, 0, 0),
-			borderWidth: 0,
-			visible: true
-		}); 
+		const activityindicator1Style = getCombinedStyle(".activityIndicator", {});
+		var activityindicator1 = new ActivityIndicator(activityindicator1Style);
 		flIndicatorContainer.addChild(activityindicator1);
-		
 		
 		//assign the children to page 
 		this.children = Object.assign({}, {
@@ -97,27 +46,38 @@ const PgList_ = extend(Page)(
 		});
 		
 		//assign the children of flLoading
-		flLoading.children =  Object.assign({}, {
+		flLoading.children = Object.assign({}, {
 			flIndicatorContainer: flIndicatorContainer
 		});
+		
+	});
 
-});
+// Page.onShow -> This event is called when a page appears on the screen (everytime).
+function onShow() {
+  //StatusBar props
+  const statusBarStyle = getCombinedStyle(".statusBar", {});
+	
+	Object.assign(this.statusBar, statusBarStyle);
+	
+	if(statusBarStyle.color)
+	  this.statusBar.android && (this.statusBar.android.color = statusBarStyle.color);
+	if(statusBarStyle.style)
+	  this.statusBar.ios && (this.statusBar.ios.style = statusBarStyle.style);
 
+  //HeaderBar props
+  const headerBarStyle = getCombinedStyle(".headerBar", {});
+	
+	Object.assign(this.headerBar,	headerBarStyle);
+	
+}
+
+// Page.onLoad -> This event is called once when page is created.
 function onLoad() { 
 
-  this.headerBar.title = "Payments Waiting Approval";
-  this.headerBar.titleColor = Color.create("#000000");
-  this.headerBar.backgroundColor = Color.create("#FFFFFF");
-  this.headerBar.visible = true;
-  this.statusBar.visible = true;
-  this.layout.alignContent = FlexLayout.AlignContent.STRETCH;
-  this.layout.alignItems = FlexLayout.AlignItems.CENTER;
-  this.layout.direction = FlexLayout.Direction.INHERIT;
-  this.layout.flexDirection = FlexLayout.FlexDirection.COLUMN;
-  this.layout.flexWrap = FlexLayout.FlexWrap.NOWRAP;
-  this.layout.justifyContent = FlexLayout.JustifyContent.CENTER;
-  this.layout.backgroundColor = Color.create("#FFFFFF");
-
+  const pageStyle = getCombinedStyle(".page", {});
+	
+	Object.assign(this.layout, pageStyle);
+	
 }
 
 module && (module.exports = PgList_);
